@@ -83,7 +83,7 @@ const createApp = async () => {
         });
       });
     },
-    isShuttingDown: false, // 서버가 중지하는 상태인지를 확인하는 플래그
+    isShuttingDown: false, // flag to check if the server is in a stopped state
     _app: expressApp,
   };
   return app;
