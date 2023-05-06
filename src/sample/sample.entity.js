@@ -8,7 +8,7 @@ class Sample {
   }
 }
 
-const SampleSchema = new EntitySchema({
+const sampleSchema = new EntitySchema({
   name: "Sample",
   target: Sample,
   columns: {
@@ -25,4 +25,4 @@ const SampleSchema = new EntitySchema({
   },
 });
 
-module.exports = SampleSchema;
+module.exports = sampleSchema;

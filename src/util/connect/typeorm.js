@@ -1,5 +1,7 @@
 const logger = require("../logger/logger");
 const { DataSource } = require("typeorm");
+const { join } = require("path");
+
 const {
   mysqlHost,
   mysqlPort,
@@ -17,7 +19,9 @@ const typeORMDataSource = new DataSource({
   database: mysqlDatabase,
   synchronize: true,
   logging: false,
-  entities: [__dirname + "/../../entities/*.entity.js"],
+  entities: [
+    join(__dirname, "../../sample/sample.entity.js"),
+  ],
 });
 
 typeORMDataSource.initialize().then(() => {
