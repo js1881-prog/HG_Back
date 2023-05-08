@@ -1,9 +1,13 @@
 {
+  "name": "hg_back",
+  "version": "1.0.0",
+  "description": "",
   "type": "commonjs",
   "scripts": {
     "start": "bin/index.js",
     "start:dev": "nodemon --watch src/*",
-    "prettier": "prettier --write 'src/**/*.js'"
+    "prettier": "prettier --write 'src/**/*.js'",
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -16,11 +20,19 @@
     "typeorm": "^0.3.15"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.5",
+    "babel-jest": "^29.5.0",
+    "jest": "^29.5.0",
     "nodemon": "^2.0.22",
     "npm": "^9.6.6",
     "prettier": "^2.8.8",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3"
   },
-  "main": "index.js"
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/padonan/HG_Back.git"
+  }
 }
