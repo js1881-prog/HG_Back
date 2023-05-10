@@ -8,7 +8,7 @@ const options = {
       version: "1.0.0",
       title: "곧 죽어도 개발한다",
       description:
-        "프로젝트 설명 Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
+        "프로젝트 설명 Node.js RestFul API 클라이언트 UI",
     },
     servers: [
       {
@@ -16,7 +16,7 @@ const options = {
       },
     ],
   },
-  apis: ["../router/*.js"], //Swagger 파일 연동
+  apis: ["../router/*.js", "./swagger.js", "../app.js"], //Swagger 파일 연동
 };
 const specs = swaggereJsdoc(options);
 

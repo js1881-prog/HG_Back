@@ -28,16 +28,11 @@ const createApp = async () => {
   );
   expressApp.use(bodyParser.urlencoded({ extended: true }));
   expressApp.use(bodyParser.json());
-  expressApp.use("/swagger", swaggerUi.serve, swaggerUi.setup(specs)); //swagger
+  expressApp.use("/swagger", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true})); //swagger
   expressApp.use(passport.initialize());
 
-  // Register API routers for version 1
   expressApp.use("/api/v1", apiRouter.v1);
 
-  /**
-   * @path {GET} /health
-   * @description 서버의 상태를 확인하는 health check URL
-   */
   expressApp.get("/health", (req, res, next) => {
     res.json({
       status: "OK",

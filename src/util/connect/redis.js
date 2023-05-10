@@ -10,8 +10,8 @@ const redis = Redis.createClient({
 
 const setexAsync = promisify(redis.setEx).bind(redis);
 const getallAsync = promisify(redis.hGetAll).bind(redis);
-const getAsync = promisify(redis.hGet).bind(redis);
-const hgetAsync = promisify(redis.get).bind(redis);
+const getAsync = promisify(redis.getEx).bind(redis);
+const hgetAsync = promisify(redis.hGet).bind(redis);
 const asmembers = promisify(redis.sMembers).bind(redis);
 const ahkeys = promisify(redis.hKeys).bind(redis);
 

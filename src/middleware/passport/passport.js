@@ -33,6 +33,7 @@ passport.use(
     },
     async function (req, username, password, done) {
       try {
+        //sample data
         const example = {
           id: 261651,
           name: "john",
@@ -41,6 +42,7 @@ passport.use(
           role: "user",
         };
         // TODO => To authenticate/login a user by accessing the database.
+
         // const user = await User.findOne({ username });
         // if (!user) {
         //   return done(null, false);
@@ -62,22 +64,5 @@ passport.use(
     }
   )
 );
-
-// JWT 검증
-// passport.use(
-//   "jwt-verify",
-//   new JwtStrategy(jwtOptions, function (jwt_payload, done) {
-//     User.findById(jwt_payload.sub, function (err, user) {
-//       if (err) {
-//         return done(err, false);
-//       }
-//       if (user) {
-//         return done(null, user);
-//       } else {
-//         return done(null, false);
-//       }
-//     });
-//   })
-// );
 
 module.exports = passport;
