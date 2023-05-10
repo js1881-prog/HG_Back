@@ -1,12 +1,16 @@
 const { EntitySchema } = require("typeorm");
-const { UserSchema } = require("../user/user.entity");
-const { TripSchema } = require("../trip/trip.entity");
+const { User } = require("../user/user.entity");
+const { Trip } = require("../trip/trip.entity");
 
 class Image {
-  image_id;
-  user_id;
-  trip_id;
-  image_url;
+  constructor(image_id, user_id, trip_id, image_url, user, trip) {
+    this.image_id = image_id;
+    this.user_id = user_id;
+    this.trip_id = trip_id;
+    this.image_url = image_url;
+    this.user = user;
+    this.trip = trip;
+  }
 }
 
 const ImageSchema = new EntitySchema({
@@ -28,19 +32,19 @@ const ImageSchema = new EntitySchema({
     },
     image_url: {
       type: "varchar",
-      length: "max",
+      length: "255",
       nullable: false,
     },
   },
   relations: {
     user: {
       type: "many-to-one",
-      target: () => UserSchema,
+      target: () => User,
       joinColumn: { name: "user_id" },
     },
     trip: {
       type: "many-to-one",
-      target: () => TripSchema,
+      target: () => Trip,
       joinColumn: { name: "trip_id" },
     },
   },

@@ -1,21 +1,37 @@
 const { EntitySchema } = require("typeorm");
-const { UserSchema } = require("../user/user.entity");
-const { ScheduleSchema } = require("./scheduke/schedule.entity");
+const { User } = require("../user/user.entity");
+const { Schedule } = require("../schedule/schedule.entity");
 
 class Trip {
-  trip_id;
-  user_id;
-  title;
-  content;
-  created_at;
-  updated_at;
-  likes;
-  views;
-  location;
-  started_at;
-  end_at;
-  hashtag;
-  schedule_id;
+  constructor(
+    trip_id,
+    user_id,
+    title,
+    content,
+    created_at,
+    updated_at,
+    likes,
+    views,
+    location,
+    started_at,
+    end_at,
+    hashtag,
+    schedule_id
+  ) {
+    this.trip_id = trip_id;
+    this.user_id = user_id;
+    this.title = title;
+    this.content = content;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
+    this.likes = likes;
+    this.views = views;
+    this.location = location;
+    this.started_at = started_at;
+    this.end_at = end_at;
+    this.hashtag = hashtag;
+    this.schedule_id = schedule_id;
+  }
 }
 
 const TripSchema = new EntitySchema({
@@ -76,18 +92,28 @@ const TripSchema = new EntitySchema({
       nullable: true,
     },
   },
+  uniques: [
+    {
+      name: "UQ_User_Trip_Likes",
+      columns: ["user_id", "trip_id", "likes"],
+    },
+    {
+      name: "UQ_User_Trip_Views",
+      columns: ["user_id", "trip_id", "views"],
+    },
+  ],
   relations: {
     user: {
       type: "many-to-one",
-      target: () => UserSchema,
+      target: () => User,
       joinColumn: { name: "user_id" },
     },
     schedule: {
       type: "many-to-one",
-      target: () => ScheduleSchema,
+      target: () => Schedule,
       joinColumn: { name: "schedule_id" },
     },
   },
 });
 
-module.exports = { Trip, TripSchema };
+module.exports = { Trip };

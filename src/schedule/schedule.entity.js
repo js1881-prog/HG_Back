@@ -1,12 +1,14 @@
 const { EntitySchema } = require("typeorm");
-const { UserSchema } = require("../user/user.entity");
+const { User } = require("../user/user.entity");
 
 class Schedule {
-  schedule_id;
-  user_id;
-  title;
-  start_date;
-  end_date;
+  constructor(schedule_id, user_id, title, start_date, end_date) {
+    this.schedule_id = schedule_id;
+    this.user_id = user_id;
+    this.title = title;
+    this.start_date = start_date;
+    this.end_date = end_date;
+  }
 }
 
 const ScheduleSchema = new EntitySchema({
@@ -38,10 +40,10 @@ const ScheduleSchema = new EntitySchema({
   relations: {
     user: {
       type: "many-to-one",
-      target: () => UserSchema,
+      target: () => User,
       joinColumn: { name: "user_id" },
     },
   },
 });
 
-module.exports = { Schedule, ScheduleSchema };
+module.exports = { Schedule };
