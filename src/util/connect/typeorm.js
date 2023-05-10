@@ -19,7 +19,7 @@ const typeORMDataSource = new DataSource({
   database: mysqlDatabase,
   synchronize: true,
   logging: false,
-  entities: [join(__dirname, "../../sample/sample.entity.js")],
+  entities: [join(__dirname, "../../user/user.entity.js")],
 });
 
 typeORMDataSource.initialize().then(() => {

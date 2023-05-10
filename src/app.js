@@ -73,7 +73,7 @@ const createApp = async () => {
       logger.info("Stopping server operations");
       this.isShuttingDown = true;
       return new Promise((resolve, reject) => {
-        server.close(async (error) => {
+        server.close(async error => {
           if (error !== undefined) {
             logger.info(`- Failed to stop the HTTP server: ${error.message}`);
             reject(error);
