@@ -28,7 +28,30 @@ if (
   throw new AppError(
     commonErrors.configError,
     500,
-    "To start the application, you need MYSQL DB URI (MYSQL_URI) environment variable"
+    "To start the application, you need Mysql uri (MYSQL_URI) environment variable"
+  );
+}
+
+if (
+  process.env.REDIS_PORT == undefined &&
+  process.env.REDIS_HOST == undefined
+) {
+  throw new AppError(
+    commonErrors.configError,
+    500,
+    "To start the application, you need Redis environment variable"
+  );
+}
+
+if (
+  process.env.JWT_SECRET == undefined &&
+  process.env.JWT_ACCESSTOKEN_EXPIRES_IN == undefined &&
+  process.env.JWT_REFRESHTOKEN_EXPIRES_IN == undefined
+) {
+  throw new AppError(
+    commonErrors.configError,
+    500,
+    "To start the application, you need Jwt environment variable"
   );
 }
 
@@ -46,4 +69,14 @@ module.exports = {
   mysqlPassword: process.env.MYSQL_PASSWORD,
 
   mysqlDatabase: process.env.MYSQL_DATABASE,
+
+  redisPort: process.env.REDIS_PORT,
+
+  redisHost: process.env.REDIS_HOST,
+
+  jwtSecret: process.env.JWT_SECRET,
+
+  jwtAccessTokenExpiresIn: process.env.JWT_ACCESSTOKEN_EXPIRES_IN,
+
+  jwtRefreshTokenExpiresIn: process.env.JWT_REFRESHTOKEN_EXPIRES_IN,
 };
