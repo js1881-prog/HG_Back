@@ -34,7 +34,9 @@ if (
 
 if (
   process.env.REDIS_PORT == undefined &&
-  process.env.REDIS_HOST == undefined
+  process.env.REDIS_HOST == undefined &&
+  process.env.REDIS_ACCESSTOKEN_EXPIRES_IN == undefined &&
+  process.env.REDIS_REFRESHTOKEN_EXPIRES_IN == undefined
 ) {
   throw new AppError(
     commonErrors.configError,
@@ -79,4 +81,8 @@ module.exports = {
   jwtAccessTokenExpiresIn: process.env.JWT_ACCESSTOKEN_EXPIRES_IN,
 
   jwtRefreshTokenExpiresIn: process.env.JWT_REFRESHTOKEN_EXPIRES_IN,
+
+  redisAccessTokenExpiresIn: process.env.REDIS_ACCESSTOKEN_EXPIRES_IN,
+
+  redisRefreshTokenExpiresIn: process.env.REDIS_REFRESHTOKEN_EXPIRES_IN,
 };

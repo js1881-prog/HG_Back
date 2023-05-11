@@ -1,27 +1,9 @@
 const passport = require("passport");
-const passportJWT = require("passport-jwt");
 const logger = require("../../util/logger/logger");
-const ExtractJwt = passportJWT.ExtractJwt;
 const LocalStrategy = require("passport-local").Strategy;
-const JwtStrategy = passportJWT.Strategy;
-const { jwtSecret } = require("../../config/dotenv");
-const {
-  generateAccessToken,
-  generateRefreshToken,
-} = require("../jwt/jwtUtils");
+const jwtUtils = require("../jwt/jwtUtils");
 const { comparePassword } = require("../../util/encrypt/hashPassword");
-const { storeTokensInRedis } = require("./util/stroreTokensInredis");
-const redis = require("../../util/connect/redis");
-
-const jwtExtractor = (req) => {
-  const token = req?.headers?.authorization;
-  return token ? token.replace("Bearer ", "") : null;
-};
-
-const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromExtractors([jwtExtractor]),
-  secretOrKey: jwtSecret,
-};
+const { storeTokensInRedis } = require("./redis/stroreTokensInredis");
 
 passport.use(
   "login",
@@ -51,11 +33,10 @@ passport.use(
         // if (!isMatch) {
         //   return done(null, false);
         // }
-        const accessToken = generateAccessToken(example);
-        const refreshToken = generateRefreshToken(example);
+
+        const accessToken = jwtUtils.generateAccessToken(example);
+        const refreshToken = jwtUtils.generateRefreshToken(example);
         await storeTokensInRedis(accessToken, refreshToken, example);
-        req.accessToken = accessToken;
-        req.refreshToken = refreshToken;
         return done(null, true, { accessToken, refreshToken });
       } catch (err) {
         logger.error(err);

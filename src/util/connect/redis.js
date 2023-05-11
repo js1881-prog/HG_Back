@@ -14,6 +14,8 @@ const getAsync = promisify(redis.getEx).bind(redis);
 const hgetAsync = promisify(redis.hGet).bind(redis);
 const asmembers = promisify(redis.sMembers).bind(redis);
 const ahkeys = promisify(redis.hKeys).bind(redis);
+const expireAsync = promisify(redis.expire).bind(redis);
+const delAsync = promisify(redis.del).bind(redis);
 
 redis.on("ready", () => {
   logger.info("Redis has been initialized");
@@ -24,7 +26,7 @@ redis.on("end", () => {
 });
 
 redis.on("error", (err) => {
-  logger.info("Redis error:", err);
+  logger.error("Redis error:", err);
 });
 
 module.exports = {
@@ -35,4 +37,6 @@ module.exports = {
   hgetAsync,
   asmembers,
   ahkeys,
+  expireAsync,
+  delAsync,
 };

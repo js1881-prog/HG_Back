@@ -1,25 +1,35 @@
 const logger = require("../util/logger/logger");
 const buildResponse = require("../util/response/buildResponse");
-const { swaggerUi, specs } = require("../config/swagger");
 
 const authController = {
   async postLogin(req, res, next) {
     try {
-      const { accessToken, refreshToken } = req;
-      const authorizationHeader = `Bearer accessToken=${accessToken} refreshToken=${refreshToken}`;
+      const { accessToken, refreshToken } = req.authInfo;
+      const authorizationHeader = `Bearer ${accessToken}`;
       res.setHeader("Authorization", authorizationHeader);
+      res.cookie("refreshToken", refreshToken, { httpOnly: true });
       res.status(200).json(buildResponse(null));
     } catch (error) {
-      logger.info(error);
+      logger.error(error);
       next(error);
     }
   },
 
-  async getValidateAccessToken(req, res, next) {
+  async getCheckToken(req, res, next) {
     try {
       res.status(200).json(buildResponse(null));
     } catch (error) {
-      logger.info(error);
+      logger.error(error);
+      next(error);
+    }
+  },
+
+  async postLogout(req, res, next) {
+    try {
+      res.clearCookie("refreshToken");
+      res.status(200).json(buildResponse(null));
+    } catch (error) {
+      logger.error(error);
       next(error);
     }
   },

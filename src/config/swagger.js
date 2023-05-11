@@ -7,8 +7,7 @@ const options = {
     info: {
       version: "1.0.0",
       title: "곧 죽어도 개발한다",
-      description:
-        "프로젝트 설명 Node.js RestFul API 클라이언트 UI",
+      description: "프로젝트 설명 Node.js RestFul API 클라이언트 UI",
     },
     servers: [
       {

@@ -4,7 +4,6 @@ const { redis } = require("../../../util/connect/redis");
 const logger = require("../../../util/logger/logger");
 
 const findValueInRedis = async (key) => {
-  logger.info(key);
   const value = redis.get(key).catch((error) => {
     logger.error(error);
     throw new AppError(

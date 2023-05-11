@@ -1,25 +1,40 @@
 const express = require("express");
 const authController = require("../auth/authController");
-const { verifytokenInRedis } = require("../middleware/jwt/jwtUtils");
+const jwtUtils = require("../middleware/jwt/jwtUtils");
 const passport = require("../middleware/passport/passport");
-const extractTokenFromBearerToken = require("../middleware/tokenExtractor");
+const extract = require("../middleware/extract");
 const authRouter = express.Router();
 
 authRouter.post(
-  //TODO => login Request Validate
   "/login",
+  //TODO => login Request Validate
   passport.authenticate("login", { session: false, failWithError: true }),
   authController.postLogin
 );
 
-authRouter.get(
-  //TODO => token Request Validate
-  "/check",
-  extractTokenFromBearerToken,
-  verifytokenInRedis,
-  authController.getValidateAccessToken
+authRouter.post(
+  "/logout",
+  //TODO => accessToken, refreshToken Request Validate
+  extract.cookieToken,
+  extract.bearerToken,
+  jwtUtils.deleteTokens,
+  authController.postLogout
 );
 
-authRouter.get("/check-re");
+authRouter.get(
+  "/access-tokens/verify",
+  //TODO => accessToken Request Validate
+  extract.bearerToken,
+  jwtUtils.verifyToken,
+  authController.getCheckToken
+);
+
+authRouter.get(
+  "/refresh-tokens/verify",
+  //TODO => refreshToken Request Validate
+  extract.cookieToken,
+  jwtUtils.verifyToken,
+  authController.getCheckToken
+);
 
 module.exports = authRouter;
