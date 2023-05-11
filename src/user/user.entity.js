@@ -1,19 +1,31 @@
 const { EntitySchema } = require("typeorm");
 
 class User {
-  user_id;
-  profile_id;
-  nickname;
-  user_name;
-  password;
-  role;
-  phone_number;
-  email;
-  created_at;
-  updated_at;
+  constructor(
+    userId,
+    profileId,
+    nickName,
+    userName,
+    password,
+    role,
+    phoneNumber,
+    email,
+    createdDate,
+    updatedDate
+  ) {
+    this.user_id = userId;
+    this.profile_id = profileId;
+    this.nickname = nickName;
+    this.user_name = userName;
+    this.password = password;
+    this.role = role;
+    this.phone_number = phoneNumber;
+    this.email = email;
+    this.created_at = createdDate;
+    this.updated_at = updatedDate;
+  }
 }
-
-const UserSchema = new EntitySchema({
+const userSchema = new EntitySchema({
   name: "User",
   tableName: "User",
   columns: {
@@ -58,4 +70,4 @@ const UserSchema = new EntitySchema({
   target: User, // User 클래스와 스키마를 연결
 });
 
-module.exports = UserSchema;
+module.exports = { User, userSchema };
