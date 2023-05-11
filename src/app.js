@@ -38,7 +38,16 @@ const createApp = async () => {
       status: "OK",
     });
   });
-
+  expressApp.get("/test", async (req, res, next) => {
+    try {
+      const result = await typeORMDataSource.manager.query(
+        `select * from User`
+      );
+      console.log(result); // 쿼리 결과 출력
+    } catch (error) {
+      console.error(error);
+    }
+  });
   // Set URL Not found Handler
   expressApp.use((req, res, next) => {
     next(
@@ -73,7 +82,7 @@ const createApp = async () => {
       logger.info("Stopping server operations");
       this.isShuttingDown = true;
       return new Promise((resolve, reject) => {
-        server.close(async error => {
+        server.close(async (error) => {
           if (error !== undefined) {
             logger.info(`- Failed to stop the HTTP server: ${error.message}`);
             reject(error);

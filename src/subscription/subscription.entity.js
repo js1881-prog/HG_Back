@@ -2,11 +2,13 @@ const { EntitySchema } = require("typeorm");
 const { User } = require("../user/user.entity");
 
 class Subscription {
-  subscriber_id;
-  user_id;
+  constructor(subscriberId, userId) {
+    this.subscriber_id = subscriberId;
+    this.user_id = userId;
+  }
 }
 
-const SubscriptionSchema = new EntitySchema({
+const subscriptionSchema = new EntitySchema({
   name: "Subscription",
   tableName: "Subscription",
   columns: {
@@ -33,4 +35,4 @@ const SubscriptionSchema = new EntitySchema({
   },
 });
 
-module.exports = { Subscription, SubscriptionSchema };
+module.exports = { Subscription, subscriptionSchema };

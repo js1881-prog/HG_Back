@@ -1,24 +1,40 @@
 const { EntitySchema } = require("typeorm");
-const { UserSchema } = require("../user/user.entity");
-const { ScheduleSchema } = require("./scheduke/schedule.entity");
+const { User } = require("../user/user.entity");
+const { Schedule } = require("../schedule/schedule.entity");
 
 class Trip {
-  trip_id;
-  user_id;
-  title;
-  content;
-  created_at;
-  updated_at;
-  likes;
-  views;
-  location;
-  started_at;
-  end_at;
-  hashtag;
-  schedule_id;
+  constructor(
+    tripId,
+    userId,
+    title,
+    content,
+    createdDate,
+    updatedDate,
+    likes,
+    views,
+    location,
+    startedDate,
+    endDate,
+    hashtag,
+    scheduleId
+  ) {
+    thie.trip_id = tripId;
+    thie.user_id = userId;
+    thie.title = title;
+    thie.content = content;
+    thie.created_at = createdDate;
+    thie.updated_at = updatedDate;
+    thie.likes = likes;
+    thie.views = views;
+    thie.location = location;
+    thie.started_at = startedDate;
+    thie.end_at = endDate;
+    thie.hashtag = hashtag;
+    thie.schedule_id = scheduleId;
+  }
 }
 
-const TripSchema = new EntitySchema({
+const tripSchema = new EntitySchema({
   name: "Trip",
   tableName: "Trip",
   columns: {
@@ -41,9 +57,11 @@ const TripSchema = new EntitySchema({
     },
     created_at: {
       type: "datetime",
+      createDate: true,
     },
     updated_at: {
       type: "datetime",
+      updateDate: true,
     },
     likes: {
       type: "int",
@@ -79,15 +97,17 @@ const TripSchema = new EntitySchema({
   relations: {
     user: {
       type: "many-to-one",
-      target: () => UserSchema,
+      target: () => User,
       joinColumn: { name: "user_id" },
+      onDelete: "CASCADE",
     },
     schedule: {
       type: "many-to-one",
-      target: () => ScheduleSchema,
+      target: () => Schedule,
       joinColumn: { name: "schedule_id" },
+      onDelete: "SET NULL",
     },
   },
 });
 
-module.exports = { Trip, TripSchema };
+module.exports = { Trip, tripSchema };

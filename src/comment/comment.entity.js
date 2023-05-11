@@ -1,18 +1,28 @@
 const { EntitySchema } = require("typeorm");
-const { UserSchema } = require("../user/user.entity");
-const { TripSchema } = require("../trip/trip.entity");
+const { User } = require("../user/user.entity");
+const { Trip } = require("../trip/trip.entity");
 
 class Comment {
-  comment_id;
-  user_id;
-  trip_id;
-  parent_id;
-  content;
-  created_at;
-  likes;
+  constructor(
+    commentId,
+    userId,
+    tripId,
+    parentId,
+    content,
+    createdDate,
+    likes
+  ) {
+    this.comment_id = commentId;
+    this.user_id = userId;
+    this.trip_id = tripId;
+    this.parent_id = parentId;
+    this.content = content;
+    this.created_at = createdDate;
+    this.likes = likes;
+  }
 }
 
-const CommentSchema = new EntitySchema({
+const commentSchema = new EntitySchema({
   name: "Comment",
   tableName: "Comment",
   columns: {
@@ -47,26 +57,26 @@ const CommentSchema = new EntitySchema({
   relations: {
     user: {
       type: "many-to-one",
-      target: () => UserSchema,
+      target: () => User,
       joinColumn: { name: "user_id" },
     },
     trip: {
       type: "many-to-one",
-      target: () => TripSchema,
+      target: () => Trip,
       joinColumn: { name: "trip_id" },
     },
     parentComment: {
       type: "many-to-one",
-      target: () => CommentSchema,
+      target: () => Comment,
       joinColumn: { name: "parent_id" },
       nullable: true,
     },
     childComments: {
       type: "one-to-many",
-      target: () => CommentSchema,
+      target: () => Comment,
       mappedBy: "parentComment",
     },
   },
 });
 
-module.exports = { Comment, CommentSchema };
+module.exports = { Comment, commentSchema };

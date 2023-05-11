@@ -2,8 +2,10 @@ const { EntitySchema } = require("typeorm");
 const { User } = require("../user/user.entity");
 
 class Follower {
-  follower_id;
-  user_id;
+  constructor(followerId, userId) {
+    this.follower_id = followerId;
+    this.user_id = userId;
+  }
 }
 
 const FollowerSchema = new EntitySchema({
