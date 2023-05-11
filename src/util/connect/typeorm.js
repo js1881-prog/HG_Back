@@ -22,8 +22,13 @@ const typeORMDataSource = new DataSource({
   entities: [join(__dirname, "../../user/user.entity.js")],
 });
 
-typeORMDataSource.initialize().then(() => {
-  logger.info("typeORM Data Source has been initialized");
-});
+typeORMDataSource
+  .initialize()
+  .then(() => {
+    logger.info("typeORM has been initialized");
+  })
+  .catch((err) => {
+    logger.error(`Failed to initialize typeORM Data Source: ${err.message}`);
+  });
 
 module.exports = typeORMDataSource;

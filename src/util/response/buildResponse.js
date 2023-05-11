@@ -5,6 +5,4 @@ const buildResponse = (data, errorMessage) => {
   };
 };
 
-module.exports = {
-  buildResponse,
-};
+module.exports = buildResponse;

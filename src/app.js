@@ -8,10 +8,15 @@ const { port } = require("./config/dotenv");
 const typeORMDataSource = require("./util/connect/typeorm");
 const bodyParser = require("body-parser");
 const { swaggerUi, specs } = require("./config/swagger");
+const { redis } = require("./util/connect/redis");
+const passport = require("./middleware/passport/passport");
+const apiRouter = require("./router");
+const cookieParser = require("cookie-parser");
 
 const createApp = async () => {
   // DB Connection
   typeORMDataSource;
+  await redis.connect();
 
   const expressApp = express();
 
@@ -24,15 +29,16 @@ const createApp = async () => {
   );
   expressApp.use(bodyParser.urlencoded({ extended: true }));
   expressApp.use(bodyParser.json());
-  expressApp.use("/swagger", swaggerUi.serve, swaggerUi.setup(specs)); //swagger
+  expressApp.use(cookieParser());
+  expressApp.use(
+    "/swagger",
+    swaggerUi.serve,
+    swaggerUi.setup(specs, { explorer: true })
+  ); //swagger
+  expressApp.use(passport.initialize());
 
-  // Register API routers for version 1
-  // expressApp.use("/api/v1", apiRouter.v1);
+  expressApp.use("/api/v1", apiRouter.v1);
 
-  /**
-   * @path {GET} http://localhost:3000/health
-   * @description 서버의 상태를 확인하는 health check URL
-   */
   expressApp.get("/health", (req, res, next) => {
     res.json({
       status: "OK",
@@ -52,8 +58,8 @@ const createApp = async () => {
 
   // Set Error Handler
   expressApp.use((error, req, res, next) => {
-    logger.info(error);
-    res.statusCode = error.httpCode ?? 500;
+    logger.error(error);
+    res.statusCode = error.httpCode ?? error.status ?? 500;
     res.json({
       error: error.message,
       data: null,
@@ -75,7 +81,7 @@ const createApp = async () => {
       return new Promise((resolve, reject) => {
         server.close(async error => {
           if (error !== undefined) {
-            logger.info(`- Failed to stop the HTTP server: ${error.message}`);
+            logger.error(`- Failed to stop the HTTP server: ${error.message}`);
             reject(error);
           }
           this.isShuttingDown = false;
