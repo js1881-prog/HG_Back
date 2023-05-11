@@ -57,6 +57,17 @@ if (
   );
 }
 
+if (
+  process.env.GOOGLE_OAUTH_CLIENT_ID == undefined &&
+  process.env.GOOGLE_OAUTH_SECURE_PASSWORD == undefined
+) {
+  throw new AppError(
+    commonErrors.configError,
+    500,
+    "To start the application, you need Google_Oauth environment variable"
+  );
+}
+
 module.exports = {
   applicationName: process.env.APPLICATION_NAME ?? "app",
 
@@ -85,4 +96,8 @@ module.exports = {
   redisAccessTokenExpiresIn: process.env.REDIS_ACCESSTOKEN_EXPIRES_IN,
 
   redisRefreshTokenExpiresIn: process.env.REDIS_REFRESHTOKEN_EXPIRES_IN,
+
+  googleOauthClientId : process.env.GOOGLE_OAUTH_CLIENT_ID,
+
+  googleOauthSecurePassword: process.env.GOOGLE_OAUTH_SECURE_PASSWORD
 };
