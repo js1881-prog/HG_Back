@@ -1,20 +1,20 @@
 const { EntitySchema } = require("typeorm");
 const User = require("../user/User");
 const Trip = require("../trip/Trip");
-const Comment = require("./Comment");
 
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
 // | Field      | Type      | Null | Key | Default           | Extra                                         |
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
 // | comment_id | bigint    | NO   | PRI | NULL              | auto_increment                                |
-// | user_id    | bigint    | NO   | UNI | NULL              |                                               |
-// | trip_id    | bigint    | NO   |     | NULL              |                                               |
-// | parent_id  | bigint    | YES  |     | NULL              |                                               |
+// | user_id    | bigint    | NO   | MUL | NULL              |                                               |
+// | trip_id    | bigint    | NO   | MUL | NULL              |                                               |
+// | parent_id  | bigint    | YES  | MUL | NULL              |                                               |
 // | content    | text      | YES  |     | NULL              |                                               |
 // | created_at | timestamp | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at | timestamp | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
-// | like_flag  | tinyint   | YES  |     | 0                 |                                               |
+// | likes      | int       | NO   |     | 0                 |                                               |
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
+
 const commentSchema = new EntitySchema({
   name: "Comment",
   tableName: "comment",
@@ -47,9 +47,8 @@ const commentSchema = new EntitySchema({
       default: () => "CURRENT_TIMESTAMP",
       onUpdate: "CURRENT_TIMESTAMP",
     },
-    like_flag: {
-      type: "boolean",
-      nullable: true,
+    likes: {
+      type: "integer",
       default: 0,
     },
   },
@@ -74,6 +73,22 @@ const commentSchema = new EntitySchema({
       type: "one-to-many",
       target: "Comment",
       mappedBy: "parentComment",
+    },
+  },
+  methods: {
+    incrementLikes() {
+      this.likes++;
+      this.save();
+    },
+    decrementLikes() {
+      this.likes--;
+      this.save();
+    },
+  },
+  constraints: {
+    uniqueLikes: {
+      type: "unique",
+      columns: ["user_id", "comment_id"],
     },
   },
 });

@@ -1,20 +1,41 @@
 class Comment {
+  id;
+  user_id;
+  trip_id;
+  parent_id;
+  content;
+  created_at;
+  updated_at;
+  likes;
+
   constructor(
-    commentId,
-    userId,
-    tripId,
-    parentId,
+    id,
+    user_id,
+    trip_id,
+    parent_id,
     content,
-    createdDate,
+    created_at,
+    updated_at,
     likes
   ) {
-    this.comment_id = commentId;
-    this.user_id = userId;
-    this.trip_id = tripId;
-    this.parent_id = parentId;
+    this.id = id;
+    this.user_id = user_id;
+    this.trip_id = trip_id;
+    this.parent_id = parent_id;
     this.content = content;
-    this.created_at = createdDate;
+    this.created_at = createdDate || new Date();
+    this.updated_at = updatedDate || new Date();
     this.likes = likes;
+  }
+
+  incrementLikes() {
+    this.likes++;
+    this.save();
+  }
+
+  decrementLikes() {
+    this.likes--;
+    this.save();
   }
 }
 
