@@ -5,7 +5,10 @@ const LocalStrategy = require("passport-local").Strategy;
 const jwtUtils = require("../jwt/jwtUtils");
 const { comparePassword } = require("../../util/encrypt/hashPassword");
 const { storeTokensInRedis } = require("./redis/stroreTokensInredis");
-const { googleOauthClientId, googleOauthSecurePassword } = require("../../config/dotenv");
+const {
+  googleOauthClientId,
+  googleOauthSecurePassword,
+} = require("../../config/dotenv");
 
 passport.use(
   "login",
@@ -53,7 +56,7 @@ passport.use(
     {
       clientID: googleOauthClientId,
       clientSecret: googleOauthSecurePassword,
-      callbackURL: "http://localhost:3000/api/v1/auths/google/callback"
+      callbackURL: "http://localhost:3000/api/v1/auths/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {

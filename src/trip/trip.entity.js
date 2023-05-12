@@ -1,67 +1,31 @@
 const { EntitySchema } = require("typeorm");
-const { User } = require("../user/user.entity");
-const { Schedule } = require("../schedule/schedule.entity");
-
-class Trip {
-  constructor(
-    tripId,
-    userId,
-    title,
-    content,
-    createdDate,
-    updatedDate,
-    likes,
-    views,
-    location,
-    startedDate,
-    endDate,
-    hashtag,
-    scheduleId
-  ) {
-    thie.trip_id = tripId;
-    thie.user_id = userId;
-    thie.title = title;
-    thie.content = content;
-    thie.created_at = createdDate;
-    thie.updated_at = updatedDate;
-    thie.likes = likes;
-    thie.views = views;
-    thie.location = location;
-    thie.started_at = startedDate;
-    thie.end_at = endDate;
-    thie.hashtag = hashtag;
-    thie.schedule_id = scheduleId;
-  }
-}
+const Schedule = require("../schedule/Schedule");
+const User = require("../user/User");
+const Trip = require("./Trip");
 
 const tripSchema = new EntitySchema({
   name: "Trip",
-  tableName: "Trip",
+  tableName: "trips",
   columns: {
-    trip_id: {
-      type: "bigint",
+    id: {
       primary: true,
-      generated: true,
+      type: "bigint",
+      generated: "increment",
     },
     user_id: {
       type: "bigint",
     },
+    schedule_id: {
+      type: "bigint",
+      nullable: true,
+    },
     title: {
       type: "varchar",
-      length: 100,
+      length: 1000,
       nullable: false,
     },
     content: {
       type: "text",
-      nullable: false,
-    },
-    created_at: {
-      type: "datetime",
-      createDate: true,
-    },
-    updated_at: {
-      type: "datetime",
-      updateDate: true,
     },
     likes: {
       type: "int",
@@ -73,7 +37,7 @@ const tripSchema = new EntitySchema({
     },
     location: {
       type: "varchar",
-      length: 100,
+      length: 255,
       nullable: true,
     },
     started_at: {
@@ -89,9 +53,17 @@ const tripSchema = new EntitySchema({
       length: 1000,
       nullable: true,
     },
-    schedule_id: {
-      type: "bigint",
-      nullable: true,
+    hidden: {
+      type: "boolean",
+    },
+    created_at: {
+      type: "timestamp",
+      default: () => "CURRENT_TIMESTAMP",
+    },
+    updated_at: {
+      type: "timestamp",
+      default: () => "CURRENT_TIMESTAMP",
+      onUpdate: "CURRENT_TIMESTAMP",
     },
   },
   relations: {
@@ -99,15 +71,15 @@ const tripSchema = new EntitySchema({
       type: "many-to-one",
       target: () => User,
       joinColumn: { name: "user_id" },
-      onDelete: "CASCADE",
     },
     schedule: {
-      type: "many-to-one",
+      type: "one-to-one",
       target: () => Schedule,
-      joinColumn: { name: "schedule_id" },
-      onDelete: "SET NULL",
+      joinColumn: [{ name: "schedule_id" }],
+      cascade: true,
     },
   },
+  target: Trip,
 });
 
-module.exports = { Trip, tripSchema };
+module.exports = tripSchema;

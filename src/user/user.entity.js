@@ -1,52 +1,29 @@
 const { EntitySchema } = require("typeorm");
+const User = require("./User");
 
-class User {
-  constructor(
-    userId,
-    profileId,
-    nickName,
-    userName,
-    password,
-    role,
-    phoneNumber,
-    email,
-    createdDate,
-    updatedDate
-  ) {
-    this.user_id = userId;
-    this.profile_id = profileId;
-    this.nickname = nickName;
-    this.user_name = userName;
-    this.password = password;
-    this.role = role;
-    this.phone_number = phoneNumber;
-    this.email = email;
-    this.created_at = createdDate;
-    this.updated_at = updatedDate;
-  }
-}
 const userSchema = new EntitySchema({
   name: "User",
-  tableName: "User",
+  tableName: "users",
   columns: {
-    user_id: {
+    id: {
       primary: true,
       type: "bigint",
       generated: "increment",
     },
-    profile_id: {
-      type: "bigint",
-    },
     nickname: {
       type: "varchar",
-      nullable: false,
+      nullable: true,
+      unique: true,
+      length: 100,
     },
     user_name: {
       type: "varchar",
-      nullable: false,
+      nullable: true,
     },
     password: {
       type: "varchar",
+      nullable: false,
+      length: 500,
     },
     role: {
       type: "varchar",
@@ -55,19 +32,100 @@ const userSchema = new EntitySchema({
     phone_number: {
       type: "varchar",
       nullable: true,
+      length: 20,
     },
     email: {
       type: "varchar",
       nullable: false,
+      length: 100,
+    },
+    intro: {
+      type: "varchar",
+      length: 1000,
     },
     created_at: {
-      type: "datetime",
+      type: "timestamp",
+      default: () => "CURRENT_TIMESTAMP",
     },
     updated_at: {
-      type: "datetime",
+      type: "timestamp",
+      default: () => "CURRENT_TIMESTAMP",
+      onUpdate: "CURRENT_TIMESTAMP",
     },
   },
-  target: User, // User 클래스와 스키마를 연결
+
+  //    Create follows table
+  //  +-------------+--------+------+-----+---------+-------+
+  //  | Field       | Type   | Null | Key | Default | Extra |
+  //  +-------------+--------+------+-----+---------+-------+
+  //  | follow      | bigint | NO   | PRI | NULL    |       |
+  //  | target      | bigint | NO   | PRI | NULL    |       |
+  //  +-------------+--------+------+-----+---------+-------+
+  //  Repository ex) user1.follow.push(user2); => user1 follow user2
+  relations: {
+    follow: {
+      type: "many-to-many",
+      target: "User",
+      inverseSide: "followTarget",
+      joinTable: {
+        name: "follows",
+        joinColumns: [
+          {
+            name: "follow",
+            referencedColumnName: "id",
+          },
+        ],
+        inverseJoinColumns: [
+          {
+            name: "target",
+            referencedColumnName: "id",
+          },
+        ],
+      },
+      cascade: true,
+    },
+    followTarget: {
+      type: "many-to-many",
+      target: "User",
+      inverseSide: "follow",
+    },
+
+    //    Create subscriptions table
+    //  +------------+--------+------+-----+---------+-------+
+    //  | Field      | Type   | Null | Key | Default | Extra |
+    //  +------------+--------+------+-----+---------+-------+
+    //  | subscriber | bigint | NO   | PRI | NULL    |       |
+    //  | target     | bigint | NO   | PRI | NULL    |       |
+    //  +------------+--------+------+-----+---------+-------+
+    //  Repository ex) user1.subscribe.push(user2); => user1 subscribe user2
+    subscribe: {
+      type: "many-to-many",
+      target: "User",
+      inverseSide: "subscribeTarget",
+      joinTable: {
+        name: "subscriptions",
+        joinColumns: [
+          {
+            name: "subscriber",
+            referencedColumnName: "id",
+          },
+        ],
+        inverseJoinColumns: [
+          {
+            name: "target",
+            referencedColumnName: "id",
+          },
+        ],
+      },
+      cascade: true,
+    },
+    subscribeTarget: {
+      type: "many-to-many",
+      target: "User",
+      inverseSide: "subscribe",
+    },
+  },
+  target: User,
 });
 
-module.exports = { User, userSchema };
+module.exports = userSchema;

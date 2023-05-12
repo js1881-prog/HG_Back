@@ -39,12 +39,20 @@ authRouter.get(
 
 authRouter.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"], session: false, failWithError: true }),
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+    failWithError: true,
+  })
 );
 
 authRouter.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login", session: false, failWithError: true }),
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    session: false,
+    failWithError: true,
+  }),
   authController.postLogin
 );
 

@@ -1,25 +1,15 @@
 const { EntitySchema } = require("typeorm");
-const { User } = require("../user/user.entity");
-const { Trip } = require("../trip/trip.entity");
-
-class Schedule {
-  constructor(ScheduleId, userId, title, startDate, endDate) {
-    this.schedule_id = ScheduleId;
-    this.user_id = userId;
-    this.title = title;
-    this.start_date = startDate;
-    this.end_date = endDate;
-  }
-}
+const User = require("../user/User");
+const Schedule = require("./Schedule");
 
 const scheduleSchema = new EntitySchema({
   name: "Schedule",
-  tableName: "Schedule",
+  tableName: "schedules",
   columns: {
-    schedule_id: {
-      type: "bigint",
+    id: {
       primary: true,
-      generated: true,
+      type: "bigint",
+      generated: "increment",
     },
     user_id: {
       type: "bigint",
@@ -37,6 +27,15 @@ const scheduleSchema = new EntitySchema({
       type: "date",
       nullable: false,
     },
+    created_at: {
+      type: "timestamp",
+      default: () => "CURRENT_TIMESTAMP",
+    },
+    updated_at: {
+      type: "timestamp",
+      default: () => "CURRENT_TIMESTAMP",
+      onUpdate: "CURRENT_TIMESTAMP",
+    },
   },
   relations: {
     user: {
@@ -44,14 +43,8 @@ const scheduleSchema = new EntitySchema({
       target: () => User,
       joinColumn: { name: "user_id" },
     },
-    trip: {
-      type: "one-to-many",
-      target: () => Trip,
-      inverseSide: "schedule",
-      joinColumn: { name: "schedule_id" },
-      cascade: true,
-    },
   },
+  target: Schedule,
 });
 
-module.exports = { Schedule, scheduleSchema };
+module.exports = scheduleSchema;

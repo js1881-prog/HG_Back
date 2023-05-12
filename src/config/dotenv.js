@@ -97,7 +97,7 @@ module.exports = {
 
   redisRefreshTokenExpiresIn: process.env.REDIS_REFRESHTOKEN_EXPIRES_IN,
 
-  googleOauthClientId : process.env.GOOGLE_OAUTH_CLIENT_ID,
+  googleOauthClientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
 
-  googleOauthSecurePassword: process.env.GOOGLE_OAUTH_SECURE_PASSWORD
+  googleOauthSecurePassword: process.env.GOOGLE_OAUTH_SECURE_PASSWORD,
 };

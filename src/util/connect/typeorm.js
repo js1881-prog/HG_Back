@@ -20,12 +20,12 @@ const typeORMDataSource = new DataSource({
   synchronize: true,
   logging: false,
   entities: [
-    join(__dirname, "../../comment/comment.entity.js"),
     join(__dirname, "../../user/user.entity.js"),
     join(__dirname, "../../trip/trip.entity.js"),
+    join(__dirname, "../../tripviews/tripviews.entity.js"),
     join(__dirname, "../../schedule/schedule.entity.js"),
-    join(__dirname, "../../subscription/subscription.entity.js"),
     join(__dirname, "../../image/image.entity.js"),
+    // join(__dirname, "../../comment/comment.entity.js"),
   ],
 });
 
