@@ -1,6 +1,18 @@
 const { EntitySchema } = require("typeorm");
 const User = require("../user/User");
 
+// +------------+--------------+------+-----+-------------------+-----------------------------------------------+
+// | Field      | Type         | Null | Key | Default           | Extra                                         |
+// +------------+--------------+------+-----+-------------------+-----------------------------------------------+
+// | id         | bigint       | NO   | PRI | NULL              | auto_increment                                |
+// | user_id    | bigint       | YES  | MUL | NULL              |                                               |
+// | image_url  | text         | NO   |     | NULL              |                                               |
+// | image_name | text         | NO   |     | NULL              |                                               |
+// | use        | varchar(255) | NO   |     | NULL              |                                               |
+// | number     | int          | NO   |     | NULL              |                                               |
+// | created_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+// | updated_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// +------------+--------------+------+-----+-------------------+-----------------------------------------------+
 const imageSchema = new EntitySchema({
   name: "Image",
   tableName: "images",

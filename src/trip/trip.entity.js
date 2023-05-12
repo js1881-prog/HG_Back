@@ -3,6 +3,24 @@ const Schedule = require("../schedule/Schedule");
 const User = require("../user/User");
 const Trip = require("./Trip");
 
+// +-------------+---------------+------+-----+-------------------+-----------------------------------------------+
+// | Field       | Type          | Null | Key | Default           | Extra                                         |
+// +-------------+---------------+------+-----+-------------------+-----------------------------------------------+
+// | id          | bigint        | NO   | PRI | NULL              | auto_increment                                |
+// | user_id     | bigint        | NO   | MUL | NULL              |                                               |
+// | schedule_id | bigint        | YES  | UNI | NULL              |                                               |
+// | title       | varchar(1000) | NO   |     | NULL              |                                               |
+// | content     | text          | NO   |     | NULL              |                                               |
+// | likes       | int           | YES  |     | NULL              |                                               |
+// | views       | int           | YES  |     | NULL              |                                               |
+// | location    | varchar(255)  | YES  |     | NULL              |                                               |
+// | started_at  | datetime      | YES  |     | NULL              |                                               |
+// | end_at      | datetime      | YES  |     | NULL              |                                               |
+// | hashtag     | varchar(1000) | YES  |     | NULL              |                                               |
+// | hidden      | tinyint       | NO   |     | NULL              |                                               |
+// | created_at  | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+// | updated_at  | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// +-------------+---------------+------+-----+-------------------+-----------------------------------------------+
 const tripSchema = new EntitySchema({
   name: "Trip",
   tableName: "trips",

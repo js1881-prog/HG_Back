@@ -2,6 +2,17 @@ const { EntitySchema } = require("typeorm");
 const User = require("../user/User");
 const Schedule = require("./Schedule");
 
+// +------------+--------------+------+-----+-------------------+-----------------------------------------------+
+// | Field      | Type         | Null | Key | Default           | Extra                                         |
+// +------------+--------------+------+-----+-------------------+-----------------------------------------------+
+// | id         | bigint       | NO   | PRI | NULL              | auto_increment                                |
+// | user_id    | bigint       | NO   | MUL | NULL              |                                               |
+// | title      | varchar(100) | YES  |     | NULL              |                                               |
+// | start_date | date         | NO   |     | NULL              |                                               |
+// | end_date   | date         | NO   |     | NULL              |                                               |
+// | created_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+// | updated_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// +------------+--------------+------+-----+-------------------+-----------------------------------------------+
 const scheduleSchema = new EntitySchema({
   name: "Schedule",
   tableName: "schedules",

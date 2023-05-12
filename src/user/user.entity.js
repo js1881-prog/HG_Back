@@ -1,6 +1,21 @@
 const { EntitySchema } = require("typeorm");
 const User = require("./User");
 
+
+// +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
+// | Field        | Type          | Null | Key | Default           | Extra                                         |
+// +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
+// | id           | bigint        | NO   | PRI | NULL              | auto_increment                                |
+// | nickname     | varchar(100)  | YES  | UNI | NULL              |                                               |
+// | user_name    | varchar(255)  | YES  |     | NULL              |                                               |
+// | password     | varchar(500)  | NO   |     | NULL              |                                               |
+// | role         | varchar(255)  | NO   |     | NULL              |                                               |
+// | phone_number | varchar(20)   | YES  |     | NULL              |                                               |
+// | email        | varchar(100)  | NO   |     | NULL              |                                               |
+// | intro        | varchar(1000) | NO   |     | NULL              |                                               |
+// | created_at   | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+// | updated_at   | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
 const userSchema = new EntitySchema({
   name: "User",
   tableName: "users",
