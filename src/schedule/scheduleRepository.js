@@ -29,7 +29,11 @@ const scheduleRepository = {
       );
       const existingSchedule = await scheduleRepository.findOne(scheduleId);
       if (!existingSchedule) {
-        throw new AppError(commonErrors.notFound, 404, "Schedule not found");
+        throw new AppError(
+          commonErrors.notfoundError,
+          404,
+          "Schedule not found"
+        );
       }
       const updatedSchedule = Object.assign(existingSchedule, scheduleData);
       return await scheduleRepository.save(updatedSchedule);
