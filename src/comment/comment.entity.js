@@ -13,7 +13,7 @@ const Trip = require("../trip/Trip");
 // | created_at | timestamp | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at | timestamp | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
 // | likes      | int       | NO   |     | 0                 |                                               |
-// | liked_by   | json      | YES  |     | NULL              |                                               |
+// | liked_by   | json      | NO   |     | NULL              |                                               |
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
 
 const commentSchema = new EntitySchema({
