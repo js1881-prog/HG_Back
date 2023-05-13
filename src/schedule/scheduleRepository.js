@@ -21,6 +21,83 @@ const scheduleRepository = {
       );
     }
   },
+
+  async update(scheduleId, scheduleData) {
+    try {
+      const scheduleRepository = await typeORMDataSource.getRepository(
+        scheduleSchema
+      );
+      const existingSchedule = await scheduleRepository.findOne(scheduleId);
+      if (!existingSchedule) {
+        throw new AppError(commonErrors.notFound, 404, "Schedule not found");
+      }
+      const updatedSchedule = Object.assign(existingSchedule, scheduleData);
+      return await scheduleRepository.save(updatedSchedule);
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
+  async delete(scheduleId) {
+    try {
+      const scheduleRepository = await typeORMDataSource.getRepository(
+        scheduleSchema
+      );
+      const existingSchedule = await scheduleRepository.findOne(scheduleId);
+      if (!existingSchedule) {
+        throw new AppError(commonErrors.notFound, 404, "Schedule not found");
+      }
+      await scheduleRepository.remove(existingSchedule);
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
+  async findById(scheduleId) {
+    try {
+      const scheduleRepository = await typeORMDataSource.getRepository(
+        scheduleSchema
+      );
+      const schedule = await scheduleRepository.findOne(scheduleId, {
+        relations: ["user"],
+      });
+      return schedule;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
+  async findAll() {
+    try {
+      const scheduleRepository = await typeORMDataSource.getRepository(
+        scheduleSchema
+      );
+      const schedules = await scheduleRepository.find({ relations: ["user"] });
+      return schedules;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
 };
 
 module.exports = scheduleRepository;
