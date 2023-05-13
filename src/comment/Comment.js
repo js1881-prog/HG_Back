@@ -27,28 +27,34 @@ class Comment {
     this.created_at = created_at || new Date();
     this.updated_at = updated_at || new Date();
     this.likes = likes;
-    this.liked_by = liked_by || "";
+    this.liked_by = new Set();
   }
 
   incrementLikes() {
-    if (!this.liked_by.includes(String(this.user_id))) {
+    if (!this.liked_by.has(this.user_id)) {
       this.likes++;
-      if (this.liked_by) {
-        this.liked_by += ",";
-      }
-      this.liked_by += String(this.user_id);
+      this.liked_by.add(this.user_id);
     }
   }
 
   decrementLikes() {
-    const userIdString = String(this.user_id);
-    if (this.liked_by.includes(userIdString)) {
+    if (this.liked_by.has(this.user_id)) {
       this.likes--;
-      this.liked_by = this.liked_by
-        .split(",")
-        .filter(userId => userId !== userIdString)
-        .join(",");
+      this.liked_by.delete(this.user_id);
     }
+  }
+
+  toJSON() {
+    return {
+      liked_by: Array.from(this.liked_by),
+    };
+  }
+
+  static fromJSON(json) {
+    const data = JSON.parse(json);
+    const comment = new Comment();
+    comment.liked_by = new Set(data.liked_by);
+    return comment;
   }
 }
 

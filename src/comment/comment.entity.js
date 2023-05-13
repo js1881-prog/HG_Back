@@ -13,6 +13,7 @@ const Trip = require("../trip/Trip");
 // | created_at | timestamp | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at | timestamp | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
 // | likes      | int       | NO   |     | 0                 |                                               |
+// | liked_by   | json      | YES  |     | NULL              |                                               |
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
 
 const commentSchema = new EntitySchema({
@@ -52,7 +53,7 @@ const commentSchema = new EntitySchema({
       default: 0,
     },
     liked_by: {
-      type: "varchar",
+      type: "json",
       nullable: true,
     },
   },
@@ -77,29 +78,6 @@ const commentSchema = new EntitySchema({
       type: "one-to-many",
       target: "Comment",
       mappedBy: "parentComment",
-    },
-  },
-  methods: {
-    incrementLikes() {
-      if (!this.liked_by.includes(String(this.user_id))) {
-        this.likes++;
-        if (this.liked_by) {
-          this.liked_by += ",";
-        }
-        this.liked_by += String(this.user_id);
-        this.save();
-      }
-    },
-    decrementLikes() {
-      const userIdString = String(this.user_id);
-      if (this.liked_by.includes(userIdString)) {
-        this.likes--;
-        this.liked_by = this.liked_by
-          .split(",")
-          .filter(userId => userId !== userIdString)
-          .join(",");
-        this.save();
-      }
     },
   },
 });
