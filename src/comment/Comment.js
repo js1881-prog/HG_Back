@@ -52,8 +52,9 @@ class Comment {
 
   static fromJSON(json) {
     const data = JSON.parse(json);
+    const likedBy = new Set(data.liked_by);
     const comment = new Comment();
-    comment.liked_by = new Set(data.liked_by);
+    comment.liked_by = likedBy;
     return comment;
   }
 }
