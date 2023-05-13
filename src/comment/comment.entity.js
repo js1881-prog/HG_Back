@@ -5,7 +5,7 @@ const Trip = require("../trip/Trip");
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
 // | Field      | Type      | Null | Key | Default           | Extra                                         |
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
-// | comment_id | bigint    | NO   | PRI | NULL              | auto_increment                                |
+// | id         | bigint    | NO   | PRI | NULL              | auto_increment                                |
 // | user_id    | bigint    | NO   | MUL | NULL              |                                               |
 // | trip_id    | bigint    | NO   | MUL | NULL              |                                               |
 // | parent_id  | bigint    | YES  | MUL | NULL              |                                               |
@@ -18,9 +18,9 @@ const Trip = require("../trip/Trip");
 
 const commentSchema = new EntitySchema({
   name: "Comment",
-  tableName: "comment",
+  tableName: "comments",
   columns: {
-    comment_id: {
+    id: {
       type: "bigint",
       primary: true,
       generated: true,
