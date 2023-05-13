@@ -1,4 +1,5 @@
 const scheduleService = require("./scheduleService");
+const logger = require("../util/logger/logger");
 
 const ScheduleController = {
   async createSchedule(req, res, next) {
@@ -13,6 +14,7 @@ const ScheduleController = {
       const schedule = await scheduleService.createSchedule(scheduleData);
       res.status(200).json({ schedule });
     } catch (error) {
+      logger.error(error);
       next(error);
     }
   },
@@ -32,6 +34,7 @@ const ScheduleController = {
       );
       res.status(200).json({ schedule: updatedSchedule });
     } catch (error) {
+      logger.error(error);
       next(error);
     }
   },
@@ -42,6 +45,7 @@ const ScheduleController = {
       await scheduleService.deleteSchedule(scheduleId);
       res.status(200).json({ message: "Schedule deleted successfully" });
     } catch (error) {
+      logger.error(error);
       next(error);
     }
   },
@@ -55,6 +59,7 @@ const ScheduleController = {
       }
       res.status(200).json(schedule);
     } catch (error) {
+      logger.error(error);
       next(error);
     }
   },
@@ -64,6 +69,7 @@ const ScheduleController = {
       const schedules = await scheduleService.getAllSchedules();
       res.status(200).json(schedules);
     } catch (error) {
+      logger.error(error);
       next(error);
     }
   },
