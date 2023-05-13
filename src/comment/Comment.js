@@ -1,22 +1,12 @@
 class Comment {
-  id;
-  user_id;
-  trip_id;
-  parent_id;
-  content;
-  created_at;
-  updated_at;
-  likes;
-  liked_by;
-
   constructor(
     id,
     user_id,
     trip_id,
     parent_id,
     content,
-    created_at,
-    updated_at,
+    created_at = new Date(),
+    updated_at = new Date(),
     likes
   ) {
     this.id = id;
@@ -24,8 +14,8 @@ class Comment {
     this.trip_id = trip_id;
     this.parent_id = parent_id;
     this.content = content;
-    this.created_at = created_at || new Date();
-    this.updated_at = updated_at || new Date();
+    this.created_at = created_at;
+    this.updated_at = updated_at;
     this.likes = likes;
     this.liked_by = new Set();
   }
