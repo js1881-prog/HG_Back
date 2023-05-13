@@ -51,6 +51,10 @@ const commentSchema = new EntitySchema({
       type: "integer",
       default: 0,
     },
+    liked_by: {
+      type: "varchar",
+      nullable: true,
+    },
   },
   relations: {
     user: {
@@ -77,18 +81,25 @@ const commentSchema = new EntitySchema({
   },
   methods: {
     incrementLikes() {
-      this.likes++;
-      this.save();
+      if (!this.liked_by.includes(String(this.user_id))) {
+        this.likes++;
+        if (this.liked_by) {
+          this.liked_by += ",";
+        }
+        this.liked_by += String(this.user_id);
+        this.save();
+      }
     },
     decrementLikes() {
-      this.likes--;
-      this.save();
-    },
-  },
-  constraints: {
-    uniqueLikes: {
-      type: "unique",
-      columns: ["user_id", "comment_id"],
+      const userIdString = String(this.user_id);
+      if (this.liked_by.includes(userIdString)) {
+        this.likes--;
+        this.liked_by = this.liked_by
+          .split(",")
+          .filter(userId => userId !== userIdString)
+          .join(",");
+        this.save();
+      }
     },
   },
 });

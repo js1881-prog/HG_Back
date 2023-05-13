@@ -7,6 +7,7 @@ class Comment {
   created_at;
   updated_at;
   likes;
+  liked_by;
 
   constructor(
     id,
@@ -23,19 +24,31 @@ class Comment {
     this.trip_id = trip_id;
     this.parent_id = parent_id;
     this.content = content;
-    this.created_at = createdDate || new Date();
-    this.updated_at = updatedDate || new Date();
+    this.created_at = created_at || new Date();
+    this.updated_at = updated_at || new Date();
     this.likes = likes;
+    this.liked_by = liked_by || "";
   }
 
   incrementLikes() {
-    this.likes++;
-    this.save();
+    if (!this.liked_by.includes(String(this.user_id))) {
+      this.likes++;
+      if (this.liked_by) {
+        this.liked_by += ",";
+      }
+      this.liked_by += String(this.user_id);
+    }
   }
 
   decrementLikes() {
-    this.likes--;
-    this.save();
+    const userIdString = String(this.user_id);
+    if (this.liked_by.includes(userIdString)) {
+      this.likes--;
+      this.liked_by = this.liked_by
+        .split(",")
+        .filter(userId => userId !== userIdString)
+        .join(",");
+    }
   }
 }
 
