@@ -20,17 +20,17 @@ class Comment {
     this.liked_by = new Set();
   }
 
-  incrementLikes() {
-    if (!this.liked_by.has(this.user_id)) {
+  incrementLikes(userId) {
+    if (!this.liked_by.has(userId)) {
       this.likes++;
-      this.liked_by.add(this.user_id);
+      this.liked_by.add(userId);
     }
   }
 
-  decrementLikes() {
-    if (this.liked_by.has(this.user_id)) {
+  decrementLikes(userId) {
+    if (this.liked_by.has(userId)) {
       this.likes--;
-      this.liked_by.delete(this.user_id);
+      this.liked_by.delete(userId);
     }
   }
 
@@ -40,29 +40,9 @@ class Comment {
     };
   }
 
-  static fromJSON(json) {
-    const data = JSON.parse(json);
-    const {
-      id,
-      user_id,
-      trip_id,
-      parent_id,
-      content,
-      created_at,
-      updated_at,
-      likes,
-    } = data;
-    const comment = new Comment(
-      id,
-      user_id,
-      trip_id,
-      parent_id,
-      content,
-      created_at,
-      updated_at,
-      likes
-    );
-    comment.liked_by = new Set(data.liked_by);
+  static fromLikedByArray(likedByArray) {
+    const comment = new Comment();
+    comment.liked_by = new Set(likedByArray);
     return comment;
   }
 }
