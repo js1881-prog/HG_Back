@@ -46,7 +46,6 @@ const commentSchema = new EntitySchema({
     updated_at: {
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
-      onUpdate: "CURRENT_TIMESTAMP",
     },
     likes: {
       type: "integer",
@@ -54,7 +53,7 @@ const commentSchema = new EntitySchema({
     },
     liked_by: {
       type: "json",
-      nullable: true,
+      nullable: false,
     },
   },
   relations: {
