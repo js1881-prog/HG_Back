@@ -26,7 +26,7 @@ const typeORMDataSource = new DataSource({
     join(__dirname, "../../tripviews/tripviews.entity.js"),
     join(__dirname, "../../schedule/schedule.entity.js"),
     join(__dirname, "../../image/image.entity.js"),
-    // join(__dirname, "../../comment/comment.entity.js"),
+    join(__dirname, "../../comment/comment.entity.js"),
   ],
 });
 
