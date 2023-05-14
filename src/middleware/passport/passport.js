@@ -102,9 +102,9 @@ passport.use(
 // passport.use(
 //   new FacebookStrategy(
 //     {
-//       clientID: `6649891521738484`,
-//       clientSecret: `f9e518a53da24246f5aae06d2f30d71d`,
-//       callbackURL: "https://localhost:8080/api/v1/auths/facebook/callback",
+//       clientID: ,
+//       clientSecret: ,
+//       callbackURL: ,
 //     },
 //     function (accessToken, refreshToken, profile, cb) {
 //       return cb(err, user);
