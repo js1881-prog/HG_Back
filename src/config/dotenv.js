@@ -77,17 +77,17 @@ if (
   );
 }
 
-if (
-  process.env.INSTAGRAM_OAUTH_CLIENT_ID == undefined &&
-  process.env.INSTAGRAM_OAUTH_CLIENT_SECRET == undefined &&
-  process.env.INSTAGRAM_OAUTH_REDIRECT == undefined
-) {
-  throw new AppError(
-    commonErrors.configError,
-    500,
-    "To start the application, you need Instagram_Oauth environment variable"
-  );
-}
+// if (
+//   process.env.INSTAGRAM_OAUTH_CLIENT_ID == undefined &&
+//   process.env.INSTAGRAM_OAUTH_CLIENT_SECRET == undefined &&
+//   process.env.INSTAGRAM_OAUTH_REDIRECT == undefined
+// ) {
+//   throw new AppError(
+//     commonErrors.configError,
+//     500,
+//     "To start the application, you need Instagram_Oauth environment variable"
+//   );
+// }
 
 module.exports = {
   applicationName: process.env.APPLICATION_NAME ?? "app",
@@ -128,9 +128,9 @@ module.exports = {
 
   googleOauthRedirect: process.env.GOOGLE_OAUTH_REDIRECT,
 
-  instagramOauthClientId: process.env.INSTAGRAM_OAUTH_CLIENT_ID,
+  // instagramOauthClientId: process.env.INSTAGRAM_OAUTH_CLIENT_ID,
 
-  instagramOauthSecurePassword: process.env.INSTAGRAM_OAUTH_CLIENT_SECRET,
+  // instagramOauthSecurePassword: process.env.INSTAGRAM_OAUTH_CLIENT_SECRET,
 
-  instagramOauthRedirect: process.env.INSTAGRAM_OAUTH_REDIRECT,
+  // instagramOauthRedirect: process.env.INSTAGRAM_OAUTH_REDIRECT,
 };
