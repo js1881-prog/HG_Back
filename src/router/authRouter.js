@@ -56,4 +56,36 @@ authRouter.get(
   authController.postLogin
 );
 
+
+
+// authRouter.get("/facebook", passport.authenticate("facebook"));
+
+// authRouter.get(
+//   "/facebook/callback",
+//   passport.authenticate("facebook", { failureRedirect: "/login" }),
+//   function (req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect("/");
+//   }
+//);
+
+// authRouter.get(
+//   "/instagram",
+//   passport.authenticate("instagram", {
+//     scope: ['user_profile', 'user_media'],
+//     session: false,
+//     failWithError: true,
+//   })
+// );
+
+// authRouter.get(
+//   "/instagram/callback",
+//   passport.authenticate("instagram", {
+//     failureRedirect: "/login",
+//     session: false,
+//     failWithError: true,
+//   }),
+//   authController.postLogin
+// );
+
 module.exports = authRouter;

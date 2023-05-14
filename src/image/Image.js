@@ -9,7 +9,8 @@ class Image {
     use,
     number,
     createdDate,
-    updatedDate
+    updatedDate,
+    deletedDate
   ) {
     this.id = id;
     this.imageId = imageId;
@@ -21,6 +22,7 @@ class Image {
     this.number = number;
     this.created_at = createdDate || new Date();
     this.updated_at = updatedDate || new Date();
+    this.deletedDate = deletedDate || new Date();
   }
 }
 

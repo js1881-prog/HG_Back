@@ -1,2 +1,4 @@
 .env
 node_modules
+https/cert.crt
+https/cert.key

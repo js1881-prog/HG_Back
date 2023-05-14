@@ -4,7 +4,7 @@ const AppError = require("./misc/AppError");
 const commonErrors = require("./misc/commonErrors");
 const logger = require("./util/logger/logger");
 const cors = require("cors");
-const { port } = require("./config/dotenv");
+const { httpPort, httpsPort } = require("./config/dotenv");
 const typeORMDataSource = require("./util/connect/typeorm");
 const bodyParser = require("body-parser");
 const { swaggerUi, specs } = require("./config/swagger");
@@ -12,6 +12,8 @@ const { redis } = require("./util/connect/redis");
 const passport = require("./middleware/passport/passport");
 const apiRouter = require("./router");
 const cookieParser = require("cookie-parser");
+const https = require("https");
+const httpsOptions = require("../https/index");
 
 const createApp = async () => {
   // DB Connection
@@ -44,16 +46,7 @@ const createApp = async () => {
       status: "OK",
     });
   });
-  expressApp.get("/test", async (req, res, next) => {
-    try {
-      const result = await typeORMDataSource.manager.query(
-        `select * from User`
-      );
-      console.log(result); // 쿼리 결과 출력
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  
   // Set URL Not found Handler
   expressApp.use((req, res, next) => {
     next(
@@ -75,30 +68,46 @@ const createApp = async () => {
     });
   });
 
-  const server = http.createServer(expressApp);
+  const httpServer = http.createServer(expressApp);
+
+  // TODO = The product httpServer needs to change the httpsServer
+  // const httpsServer = https.createServer(httpsOptions, expressApp);
 
   const app = {
     start() {
-      server.listen(port);
-      server.on("listening", () => {
-        logger.info(`Server is listening on port ${port}`);
+      httpServer.listen(httpPort);
+      httpServer.on("listening", () => {
+        logger.info(`HTTP Server is listening on port ${httpPort}`);
       });
+
+      // httpsServer.listen(httpsPort);
+      // httpServer.on("listening", () => {
+      //   logger.info(`HTTPS Server is listening on port ${httpsPort}`);
+      // });
     },
     stop() {
       logger.info("Stopping server operations");
       this.isShuttingDown = true;
       return new Promise((resolve, reject) => {
-        server.close(async (error) => {
+        httpServer.close(async (error) => {
           if (error !== undefined) {
-            logger.error(`- Failed to stop the HTTP server: ${error.message}`);
+            logger.error(`- Failed to stop the server: ${error.message}`);
             reject(error);
           }
           this.isShuttingDown = false;
           resolve();
         });
+        // httpsServer.close(async (error) => {
+        //   if (error !== undefined) {
+        //     logger.error(`- Failed to stop the server: ${error.message}`);
+        //     reject(error);
+        //   }
+        //   this.isShuttingDown = false;
+        //   resolve();
+        // });
       });
     },
-    isShuttingDown: false, // flag to check if the server is in a stopped state
+    isShuttingDown: false, // flag to check if the httpServer is in a stopped state
     _app: expressApp,
   };
   return app;
