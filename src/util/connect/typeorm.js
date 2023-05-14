@@ -1,6 +1,7 @@
 const logger = require("../logger/logger");
 const { DataSource } = require("typeorm");
 const { join } = require("path");
+const { typeORMSynchronizeSetting } = require("../../config/dotenv");
 
 const {
   mysqlHost,
@@ -17,7 +18,7 @@ const typeORMDataSource = new DataSource({
   username: mysqlUser,
   password: mysqlPassword,
   database: mysqlDatabase,
-  synchronize: true,
+  synchronize: typeORMSynchronizeSetting,
   logging: false,
   entities: [
     join(__dirname, "../../user/user.entity.js"),

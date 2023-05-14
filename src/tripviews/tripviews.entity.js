@@ -3,7 +3,6 @@ const User = require("../user/User");
 const Trip = require("../trip/Trip");
 const TripViews = require("./Tripviews");
 
-
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
 // | Field      | Type      | Null | Key | Default           | Extra                                         |
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
@@ -13,6 +12,7 @@ const TripViews = require("./Tripviews");
 // | like_flag  | tinyint   | YES  |     | 0                 |                                               |
 // | created_at | timestamp | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at | timestamp | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// | deleted_at | timestamp | YES  |     | NULL              |                                               |
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
 const tripViewsSchema = new EntitySchema({
   name: "TripViews",
@@ -25,11 +25,11 @@ const tripViewsSchema = new EntitySchema({
     },
     user_id: {
       type: "bigint",
-      nullable: false
+      nullable: false,
     },
     trip_id: {
       type: "bigint",
-      nullable: false
+      nullable: false,
     },
     like_flag: {
       type: "boolean",

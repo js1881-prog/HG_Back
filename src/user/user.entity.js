@@ -1,7 +1,6 @@
 const { EntitySchema } = require("typeorm");
 const User = require("./User");
 
-
 // +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
 // | Field        | Type          | Null | Key | Default           | Extra                                         |
 // +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
@@ -15,6 +14,7 @@ const User = require("./User");
 // | intro        | varchar(1000) | NO   |     | NULL              |                                               |
 // | created_at   | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at   | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// | deleted_at   | timestamp     | YES  |     | NULL              |                                               |
 // +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
 const userSchema = new EntitySchema({
   name: "User",
@@ -67,6 +67,10 @@ const userSchema = new EntitySchema({
       default: () => "CURRENT_TIMESTAMP",
       onUpdate: "CURRENT_TIMESTAMP",
     },
+    deleted_at: {
+      type: "timestamp",
+      nullable: true,
+    },
   },
 
   //    Create follows table
@@ -80,7 +84,7 @@ const userSchema = new EntitySchema({
   relations: {
     follow: {
       type: "many-to-many",
-      target: "User",
+      target: () => User,
       inverseSide: "followTarget",
       joinTable: {
         name: "follows",
@@ -115,7 +119,7 @@ const userSchema = new EntitySchema({
     //  Repository ex) user1.subscribe.push(user2); => user1 subscribe user2
     subscribe: {
       type: "many-to-many",
-      target: "User",
+      target: () => User,
       inverseSide: "subscribeTarget",
       joinTable: {
         name: "subscriptions",

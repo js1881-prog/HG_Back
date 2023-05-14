@@ -9,7 +9,8 @@ class User {
     email,
     intro,
     createdDate,
-    updatedDate
+    updatedDate,
+    deletedDate
   ) {
     this.id = id;
     this.nickname = nickName;
@@ -21,6 +22,7 @@ class User {
     this.intro = intro;
     this.created_at = createdDate || new Date();
     this.updated_at = updatedDate || new Date();
+    this.deleted_at = deletedDate || new Date();
   }
 }
 
