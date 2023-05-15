@@ -20,6 +20,7 @@ const Trip = require("./Trip");
 // | hidden      | tinyint       | NO   |     | NULL              |                                               |
 // | created_at  | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at  | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// | deleted_at  | timestamp     | YES  |     | NULL              |                                               |
 // +-------------+---------------+------+-----+-------------------+-----------------------------------------------+
 const tripSchema = new EntitySchema({
   name: "Trip",
@@ -82,6 +83,10 @@ const tripSchema = new EntitySchema({
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
       onUpdate: "CURRENT_TIMESTAMP",
+    },
+    deleted_at: {
+      type: "timestamp",
+      nullable: true,
     },
   },
   relations: {

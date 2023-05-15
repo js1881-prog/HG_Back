@@ -7,7 +7,7 @@
     "start": "bin/index.js",
     "start:dev": "nodemon --watch src/*",
     "prettier": "prettier --write 'src/**/*.js'",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "dependencies": {
     "axios": "^1.4.0",
@@ -20,9 +20,12 @@
     "jsonwebtoken": "^9.0.0",
     "mysql": "^2.18.1",
     "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-instagram": "^1.0.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "pino": "^8.12.1",
     "pino-pretty": "^10.0.0",
     "redis": "^4.6.6",

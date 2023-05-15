@@ -32,6 +32,14 @@ if (
   );
 }
 
+if (process.env.TYPEORM_SYNCHRONIZE == undefined) {
+  throw new AppError(
+    commonErrors.configError,
+    500,
+    "To start the application, you need typeORM environment variable"
+  );
+}
+
 if (
   process.env.REDIS_PORT == undefined &&
   process.env.REDIS_HOST == undefined &&
@@ -59,7 +67,8 @@ if (
 
 if (
   process.env.GOOGLE_OAUTH_CLIENT_ID == undefined &&
-  process.env.GOOGLE_OAUTH_SECURE_PASSWORD == undefined
+  process.env.GOOGLE_OAUTH_SECURE_PASSWORD == undefined &&
+  process.env.GOOGLE_OAUTH_REDIRECT == undefined
 ) {
   throw new AppError(
     commonErrors.configError,
@@ -68,10 +77,24 @@ if (
   );
 }
 
+// if (
+//   process.env.INSTAGRAM_OAUTH_CLIENT_ID == undefined &&
+//   process.env.INSTAGRAM_OAUTH_CLIENT_SECRET == undefined &&
+//   process.env.INSTAGRAM_OAUTH_REDIRECT == undefined
+// ) {
+//   throw new AppError(
+//     commonErrors.configError,
+//     500,
+//     "To start the application, you need Instagram_Oauth environment variable"
+//   );
+// }
+
 module.exports = {
   applicationName: process.env.APPLICATION_NAME ?? "app",
 
-  port: parseInt(process.env.PORT ?? "3000", 10),
+  httpPort: parseInt(process.env.HTTP_PORT ?? "3000", 10),
+
+  httpsPort: parseInt(process.env.HTTPS_PORT ?? "8080", 10),
 
   mysqlPort: process.env.MYSQL_PORT,
 
@@ -82,6 +105,8 @@ module.exports = {
   mysqlPassword: process.env.MYSQL_PASSWORD,
 
   mysqlDatabase: process.env.MYSQL_DATABASE,
+
+  typeORMSynchronizeSetting: process.env.TYPEORM_SYNCHRONIZE,
 
   redisPort: process.env.REDIS_PORT,
 
@@ -100,4 +125,12 @@ module.exports = {
   googleOauthClientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
 
   googleOauthSecurePassword: process.env.GOOGLE_OAUTH_SECURE_PASSWORD,
+
+  googleOauthRedirect: process.env.GOOGLE_OAUTH_REDIRECT,
+
+  // instagramOauthClientId: process.env.INSTAGRAM_OAUTH_CLIENT_ID,
+
+  // instagramOauthSecurePassword: process.env.INSTAGRAM_OAUTH_CLIENT_SECRET,
+
+  // instagramOauthRedirect: process.env.INSTAGRAM_OAUTH_REDIRECT,
 };

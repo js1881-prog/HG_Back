@@ -12,6 +12,7 @@ const User = require("../user/User");
 // | number     | int          | NO   |     | NULL              |                                               |
 // | created_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// | deleted_at | timestamp    | YES  |     | NULL              |                                               |
 // +------------+--------------+------+-----+-------------------+-----------------------------------------------+
 const imageSchema = new EntitySchema({
   name: "Image",
@@ -47,6 +48,10 @@ const imageSchema = new EntitySchema({
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
       onUpdate: "CURRENT_TIMESTAMP",
+    },
+    deleted_at: {
+      type: "timestamp",
+      nullable: true,
     },
   },
   relations: {

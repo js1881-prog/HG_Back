@@ -1,5 +1,12 @@
 class TripViews {
-  constructor(tripCountId, userId, tripId, likeFlag = false, createdDate, updatedDate) {
+  constructor(
+    tripCountId,
+    userId,
+    tripId,
+    likeFlag = false,
+    createdDate,
+    updatedDate
+  ) {
     this.trip_count_id = tripCountId;
     this.user_id = userId;
     this.trip_id = tripId;
