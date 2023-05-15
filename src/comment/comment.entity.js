@@ -80,3 +80,5 @@ const commentSchema = new EntitySchema({
     },
   },
 });
+
+module.exports = commentSchema;
