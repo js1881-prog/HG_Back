@@ -30,7 +30,7 @@ class Trip {
     this.hidden = hidden;
     this.created_at = createdDate || new Date();
     this.updated_at = updatedDate || new Date();
-    this.deleted_at = deletedDate || new Date();
+    this.deleted_at = deletedDate || null;
   }
 }
 

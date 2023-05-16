@@ -43,6 +43,7 @@ if (process.env.TYPEORM_SYNCHRONIZE == undefined) {
 if (
   process.env.REDIS_PORT == undefined &&
   process.env.REDIS_HOST == undefined &&
+  process.env.REDIS_URL == undefined &&
   process.env.REDIS_ACCESSTOKEN_EXPIRES_IN == undefined &&
   process.env.REDIS_REFRESHTOKEN_EXPIRES_IN == undefined
 ) {
@@ -111,6 +112,8 @@ module.exports = {
   redisPort: process.env.REDIS_PORT,
 
   redisHost: process.env.REDIS_HOST,
+
+  redisUri: process.env.REDIS_URL,
 
   jwtSecret: process.env.JWT_SECRET,
 

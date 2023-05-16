@@ -56,8 +56,6 @@ authRouter.get(
   authController.postLogin
 );
 
-
-
 // authRouter.get("/facebook", passport.authenticate("facebook"));
 
 // authRouter.get(

@@ -10,7 +10,6 @@ const authController = {
       res.cookie("refreshToken", refreshToken, { httpOnly: true });
       res.status(200).json(buildResponse(null));
     } catch (error) {
-      logger.error(error);
       next(error);
     }
   },
@@ -19,7 +18,6 @@ const authController = {
     try {
       res.status(200).json(buildResponse(null));
     } catch (error) {
-      logger.error(error);
       next(error);
     }
   },
@@ -29,7 +27,6 @@ const authController = {
       res.clearCookie("refreshToken");
       res.status(200).json(buildResponse(null));
     } catch (error) {
-      logger.error(error);
       next(error);
     }
   },

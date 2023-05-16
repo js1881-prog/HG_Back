@@ -1,5 +1,5 @@
 const { EntitySchema } = require("typeorm");
-const User = require("./User");
+const { User } = require("./User");
 
 // +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
 // | Field        | Type          | Null | Key | Default           | Extra                                         |
@@ -25,13 +25,14 @@ const userSchema = new EntitySchema({
       type: "bigint",
       generated: "increment",
     },
-    nickname: {
+    nickName: {
       type: "varchar",
       nullable: true,
       unique: true,
       length: 100,
     },
-    user_name: {
+    userName: {
+      name: "user_name",
       type: "varchar",
       nullable: true,
     },
@@ -44,13 +45,15 @@ const userSchema = new EntitySchema({
       type: "varchar",
       nullable: false,
     },
-    phone_number: {
+    phoneNumber: {
+      name: "phone_number",
       type: "varchar",
       nullable: true,
       length: 20,
     },
     email: {
       type: "varchar",
+      unique: true,
       nullable: false,
       length: 100,
     },
@@ -58,16 +61,19 @@ const userSchema = new EntitySchema({
       type: "varchar",
       length: 1000,
     },
-    created_at: {
+    createdAt: {
+      name: "created_at",
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
     },
-    updated_at: {
+    updatedAt: {
+      name: "updated_at",
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
       onUpdate: "CURRENT_TIMESTAMP",
     },
-    deleted_at: {
+    deletedAt: {
+      name: "deleted_at",
       type: "timestamp",
       nullable: true,
     },

@@ -12,6 +12,7 @@ const commonErrors = {
   resourceDuplicationError: `Resource Duplication Error`,
   remoteStorageError: `Remote Storage Error`,
   requestValidationError: `Request Validation Error`,
+  resourceAlreadyExists: `Request Resource Already Exists`,
 };
 
 module.exports = commonErrors;

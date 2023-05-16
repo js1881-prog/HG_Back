@@ -1,5 +1,5 @@
 const { EntitySchema } = require("typeorm");
-const User = require("../user/User");
+const { User } = require("../user/User");
 const Trip = require("../trip/Trip");
 
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
@@ -15,7 +15,6 @@ const Trip = require("../trip/Trip");
 // | likes      | int       | NO   |     | 0                 |                                               |
 // | liked_by   | json      | NO   |     | NULL              |                                               |
 // +------------+-----------+------+-----+-------------------+-----------------------------------------------+
-
 const commentSchema = new EntitySchema({
   name: "Comment",
   tableName: "comments",
