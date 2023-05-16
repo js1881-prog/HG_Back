@@ -60,11 +60,11 @@ const tripSchema = new EntitySchema({
       nullable: true,
     },
     started_at: {
-      type: "datetime",
+      type: "timestamp",
       nullable: true,
     },
     end_at: {
-      type: "datetime",
+      type: "timestamp",
       nullable: true,
     },
     hashtag: {
