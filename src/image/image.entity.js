@@ -1,5 +1,5 @@
 const { EntitySchema } = require("typeorm");
-const User = require("../user/User");
+const { User } = require("../user/User");
 
 // +------------+--------------+------+-----+-------------------+-----------------------------------------------+
 // | Field      | Type         | Null | Key | Default           | Extra                                         |

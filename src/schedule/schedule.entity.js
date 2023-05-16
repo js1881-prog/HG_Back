@@ -1,5 +1,5 @@
 const { EntitySchema } = require("typeorm");
-const User = require("../user/User");
+const { User } = require("../user/User");
 const Schedule = require("./Schedule");
 
 // +------------+--------------+------+-----+-------------------+-----------------------------------------------+

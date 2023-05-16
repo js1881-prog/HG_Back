@@ -46,7 +46,7 @@ const createApp = async () => {
       status: "OK",
     });
   });
-  
+
   // Set URL Not found Handler
   expressApp.use((req, res, next) => {
     next(

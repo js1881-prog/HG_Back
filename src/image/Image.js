@@ -22,7 +22,7 @@ class Image {
     this.number = number;
     this.created_at = createdDate || new Date();
     this.updated_at = updatedDate || new Date();
-    this.deletedDate = deletedDate || new Date();
+    this.deletedDate = deletedDate || null;
   }
 }
 

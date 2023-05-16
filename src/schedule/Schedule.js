@@ -16,7 +16,7 @@ class Schedule {
     this.end_date = endDate;
     this.created_at = createdDate || new Date();
     this.updated_at = updatedDate || new Date();
-    this.deleted_at = deletedDate || new Date();
+    this.deleted_at = deletedDate || null;
   }
 }
 

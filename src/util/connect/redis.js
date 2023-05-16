@@ -1,11 +1,10 @@
 const Redis = require("redis");
-const { redisPort, redisHost } = require("../../config/dotenv");
+const { redisPort, redisHost, redisUri } = require("../../config/dotenv");
 const logger = require("../logger/logger");
 const { promisify } = require("util");
 
 const redis = Redis.createClient({
-  port: redisPort,
-  host: redisHost,
+  url: redisUri,
 });
 
 const setexAsync = promisify(redis.setEx).bind(redis);
