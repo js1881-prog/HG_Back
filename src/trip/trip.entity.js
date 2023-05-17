@@ -32,6 +32,7 @@ const tripSchema = new EntitySchema({
     },
     user_id: {
       type: "bigint",
+      nullable: true,
     },
     schedule_id: {
       type: "bigint",
@@ -43,7 +44,8 @@ const tripSchema = new EntitySchema({
       nullable: false,
     },
     content: {
-      type: "text",
+      //type: "json",
+      type: "varchar",
     },
     likes: {
       type: "int",
@@ -58,12 +60,16 @@ const tripSchema = new EntitySchema({
       length: 255,
       nullable: true,
     },
+    thumbnail: {
+      type: "varchar",
+      nullable: false,
+    },
     started_at: {
-      type: "datetime",
+      type: "timestamp",
       nullable: true,
     },
     end_at: {
-      type: "datetime",
+      type: "timestamp",
       nullable: true,
     },
     hashtag: {

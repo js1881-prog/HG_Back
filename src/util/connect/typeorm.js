@@ -11,13 +11,16 @@ const {
 } = require("../../config/dotenv");
 
 const typeORMDataSource = new DataSource({
-  type: "mysql",
+  type: "postgres",
   host: mysqlHost,
   port: mysqlPort,
   username: mysqlUser,
   password: mysqlPassword,
   database: mysqlDatabase,
   synchronize: true,
+  extra:{
+      ssl:true,
+  },
   logging: false,
   entities: [
     join(__dirname, "../../user/user.entity.js"),

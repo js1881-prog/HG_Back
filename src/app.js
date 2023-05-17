@@ -39,21 +39,23 @@ const createApp = async () => {
 
   expressApp.use("/api/v1", apiRouter.v1);
 
+  expressApp.use(express.static('public'));
+
   expressApp.get("/health", (req, res, next) => {
     res.json({
       status: "OK",
     });
   });
+
   expressApp.get("/test", async (req, res, next) => {
     try {
-      const result = await typeORMDataSource.manager.query(
-        `select * from User`
-      );
-      console.log(result); // 쿼리 결과 출력
+      //res.sendFile(__dirname + "/trip.html");
+      res.sendFile(__dirname + "/image.html");
     } catch (error) {
       console.error(error);
     }
   });
+  
   // Set URL Not found Handler
   expressApp.use((req, res, next) => {
     next(

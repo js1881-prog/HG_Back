@@ -8,6 +8,7 @@ class Trip {
     likes,
     views,
     location,
+    thumbnail,
     startedDate,
     endDate,
     hashtag,
@@ -23,6 +24,7 @@ class Trip {
     this.likes = likes;
     this.views = views;
     this.location = location;
+    this.thumbnail = thumbnail;
     this.started_at = startedDate;
     this.end_at = endDate;
     this.hashtag = hashtag;
