@@ -32,7 +32,7 @@ const authController = {
     }
   },
 
-  async postChangeTemporaryPassword(req, res, next) {
+  async postReplacePassword(req, res, next) {
     try {
       const email = req.body.email;
       const temporaryPassword = res.locals.mailCode;

@@ -46,7 +46,7 @@ authRouter.post(
   //TODO => email Request Validate
   "/mail/password/verify",
   sendVerificationPassword,
-  authController.postChangeTemporaryPassword
+  authController.postReplacePassword
 );
 
 authRouter.get(

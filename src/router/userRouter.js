@@ -11,4 +11,12 @@ userRouter.post(
   userController.postSignup
 );
 
+userRouter.post(
+  "/update/profile",
+  //TODO => nickname, intro Request validate
+  extract.bearerToken,
+  extract.decodeBearerToken,
+  userController.postUpdateProfile
+);
+
 module.exports = userRouter;

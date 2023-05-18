@@ -42,7 +42,7 @@ const jwtUtils = {
   generateAccessToken(user) {
     const payload = {
       name: user.name,
-      nickname: user.nickname,
+      nickName: user.nickName,
       email: user.email,
       role: user.role,
     };

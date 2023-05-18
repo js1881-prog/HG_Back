@@ -55,6 +55,12 @@ const userService = (
     return createdUser;
   },
 
+  /**
+   * login.
+   * @param {name} - string
+   * @param {password} - string
+   * @returns {user} The checked user.
+   */
   login: async (name, password) => {
     const checkUser = await userRepository.findByName(name);
 
@@ -68,6 +74,14 @@ const userService = (
     } else {
       throw new AppError(commonErrors.authenticationError, 401, "Unauthorized");
     }
+  },
+
+  changeProfile: async (user, nickName, intro) => {
+    const updatedUser = await userRepository.findByEmailAndUpdate(user.email, {
+      nickName: nickName,
+      intro: intro,
+    });
+    return updatedUser;
   },
 });
 
