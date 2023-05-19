@@ -1,94 +1,50 @@
 class Comment {
   constructor(
-    id = null,
-    userId,
-    tripId,
-    parentId,
+    id,
+    user_id,
+    trip_id,
+    parent_id,
     content,
-    createdAt = new Date(),
-    updatedAt = new Date(),
-    likes = 0,
-    likedBy = new Set()
+    created_at = new Date(),
+    updated_at = new Date(),
+    likes
   ) {
     this.id = id;
-    this.userId = userId;
-    this.tripId = tripId;
-    this.parentId = parentId;
+    this.user_id = user_id;
+    this.trip_id = trip_id;
+    this.parent_id = parent_id;
     this.content = content;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
     this.likes = likes;
-    this.likedBy = likedBy;
+    this.liked_by = new Set();
   }
+
   incrementLikes(userId) {
-    if (!this.likedBy.has(userId)) {
+    if (!this.liked_by.has(userId)) {
       this.likes++;
-      this.likedBy.add(userId);
+      this.liked_by.add(userId);
     }
   }
 
   decrementLikes(userId) {
-    if (this.likedBy.has(userId)) {
+    if (this.liked_by.has(userId)) {
       this.likes--;
-      this.likedBy.delete(userId);
+      this.liked_by.delete(userId);
     }
   }
 
   toJSON() {
     return {
-      likedBy: Array.from(this.likedBy),
+      liked_by: Array.from(this.liked_by),
     };
   }
-}
-class CommentBuilder {
-  constructor() {
-    this.userId = null;
-    this.tripId = null;
-    this.parent_id = null;
-    this.content = null;
-    this.likes = 0;
-  }
 
-  setUserId(userId) {
-    this.userId = userId;
-    return this;
-  }
-
-  setTripId(tripId) {
-    this.tripId = tripId;
-    return this;
-  }
-
-  setParentId(parentId) {
-    this.parentId = parentId;
-    return this;
-  }
-
-  setContent(content) {
-    this.content = content;
-    return this;
-  }
-
-  setLikes(likes) {
-    this.likes = likes;
-    return this;
-  }
-
-  // static fromLikedByArray(likedByArray) {
-  //   const comment = new Comment();
-  //   comment.liked_by = new Set(likedByArray);
-  //   return comment;
-  // }
-
-  build() {
-    return new Comment(
-      this.userId,
-      this.tripId,
-      this.parentId,
-      this.content,
-      this.likes
-    );
+  static fromLikedByArray(likedByArray) {
+    const comment = new Comment();
+    comment.liked_by = new Set(likedByArray);
+    return comment;
   }
 }
 
-module.exports = { Comment, CommentBuilder };
+module.exports = { Comment };

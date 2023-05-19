@@ -13,13 +13,10 @@ const searchRepository = {
       const tripRepository = typeORMDataSource.getRepository(Trip);
 
       const trips = await tripRepository
-        .createQueryBuilder("trips") // create query builder
-        .where(
-          "trips.title LIKE :searchText OR trips.content LIKE :searchText",
-          {
-            searchText: `%${searchText}%`,
-          }
-        )
+        .createQueryBuilder("trip") // create query builder
+        .where("trip.title LIKE :searchText OR trip.content LIKE :searchText", {
+          searchText: `%${searchText}%`,
+        })
         .getMany();
 
       return trips;
