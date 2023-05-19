@@ -5,16 +5,15 @@ const buildResponse = require("../util/response/buildResponse");
 const commentController = {
   async createComment(req, res, next) {
     try {
-      const { content, trip_id } = req.body;
+      const { content, tripId } = req.body;
       const userId = req.user.id;
       const newComment = await commentService.createComment({
         user_id: userId,
         content,
-        trip_id,
+        tripId,
       });
       res.status(201).json(buildResponse(newComment));
     } catch (error) {
-      logger.error(error);
       next(error);
     }
   },
@@ -25,7 +24,6 @@ const commentController = {
       const comment = await commentService.getCommentById(commentId);
       res.status(200).json(buildResponse(comment));
     } catch (error) {
-      logger.error(error);
       next(error);
     }
   },
@@ -40,7 +38,6 @@ const commentController = {
       );
       res.status(200).json(buildResponse(comment));
     } catch (error) {
-      logger.error(error);
       next(error);
     }
   },
@@ -50,7 +47,6 @@ const commentController = {
       const comments = await commentService.getAllComments();
       res.status(200).json(buildResponse(comments));
     } catch (error) {
-      logger.error(error);
       next(error);
     }
   },
@@ -61,7 +57,6 @@ const commentController = {
       await commentService.deleteComment(commentId);
       res.status(204).send();
     } catch (error) {
-      logger.error(error);
       next(error);
     }
   },
