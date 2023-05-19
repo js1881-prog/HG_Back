@@ -2,12 +2,22 @@
 // 댓글 생성, 조회, 수정, 삭제
 // 대댓글 생성, 조회, 수정, 삭제
 // 좋아요
+/**
+ * @params {Comment} Comment - Comment class
+ */
 const commentRepository = require("./commentRepository");
 const logger = require("../util/logger/logger");
 const AppError = require("../misc/AppError");
 const commonErrors = require("../misc/commonErrors");
 
-const commentService = {
+const commentService = (
+  Comment,
+  CommentBuilder,
+  commentRepository,
+  AppError,
+  commonErrors,
+  logger
+) => ({
   async createComment(comment) {
     try {
       const newComment = await commentRepository.create(comment);
@@ -109,6 +119,6 @@ const commentService = {
       );
     }
   },
-};
+});
 
 module.exports = commentService;
