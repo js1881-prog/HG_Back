@@ -10,6 +10,5 @@ imageRouter.get("/detail", imageController.getImage);
 imageRouter.get("/", imageController.getImages);
 imageRouter.put("/", imageController.updateImage);
 imageRouter.delete("/", imageController.deleteImage);
-imageRouter.get("/download", imageController.getMinio);
 
 module.exports = imageRouter;

@@ -68,6 +68,17 @@ if (
   );
 }
 
+if (
+  process.env.MINIO_ACCESS_KEY === undefined &&
+  process.env.MINIO_SECRET_ACCESS_KEY == undefined 
+) {
+  throw new AppError(
+    commonErrors.configError,
+    500,
+    "To start the application, you need Mysql uri (MYSQL_URI) environment variable"
+  );
+}
+
 module.exports = {
   applicationName: process.env.APPLICATION_NAME ?? "app",
 
@@ -100,4 +111,8 @@ module.exports = {
   googleOauthClientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
 
   googleOauthSecurePassword: process.env.GOOGLE_OAUTH_SECURE_PASSWORD,
+
+  minioAccessKeyId: process.env.MINIO_ACCESS_KEY,
+
+  minioSecretAccessKey: process.env.MINIO_SECRET_ACCESS_KEY,
 };

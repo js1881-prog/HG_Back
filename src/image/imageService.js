@@ -1,14 +1,14 @@
 const imageRepository = require("./imageRepository");
 
 const ImageService = {
-  async createImage(imageData) {
-    const createImages = await imageRepository.create(imageData);
+  async createImage(imageData, bucketName, objectName, filePath) {
+    const createImages = await imageRepository.create(imageData, bucketName, objectName, filePath);
     return createImages;
   },
   
   async getImage(imageId) {
     const getImage = await imageRepository.findImageById(imageId);
-    if (!createImages) {
+    if (!getImage) {
       throw new AppError(
         commonErrors.notfoundError,
         404,
@@ -46,7 +46,6 @@ const ImageService = {
     }
     return deleteImage;
   },
-
 };
 
 module.exports = ImageService;
