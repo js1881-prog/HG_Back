@@ -10,10 +10,9 @@
   </style>
 </head>
 <body>
-  <form class="forms" method="post" action="/api/v1/images/upload">
+  <form class="forms" method="post" action="/api/v1/images/minio">
     <input type="text" name="user_id" id="user_id" placeholder="user_id">
-    <input type="text" name="use" id="use" placeholder="use">
-    <input type="text" name="number" id="number" placeholder="number">
+    <input type="file" name="image" id="image" placeholder="image">
     <button type="submit">Submit</button>
   </form>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -23,16 +22,14 @@
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const formData = new FormData();
-      formData.append('user_id', document.getElementById('user_id').value);
-      formData.append('use', document.getElementById('use').value);
-      formData.append('number', document.getElementById('number').value);
+      formData.append('image', document.getElementById('image').files[0]);
 
       console.log(formData);
 
       axios({
-        url: "http://localhost:3000/api/v1/images/upload",    // 이미지 저장을 위해 back서버와 통신
+        url: "http://localhost:3000/api/v1/images/minio",    // 이미지 저장을 위해 back서버와 통신
         method: "POST",
-        headers: {'Content-Type': 'application/json'},   
+        headers: {'Content-Type': 'multipart/form-data'},   
         data: formData,
       }).then(res => {
         console.log(res.data.message);
