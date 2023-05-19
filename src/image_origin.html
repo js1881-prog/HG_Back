@@ -14,7 +14,6 @@
     <input type="text" name="user_id" id="user_id" placeholder="user_id">
     <input type="text" name="use" id="use" placeholder="use">
     <input type="text" name="number" id="number" placeholder="number">
-    <input type="file" name="image" id="image" placeholder="image">
     <button type="submit">Submit</button>
   </form>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -27,7 +26,6 @@
       formData.append('user_id', document.getElementById('user_id').value);
       formData.append('use', document.getElementById('use').value);
       formData.append('number', document.getElementById('number').value);
-      formData.append('image', document.getElementById('image').files[0]);
 
       console.log(formData);
 
@@ -35,7 +33,7 @@
         //url: "http://localhost:3000/api/v1/images/upload",    // 이미지 저장을 위해 back서버와 통신
         url: "http://localhost:3000/api/v1/images/minio",
         method: "POST",
-        headers: {'Content-Type': 'multipart/form-data'},   
+        headers: {'Content-Type': 'application/json'},   
         data: formData,
       }).then(res => {
         console.log(res.data.message);

@@ -4,12 +4,11 @@ const AWS = require('aws-sdk');
 const Minio = require('minio');
 //const { S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY } = require("../../config/dotenv");
 
-
 // AWS SDK 구성
 // const s3 = new AWS.S3({
 //   endpoint: 'localhost',
-//   accessKeyId: "jF6yB1apdB43LGT0",
-//   secretAccessKey: "BiZ7hsOo6IAB9sA6lTm1ya5gRDylGd8o",
+//   accessKeyId: "",
+//   secretAccessKey: "",
 //   s3ForcePathStyle: true, 
 //   signatureVersion: 'v4' 
 // });
