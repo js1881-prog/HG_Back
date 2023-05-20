@@ -28,18 +28,20 @@ const userRepository = {
   /**
    * Finds a user by email and updates it.
    * @param {string} email - The email of the user to find and update.
-   * @param {User} user - The updated user object.
+   * @param {Object} user - The updated user object.
    * @returns {User} The updated user.
    */
   async findByEmailAndUpdate(email, user) {
-    const findUser = await query.findOne({ email: email }).catch((error) => {
-      logger.error(error);
-      throw new AppError(
-        commonErrors.databaseError,
-        500,
-        "Internal Server Error"
-      );
-    });
+    const findUser = await query
+      .findOne({ where: { email: email } })
+      .catch((error) => {
+        logger.error(error);
+        throw new AppError(
+          commonErrors.databaseError,
+          500,
+          "Internal Server Error"
+        );
+      });
 
     if (!findUser) {
       throw new AppError(

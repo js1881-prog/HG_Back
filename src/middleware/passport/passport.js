@@ -5,7 +5,7 @@ const logger = require("../../util/logger/logger");
 const LocalStrategy = require("passport-local").Strategy;
 const jwtUtils = require("../jwt/jwtUtils");
 const { comparePassword } = require("../../util/encrypt/hashPassword");
-const { storeTokensInRedis } = require("./redis/stroreTokensInredis");
+const { storeTokensInRedis } = require("../redis/stroreTokensInredis");
 const {
   googleOauthClientId,
   googleOauthSecurePassword,

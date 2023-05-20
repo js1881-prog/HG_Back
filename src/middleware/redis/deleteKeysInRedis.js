@@ -1,7 +1,7 @@
-const AppError = require("../../../misc/AppError");
-const commonErrors = require("../../../misc/commonErrors");
-const { redis } = require("../../../util/connect/redis");
-const logger = require("../../../util/logger/logger");
+const AppError = require("../../misc/AppError");
+const commonErrors = require("../../misc/commonErrors");
+const logger = require("../../util/logger/logger");
+const { redis } = require("../../util/connect/redis");
 
 const deleteKeysInRedis = async (keys) => {
   return redis.del(keys, (error, count) => {

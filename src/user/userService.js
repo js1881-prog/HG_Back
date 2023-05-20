@@ -20,7 +20,7 @@ const userService = (
 ) => ({
   /**
    * Sign up a new user.
-   * @param {UserDTO} userDTO - The user data transfer object.
+   * @param {user} - The user data transfer object.
    * @returns {User} The created user.
    */
   signup: async (user) => {
@@ -55,19 +55,33 @@ const userService = (
     return createdUser;
   },
 
+  /**
+   * login.
+   * @param {name} - string
+   * @param {password} - string
+   * @returns {user} The checked user.
+   */
   login: async (name, password) => {
     const checkUser = await userRepository.findByName(name);
 
     if (!checkUser) {
       throw new AppError(commonErrors.authenticationError, 401, "Unauthorized");
     }
-    const isMatch = comparePassword(password, checkUser.password);
+    const isMatch = await comparePassword(password, checkUser.password);
 
     if (isMatch) {
       return checkUser;
     } else {
       throw new AppError(commonErrors.authenticationError, 401, "Unauthorized");
     }
+  },
+
+  changeProfile: async (user, nickName, intro) => {
+    const updatedUser = await userRepository.findByEmailAndUpdate(user.email, {
+      nickName: nickName,
+      intro: intro,
+    });
+    return updatedUser;
   },
 });
 

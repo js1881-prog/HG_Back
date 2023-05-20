@@ -1,3 +1,5 @@
+const { jwtSecret } = require("../config/dotenv");
+const jwt = require("jsonwebtoken");
 const AppError = require("../misc/AppError");
 const commonErrors = require("../misc/commonErrors");
 const logger = require("../util/logger/logger");
@@ -36,6 +38,20 @@ const extract = {
         "Unauthorized"
       );
       next(err);
+    }
+  },
+
+  // after extract Bearer token
+  decodeBearerToken(req, res, next) {
+    const bearerToken = res.locals.accessToken;
+    try {
+      const decodedPayload = jwt.verify(bearerToken, jwtSecret);
+      const user = decodedPayload;
+      req.user = user;
+      next();
+    } catch (error) {
+      logger.error(error);
+      next(new AppError(commonErrors.authenticationError, 401, "Unauthorized"));
     }
   },
 };

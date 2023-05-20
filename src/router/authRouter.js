@@ -3,6 +3,11 @@ const authController = require("../auth/authController");
 const jwtUtils = require("../middleware/jwt/jwtUtils");
 const passport = require("../middleware/passport/passport");
 const extract = require("../middleware/extract");
+const {
+  sendVerificationPassword,
+  sendVerificationCode,
+  verifyEmailCode,
+} = require("../middleware/mail/mailer");
 const authRouter = express.Router();
 
 authRouter.post(
@@ -35,6 +40,27 @@ authRouter.get(
   extract.cookieToken,
   jwtUtils.verifyToken,
   authController.getCheckToken
+);
+
+authRouter.post(
+  //TODO => email Request Validate
+  "/mail/password/verify",
+  sendVerificationPassword,
+  authController.postReplacePassword
+);
+
+authRouter.get(
+  //TODO => email Request Validate
+  "/mail/name/verify",
+  sendVerificationCode,
+  authController.getMailCode
+);
+
+authRouter.get(
+  //TODO => emailCode Request Validate
+  "/mail/verify/check",
+  verifyEmailCode,
+  authController.getUserName
 );
 
 authRouter.get(

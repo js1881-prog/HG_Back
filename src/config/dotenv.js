@@ -90,6 +90,18 @@ if (
 //   );
 // }
 
+if (
+  process.env.MAIL_ADMIN == undefined &&
+  process.env.MAIL_ADMIN_PASSWORD == undefined &&
+  process.env.MAIL_CODE_EXPIRES_IN == undefined
+) {
+  throw new AppError(
+    commonErrors.configError,
+    500,
+    "To start the application, you need mail environment variable"
+  );
+}
+
 module.exports = {
   applicationName: process.env.APPLICATION_NAME ?? "app",
 
@@ -136,4 +148,10 @@ module.exports = {
   // instagramOauthSecurePassword: process.env.INSTAGRAM_OAUTH_CLIENT_SECRET,
 
   // instagramOauthRedirect: process.env.INSTAGRAM_OAUTH_REDIRECT,
+
+  mailAdmin: process.env.MAIL_ADMIN,
+
+  mailAdminPassword: process.env.MAIL_ADMIN_PASSWORD,
+
+  mailCodeExpiresIn: process.env.MAIL_CODE_EXPIRES_IN,
 };

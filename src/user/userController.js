@@ -11,6 +11,17 @@ const userController = {
       next(error);
     }
   },
+
+  async postUpdateProfile(req, res, next) {
+    try {
+      const { nickName, intro } = req.body;
+      const user = req.user;
+      await userServiceInstance.changeProfile(user, nickName, intro);
+      res.status(200).json(buildResponse(null));
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = userController;
