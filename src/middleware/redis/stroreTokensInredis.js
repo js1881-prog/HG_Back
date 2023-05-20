@@ -1,11 +1,11 @@
-const AppError = require("../../../misc/AppError");
-const commonErrors = require("../../../misc/commonErrors");
-const { setexAsync } = require("../../../util/connect/redis");
-const logger = require("../../../util/logger/logger");
+const AppError = require("../../misc/AppError");
+const commonErrors = require("../../misc/commonErrors");
+const logger = require("../../util/logger/logger");
+const { setexAsync } = require("../../util/connect/redis");
 const {
   redisAccessTokenExpiresIn,
   redisRefreshTokenExpiresIn,
-} = require("../../../config/dotenv");
+} = require("../../config/dotenv");
 
 const storeTokensInRedis = async (accessToken, refreshToken, user) => {
   const value = JSON.stringify({
@@ -21,7 +21,7 @@ const storeTokensInRedis = async (accessToken, refreshToken, user) => {
     throw new AppError(
       commonErrors.databaseError,
       500,
-      "Failed to store tokens in Redis"
+      "Internal Server Error"
     );
   }
 };

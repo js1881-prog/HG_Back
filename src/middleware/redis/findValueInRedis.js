@@ -1,7 +1,7 @@
-const AppError = require("../../../misc/AppError");
-const commonErrors = require("../../../misc/commonErrors");
-const { redis } = require("../../../util/connect/redis");
-const logger = require("../../../util/logger/logger");
+const AppError = require("../../misc/AppError");
+const commonErrors = require("../../misc/commonErrors");
+const logger = require("../../util/logger/logger");
+const { redis } = require("../../util/connect/redis");
 
 const findValueInRedis = async (key) => {
   const value = redis.get(key).catch((error) => {

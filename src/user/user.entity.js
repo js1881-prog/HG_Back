@@ -1,6 +1,5 @@
 const { EntitySchema } = require("typeorm");
-const User = require("./User");
-
+const { User } = require("./User");
 
 // +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
 // | Field        | Type          | Null | Key | Default           | Extra                                         |
@@ -15,6 +14,7 @@ const User = require("./User");
 // | intro        | varchar(1000) | NO   |     | NULL              |                                               |
 // | created_at   | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at   | timestamp     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// | deleted_at   | timestamp     | YES  |     | NULL              |                                               |
 // +--------------+---------------+------+-----+-------------------+-----------------------------------------------+
 const userSchema = new EntitySchema({
   name: "User",
@@ -25,13 +25,14 @@ const userSchema = new EntitySchema({
       type: "bigint",
       generated: "increment",
     },
-    nickname: {
+    nickName: {
       type: "varchar",
       nullable: true,
       unique: true,
       length: 100,
     },
-    user_name: {
+    userName: {
+      name: "user_name",
       type: "varchar",
       nullable: true,
     },
@@ -44,13 +45,15 @@ const userSchema = new EntitySchema({
       type: "varchar",
       nullable: false,
     },
-    phone_number: {
+    phoneNumber: {
+      name: "phone_number",
       type: "varchar",
       nullable: true,
       length: 20,
     },
     email: {
       type: "varchar",
+      unique: true,
       nullable: false,
       length: 100,
     },
@@ -58,14 +61,21 @@ const userSchema = new EntitySchema({
       type: "varchar",
       length: 1000,
     },
-    created_at: {
+    createdAt: {
+      name: "created_at",
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
     },
-    updated_at: {
+    updatedAt: {
+      name: "updated_at",
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
       onUpdate: "CURRENT_TIMESTAMP",
+    },
+    deletedAt: {
+      name: "deleted_at",
+      type: "timestamp",
+      nullable: true,
     },
   },
 
@@ -80,7 +90,7 @@ const userSchema = new EntitySchema({
   relations: {
     follow: {
       type: "many-to-many",
-      target: "User",
+      target: () => User,
       inverseSide: "followTarget",
       joinTable: {
         name: "follows",
@@ -115,7 +125,7 @@ const userSchema = new EntitySchema({
     //  Repository ex) user1.subscribe.push(user2); => user1 subscribe user2
     subscribe: {
       type: "many-to-many",
-      target: "User",
+      target: () => User,
       inverseSide: "subscribeTarget",
       joinTable: {
         name: "subscriptions",

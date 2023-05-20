@@ -7,7 +7,8 @@ class Image {
     imageUrl,
     imageName,
     createdDate,
-    updatedDate
+    updatedDate,
+    deletedDate
   ) {
     this.id = id;
     this.imageId = imageId;
@@ -17,6 +18,7 @@ class Image {
     this.imageName = imageName;
     this.created_at = createdDate || new Date();
     this.updated_at = updatedDate || new Date();
+    this.deletedDate = deletedDate || null;
   }
 }
 

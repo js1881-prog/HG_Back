@@ -1,5 +1,5 @@
 const { EntitySchema } = require("typeorm");
-const User = require("../user/User");
+const { User } = require("../user/User");
 const Schedule = require("./Schedule");
 
 // +------------+--------------+------+-----+-------------------+-----------------------------------------------+
@@ -12,6 +12,7 @@ const Schedule = require("./Schedule");
 // | end_date   | date         | NO   |     | NULL              |                                               |
 // | created_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
 // | updated_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+// | deleted_at | timestamp    | YES  |     | NULL              |                                               |
 // +------------+--------------+------+-----+-------------------+-----------------------------------------------+
 const scheduleSchema = new EntitySchema({
   name: "Schedule",
@@ -46,6 +47,10 @@ const scheduleSchema = new EntitySchema({
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
       onUpdate: "CURRENT_TIMESTAMP",
+    },
+    deleted_at: {
+      type: "timestamp",
+      nullable: true,
     },
   },
   relations: {
