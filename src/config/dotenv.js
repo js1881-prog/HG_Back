@@ -78,17 +78,20 @@ if (
   );
 }
 
-// if (
-//   process.env.INSTAGRAM_OAUTH_CLIENT_ID == undefined &&
-//   process.env.INSTAGRAM_OAUTH_CLIENT_SECRET == undefined &&
-//   process.env.INSTAGRAM_OAUTH_REDIRECT == undefined
-// ) {
-//   throw new AppError(
-//     commonErrors.configError,
-//     500,
-//     "To start the application, you need Instagram_Oauth environment variable"
-//   );
-// }
+
+if (
+  // process.env.INSTAGRAM_OAUTH_CLIENT_ID == undefined &&
+  // process.env.INSTAGRAM_OAUTH_CLIENT_SECRET == undefined &&
+  // process.env.INSTAGRAM_OAUTH_REDIRECT == undefined
+  process.env.MINIO_ACCESS_KEY === undefined &&
+  process.env.MINIO_SECRET_ACCESS_KEY == undefined 
+) {
+  throw new AppError(
+    commonErrors.configError,
+    500,
+    "To start the application, you need Minio environment variable"
+  );
+}
 
 if (
   process.env.MAIL_ADMIN == undefined &&
@@ -141,6 +144,10 @@ module.exports = {
 
   googleOauthSecurePassword: process.env.GOOGLE_OAUTH_SECURE_PASSWORD,
 
+  minioAccessKeyId: process.env.MINIO_ACCESS_KEY,
+
+  minioSecretAccessKey: process.env.MINIO_SECRET_ACCESS_KEY,
+  
   googleOauthRedirect: process.env.GOOGLE_OAUTH_REDIRECT,
 
   // instagramOauthClientId: process.env.INSTAGRAM_OAUTH_CLIENT_ID,

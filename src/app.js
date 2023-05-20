@@ -41,6 +41,8 @@ const createApp = async () => {
 
   expressApp.use("/api/v1", apiRouter.v1);
 
+  expressApp.use(express.static('public'));
+
   expressApp.get("/health", (req, res, next) => {
     res.json({
       status: "OK",
