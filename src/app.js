@@ -49,6 +49,16 @@ const createApp = async () => {
     });
   });
 
+  // expressApp.get("/test", async (req, res, next) => {
+  //   try {
+  //     //res.sendFile(__dirname + "/trip.html");
+  //     //res.sendFile(__dirname + "/image.html");
+  //     res.sendFile(__dirname + "/minio.html");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // });
+
   // Set URL Not found Handler
   expressApp.use((req, res, next) => {
     next(
@@ -59,6 +69,7 @@ const createApp = async () => {
       )
     );
   });
+
 
   // Set Error Handler
   expressApp.use((error, req, res, next) => {

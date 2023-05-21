@@ -20,7 +20,8 @@
     <input type="text" name="end_at" id="end_at" placeholder="end_at">
     <input type="text" name="hashtag" id="hashtag" placeholder="hashtag">
     <input type="text" name="hidden" id="hidden" placeholder="hidden">
-    <input type="file" name="thumbnail" id="thumbnail" multiple>
+    <input type="text" name="thumbnail" id="thumbnail" placeholder="thumbnail">
+    <!-- <input type="file" name="thumbnail" id="thumbnail" multiple> -->
     <button type="submit">Submit</button>
   </form>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -39,18 +40,19 @@
       formData.append('end_at', document.getElementById('end_at').value);
       formData.append('hashtag', document.getElementById('hashtag').value);
       formData.append('hidden', document.getElementById('hidden').value);
+      formData.append('thumbnail', document.getElementById('thumbnail').value);
 
-      const thumbnail = document.getElementById('thumbnail').files[0];
-      if (thumbnail) {
-        formData.append('thumbnail', thumbnail);
-      }
+      // const thumbnail = document.getElementById('thumbnail').files[0];
+      // if (thumbnail) {30
+      // }
 
       alert(formData);
 
       axios({
-        url: "http://localhost:3000/api/v1/trip",    // 이미지 저장을 위해 back서버와 통신
+        url: "http://localhost:8080/api/v1/trip",    // 이미지 저장을 위해 back서버와 통신
         method: "POST",
-        headers: {'Content-Type': 'multipart/form-data'},    // 이걸 써줘야 formdata 형식 전송가능
+        //headers: {'Content-Type': 'multipart/form-data'},    // 이걸 써줘야 formdata 형식 전송가능
+        headers: {'Content-Type': 'application/json'},
         data: formData,
       }).then(res => {
         console.log(res.data.message);

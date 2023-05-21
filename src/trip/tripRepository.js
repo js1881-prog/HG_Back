@@ -39,6 +39,24 @@ const tripRepository = {
       );
     }
   },
+
+  async findImageById(tripId) {
+    try {
+      const tripsRepository = typeORMDataSource.getRepository(tripSchema);
+      const result = tripsRepository.findOneBy({
+        id: tripId,
+      });
+      return result;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
 };
 
 module.exports = tripRepository;
