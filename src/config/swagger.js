@@ -6,16 +6,15 @@ const options = {
     openapi: "3.0.0",
     info: {
       version: "1.0.0",
-      title: "곧 죽어도 개발한다",
-      description: "프로젝트 설명 Node.js RestFul API 클라이언트 UI",
+      title: "TripSketch",
     },
     servers: [
       {
-        url: "http://localhost:3000", // 요청 URL
+        url: "https://tripsketch.onrender.com/",
       },
     ],
   },
-  apis: ["../router/*.js", "./swagger.js", "../app.js"], //Swagger 파일 연동
+  apis: ["./src/router/*.js"],
 };
 const specs = swaggereJsdoc(options);
 
