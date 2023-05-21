@@ -78,7 +78,6 @@ if (
   );
 }
 
-
 if (
   // process.env.INSTAGRAM_OAUTH_CLIENT_ID == undefined &&
   // process.env.INSTAGRAM_OAUTH_CLIENT_SECRET == undefined &&
@@ -86,7 +85,7 @@ if (
   process.env.MINIO_ACCESS_KEY === undefined &&
   process.env.MINIO_SECRET_ACCESS_KEY == undefined &&
   process.env.MINIO_END_POINT == undefined &&
-  process.env.MINIO_PORT == undefined 
+  process.env.MINIO_PORT == undefined
 ) {
   throw new AppError(
     commonErrors.configError,
@@ -130,7 +129,7 @@ module.exports = {
 
   redisHost: process.env.REDIS_HOST,
 
-  redisUri: process.env.REDIS_URL,
+  redisUrl: process.env.REDIS_URL,
 
   jwtSecret: process.env.JWT_SECRET,
 
@@ -151,9 +150,9 @@ module.exports = {
   minioSecretAccessKey: process.env.MINIO_SECRET_ACCESS_KEY,
 
   minioPort: parseInt(process.env.MINIO_PORT),
- 
+
   minioEndPoint: process.env.MINIO_END_POINT,
-  
+
   googleOauthRedirect: process.env.GOOGLE_OAUTH_REDIRECT,
 
   // instagramOauthClientId: process.env.INSTAGRAM_OAUTH_CLIENT_ID,
