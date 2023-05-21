@@ -2,5 +2,3 @@
 node_modules
 https/cert.crt
 https/cert.key
-src/util/connect/
-src/trip/trip.entity.js

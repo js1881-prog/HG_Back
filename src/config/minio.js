@@ -1,7 +1,7 @@
-const { minioAccessKeyId, minioSecretAccessKey } = require("../config/dotenv");
+const { minioEndPoint, minioAccessKeyId, minioSecretAccessKey } = require("../config/dotenv");
 const Minio = require('minio');
 const minioClient = new Minio.Client({
-  endPoint: 'localhost',
+  endPoint: minioEndPoint,
   port: 9000,
   useSSL: false,
   accessKeyId: minioAccessKeyId,

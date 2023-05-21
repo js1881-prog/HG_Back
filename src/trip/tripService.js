@@ -6,6 +6,11 @@ const TripService = {
     return createTrips;
   },
 
+  async getTrip(tripId){
+    const getTrip = await tripRepository.findImageById(tripId);
+    return getTrip;
+  },
+
 }
 
 module.exports = TripService;
