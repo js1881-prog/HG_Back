@@ -85,7 +85,8 @@ if (
   // process.env.INSTAGRAM_OAUTH_REDIRECT == undefined
   process.env.MINIO_ACCESS_KEY === undefined &&
   process.env.MINIO_SECRET_ACCESS_KEY == undefined &&
-  process.env.MINIO_END_POINT == undefined
+  process.env.MINIO_END_POINT == undefined &&
+  process.env.MINIO_PORT == undefined 
 ) {
   throw new AppError(
     commonErrors.configError,
@@ -148,7 +149,9 @@ module.exports = {
   minioAccessKeyId: process.env.MINIO_ACCESS_KEY,
 
   minioSecretAccessKey: process.env.MINIO_SECRET_ACCESS_KEY,
-  
+
+  minioPort: parseInt(process.env.MINIO_PORT),
+ 
   minioEndPoint: process.env.MINIO_END_POINT,
   
   googleOauthRedirect: process.env.GOOGLE_OAUTH_REDIRECT,
