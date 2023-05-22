@@ -17,7 +17,7 @@ imageRouter.get("/detail", imageController.getImage);
 
 /**
  * @swagger
- * /api/v1/image/minio:
+ * /api/v1/images/minio:
  *   post:
  *     summary: Create a new image
  *     tags: [image]
@@ -64,7 +64,7 @@ imageRouter.get("/detail", imageController.getImage);
 
 /**
  * @swagger
- * /api/v1/image:
+ * /api/v1/images:
  *   put:
  *     summary: Update a image
  *     tags: [image]
@@ -165,7 +165,7 @@ imageRouter.get("/detail", imageController.getImage);
 
 /**
  * @swagger
- * /api/v1/image/detail:
+ * /api/v1/images/detail:
 *   get:
  *     summary: Get all images
  *     description: 이미지 ID를 사용, 이미지를 가져오기.
