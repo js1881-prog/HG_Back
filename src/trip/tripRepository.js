@@ -40,7 +40,7 @@ const tripRepository = {
     }
   },
 
-  async findImageById(tripId) {
+  async findTripById(tripId) {
     try {
       const tripsRepository = typeORMDataSource.getRepository(tripSchema);
       const result = tripsRepository.findOneBy({
@@ -57,6 +57,42 @@ const tripRepository = {
     }
   },
 
+  async findTripAll() {
+    try {
+      const tripsRepository = typeORMDataSource.getRepository(tripSchema);
+      const result = tripsRepository.find();
+      return result;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
+  async updateTrip(tripId, tripData) {
+    try {
+      console.log(tripId);
+      const tripsRepository = typeORMDataSource.getRepository(tripSchema);
+      const tripFind = await tripsRepository.findOneBy({
+        id: tripId,
+      });
+      console.log(tripFind);
+
+      typeORMDataSource.merge(tripFind, tripData);
+      const result = await tripsRepository.save(tripFind);
+      return result;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
 };
 
 module.exports = tripRepository;

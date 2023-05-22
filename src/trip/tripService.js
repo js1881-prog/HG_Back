@@ -7,8 +7,18 @@ const TripService = {
   },
 
   async getTrip(tripId){
-    const getTrip = await tripRepository.findImageById(tripId);
+    const getTrip = await tripRepository.findTripById(tripId);
     return getTrip;
+  },
+
+  async getAllTrips(){
+    const getTrips = await tripRepository.findTripAll();
+    return getTrips;
+  },
+
+  async updateTrip(tripId, tripData){
+    const updateTrip = await tripRepository.updateTrip(tripId, tripData);
+    return updateTrip;
   },
 
 }

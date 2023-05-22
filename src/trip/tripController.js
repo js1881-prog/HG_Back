@@ -25,7 +25,9 @@ const tripController = {
       console.log(tripData);
 
       const trip = await tripService.createTrip(tripData);
-      res.status(200).json(buildResponse(null, trip));
+
+      console.log(trip);
+      res.status(200).json(buildResponse(trip, null));
     } catch (error) {
       logger.error(error);
       next(error);
@@ -42,6 +44,42 @@ const tripController = {
       next(error);
     }
   },
+
+  async getTrips(req, res, next) {
+    try {
+      const trip = await tripService.getAllTrips();
+      res.status(200).json(buildResponse(null, trip));
+    } catch (error) {
+      logger.error(error);
+      next(error);
+    }
+  },
+  
+  async updateTrip(req, res, next) {
+    try {
+      const tripId = req.query.id;
+      const { schedule_id, title, content, location, thumbnail, started_at, end_at, hashtag, hidden } = req.body;
+      //const { user_id } = req.user.id;
+      const tripData = {
+        user_id : 3,
+        schedule_id,
+        title,
+        content,
+        location,
+        thumbnail,
+        started_at,
+        end_at,
+        hashtag,
+        hidden,
+      };
+      const trip = await tripService.updateTrip(tripId, tripData);
+      res.status(200).json(buildResponse(null, trip));
+    } catch (error) {
+      logger.error(error);
+      next(error);
+    }
+  },
+
 };
 
 module.exports = tripController;
