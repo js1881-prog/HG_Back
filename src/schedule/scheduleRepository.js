@@ -1,5 +1,5 @@
 const typeORMDataSource = require("../util/connect/typeorm");
-const scheduleSchema = require("../entities/schedule.entity");
+const scheduleSchema = require("./schedule.entity");
 const logger = require("../util/logger/logger");
 const AppError = require("../misc/AppError");
 const commonErrors = require("../misc/commonErrors");

@@ -10,10 +10,10 @@ imageRouter.get("/detail", imageController.getImage);
 
 /**
  * @swagger
- * /api/getImage:
+ * /api/v1/image/:
  *   get:
- *     summary: 이미지 가져오기
- *     description: 이미지 ID를 사용하여 이미지를 가져옵니다.
+ *     summary: 이미지 불러오기
+ *     description: 이미지 ID를 사용, 이미지를 가져오기.
  *     parameters:
  *       - in: query
  *         name: id
