@@ -1,12 +1,15 @@
 const commentService = require("./commentService");
-const logger = require("../util/logger/logger");
+
 const buildResponse = require("../util/response/buildResponse");
+
+const AppError = require("../misc/AppError");
+const commonErrors = require("../misc/commonErrors");
 
 const commentController = {
   async createComment(req, res, next) {
     try {
       const { content, tripId } = req.body;
-      const userId = req.user.id;
+      const { id: userId } = req.user;
       const newComment = await commentService.createComment({
         user_id: userId,
         content,
@@ -22,12 +25,29 @@ const commentController = {
     try {
       const commentId = req.params.commentId;
       const comment = await commentService.getCommentById(commentId);
+      if (!comment) {
+        next(
+          new AppError(
+            commonErrors.resourceNotFoundError,
+            404,
+            "Comment not found"
+          )
+        );
+      }
       res.status(200).json(buildResponse(comment));
     } catch (error) {
       next(error);
     }
   },
-
+  async getCommentsByTripId(req, res, next) {
+    try {
+      const tripId = req.params.tripId;
+      const comments = await commentRepository.getCommentsByTripId(tripId);
+      res.status(200).json(buildResponse(comments));
+    } catch (error) {
+      next(error);
+    }
+  },
   async updateComment(req, res, next) {
     try {
       const commentId = req.params.commentId;
@@ -36,6 +56,15 @@ const commentController = {
         commentId,
         updatedComment
       );
+      if (!comment) {
+        next(
+          new AppError(
+            commonErrors.resourceNotFoundError,
+            404,
+            "Comment not found"
+          )
+        );
+      }
       res.status(200).json(buildResponse(comment));
     } catch (error) {
       next(error);
@@ -55,7 +84,7 @@ const commentController = {
     try {
       const commentId = req.params.commentId;
       await commentService.deleteComment(commentId);
-      res.status(204).send();
+      res.sendStatus(204);
     } catch (error) {
       next(error);
     }
