@@ -168,6 +168,7 @@ imageRouter.get("/detail", imageController.getImage);
  * /api/v1/images/detail:
 *   get:
  *     summary: Get all images
+ *     tags: [image]
  *     description: 이미지 ID를 사용, 이미지를 가져오기.
  *     parameters:
  *       - in: query
