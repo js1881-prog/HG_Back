@@ -1,4 +1,3 @@
-// db 검색 쿼리 생성
 const typeORMDataSource = require("../util/connect/typeorm");
 const Comment = require("../comment/comment.entity");
 
@@ -6,11 +5,16 @@ const logger = require("../util/logger/logger");
 const AppError = require("../misc/AppError");
 const commonErrors = require("../misc/commonErrors");
 
+const repository = typeORMDataSource.getRepository(Comment);
+
 const commentRepository = {
+  /**
+   * Creates a new comment.
+   * @param {Object} comment - The comment object.
+   * @returns {Object} The created comment.
+   */
   async create(comment) {
-    // create new comment
     try {
-      const repository = typeORMDataSource.getRepository(Comment);
       const newComment = repository.create(comment);
       await repository.save(newComment);
       return newComment;
@@ -23,11 +27,13 @@ const commentRepository = {
       );
     }
   },
-
+  /**
+   * Finds a comment by comment ID.
+   * @param {string} commentId - The ID of the comment to find.
+   * @returns {Object} The found comment.
+   */
   async findById(commentId) {
-    // find by comment id
     try {
-      const repository = typeORMDataSource.getRepository(Comment);
       const comment = await repository.findOne({ id: commentId });
       return comment;
     } catch (error) {
@@ -39,11 +45,13 @@ const commentRepository = {
       );
     }
   },
-
+  /**
+   * Finds comments by trip ID.
+   * @param {string} tripId - The ID of the trip to find comments for.
+   * @returns {Array} An array of comments.
+   */
   async findByTripId(tripId) {
-    // find by trip id
     try {
-      const repository = typeORMDataSource.getRepository(Comment);
       const comments = await repository.find({ where: { trip_id: tripId } });
       return comments;
     } catch (error) {
@@ -55,11 +63,14 @@ const commentRepository = {
       );
     }
   },
-
+  /**
+   * Updates a comment by comment ID.
+   * @param {string} commentId - The ID of the comment to update.
+   * @param {Object} updatedComment - The updated comment object.
+   * @returns {Object} The updated comment.
+   */
   async update(commentId, updatedComment) {
-    // update comment
     try {
-      const repository = typeORMDataSource.getRepository(Comment);
       const commentToUpdate = await repository.findOne(commentId);
       if (!commentToUpdate) {
         throw new AppError(
@@ -79,11 +90,12 @@ const commentRepository = {
       );
     }
   },
-
+  /**
+   * Retrieves all comments.
+   * @returns {Array} An array of comments.
+   */
   async getAllComment() {
-    // get all comment
     try {
-      const repository = typeORMDataSource.getRepository(Comment);
       const allComment = await repository.find();
       return allComment;
     } catch (error) {
@@ -95,10 +107,12 @@ const commentRepository = {
       );
     }
   },
+  /**
+   * Deletes a comment by comment ID.
+   * @param {string} commentId - The ID of the comment to delete.
+   */
   async delete(commentId) {
-    // delete comment
     try {
-      const repository = typeORMDataSource.getRepository(Comment);
       const commentToDelete = await repository.findOne(commentId);
       if (!commentToDelete) {
         throw new AppError(
