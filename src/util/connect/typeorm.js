@@ -12,7 +12,7 @@ const {
 } = require("../../config/dotenv");
 
 const typeORMDataSource = new DataSource({
-  type: "mysql",
+  type: "postgres",
   host: mysqlHost,
   port: mysqlPort,
   username: mysqlUser,
@@ -20,6 +20,9 @@ const typeORMDataSource = new DataSource({
   database: mysqlDatabase,
   synchronize: typeORMSynchronizeSetting,
   logging: false,
+  extra: {
+    ssl: true,
+  },
   entities: [
     join(__dirname, "../../user/user.entity.js"),
     join(__dirname, "../../trip/trip.entity.js"),
@@ -35,7 +38,7 @@ typeORMDataSource
   .then(() => {
     logger.info("typeORM has been initialized");
   })
-  .catch((err) => {
+  .catch(err => {
     logger.error(`Failed to initialize typeORM Data Source: ${err.message}`);
   });
 

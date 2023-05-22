@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .forms > input {display : block; margin-bottom:5px;}
+  </style>
+</head>
+<body>
+  <form class="forms" method="post" action="/api/v1/trip" enctype="multipart/form-data">
+    <input type="text" name="user_id" id="user_id" placeholder="user_id">
+    <input type="text" name="schedule_id" id="schedule_id" placeholder="schedule_id">
+    <input type="text" name="title" id="title" placeholder="title">
+    <input type="text" name="content" id="content" placeholder="content">
+    <input type="text" name="location" id="location" placeholder="location">
+    <input type="text" name="started_at" id="started_at" placeholder="started_at">
+    <input type="text" name="end_at" id="end_at" placeholder="end_at">
+    <input type="text" name="hashtag" id="hashtag" placeholder="hashtag">
+    <input type="text" name="hidden" id="hidden" placeholder="hidden">
+    <input type="text" name="thumbnail" id="thumbnail" placeholder="thumbnail">
+    <!-- <input type="file" name="thumbnail" id="thumbnail" multiple> -->
+    <button type="submit">Submit</button>
+  </form>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append('user_id', document.getElementById('user_id').value);
+      formData.append('schedule_id', document.getElementById('schedule_id').value);
+      formData.append('title', document.getElementById('title').value);
+      formData.append('content', document.getElementById('content').value);
+      formData.append('location', document.getElementById('location').value);
+      formData.append('started_at', document.getElementById('started_at').value);
+      formData.append('end_at', document.getElementById('end_at').value);
+      formData.append('hashtag', document.getElementById('hashtag').value);
+      formData.append('hidden', document.getElementById('hidden').value);
+      formData.append('thumbnail', document.getElementById('thumbnail').value);
+
+      // const thumbnail = document.getElementById('thumbnail').files[0];
+      // if (thumbnail) {30
+      // }
+
+      alert(formData);
+
+      axios({
+        url: "http://localhost:8080/api/v1/trip",    // 이미지 저장을 위해 back서버와 통신
+        method: "POST",
+        //headers: {'Content-Type': 'multipart/form-data'},    // 이걸 써줘야 formdata 형식 전송가능
+        headers: {'Content-Type': 'application/json'},
+        data: formData,
+      }).then(res => {
+        console.log(res.data.message);
+      }).catch(err => {
+        alert(err);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -41,10 +41,22 @@ const createApp = async () => {
 
   expressApp.use("/api/v1", apiRouter.v1);
 
+  expressApp.use(express.static('public'));
+
   expressApp.get("/health", (req, res, next) => {
     res.json({
       status: "OK",
     });
+  });
+
+  expressApp.get("/test", async (req, res, next) => {
+    try {
+      //res.sendFile(__dirname + "/trip.html");
+      //res.sendFile(__dirname + "/image.html");
+      res.sendFile(__dirname + "/minio.html");
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   // Set URL Not found Handler
@@ -57,6 +69,7 @@ const createApp = async () => {
       )
     );
   });
+
 
   // Set Error Handler
   expressApp.use((error, req, res, next) => {

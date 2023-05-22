@@ -1,11 +1,10 @@
 const Redis = require("redis");
-const { redisPort, redisHost } = require("../../config/dotenv");
+const { redisUrl } = require("../../config/dotenv");
 const logger = require("../logger/logger");
 const { promisify } = require("util");
 
 const redis = Redis.createClient({
-  port: redisPort,
-  host: redisHost,
+  url: redisUrl,
 });
 
 const setexAsync = promisify(redis.setEx).bind(redis);
@@ -25,7 +24,7 @@ redis.on("end", () => {
   logger.info("Redis client disconnected");
 });
 
-redis.on("error", (err) => {
+redis.on("error", err => {
   logger.error("Redis error:", err);
 });
 

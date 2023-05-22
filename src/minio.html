@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .forms > input {display : block; margin-bottom:5px;}
+  </style>
+</head>
+<body>
+  <form class="forms" method="post" action="/api/v1/images/minio">
+    <input type="text" name="user_id" id="user_id" placeholder="user_id">
+    <input type="file" name="image" id="image" placeholder="image">
+    <button type="submit">Submit</button>
+  </form>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append('image', document.getElementById('image').files[0]);
+
+      console.log(formData);
+
+      axios({
+        url: "https://tripsketch.onrender.com/api/v1/images/minio",    // 이미지 저장을 위해 back서버와 통신
+        method: "POST",
+        headers: {'Content-Type': 'multipart/form-dWata'},   
+        data: formData,
+      }).then(res => {
+        console.log(res.data.message);
+      }).catch(err => {
+        alert(err);
+      });
+    });
+  </script>
+</body>
+</html>
