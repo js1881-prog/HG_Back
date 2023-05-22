@@ -14,7 +14,7 @@ const userController = {
     }
   },
 
-  async postUpdateProfile(req, res, next) {
+  async putUpdateProfile(req, res, next) {
     try {
       const { nickName, intro } = req.body;
       const user = req.user;
@@ -24,7 +24,7 @@ const userController = {
       next(error);
     }
   },
-
+  
   async getProfile(req, res, next) {
     try {
       const userName = req.body && req.body.userName ? req.body.userName : req.user.name;
