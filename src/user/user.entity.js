@@ -111,10 +111,11 @@ const userSchema = new EntitySchema({
     },
     followTarget: {
       type: "many-to-many",
-      target: "User",
-      inverseSide: "follow",
+      target: () => User,
+      joinColumn: { name: 'target', referencedColumnName: 'id' },
+      inverseJoinColumn: { name: 'follow', referencedColumnName: 'id' },
+      inverseSide: 'follow'
     },
-
     //    Create subscriptions table
     //  +------------+--------+------+-----+---------+-------+
     //  | Field      | Type   | Null | Key | Default | Extra |
