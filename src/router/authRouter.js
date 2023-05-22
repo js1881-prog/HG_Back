@@ -402,10 +402,13 @@ authRouter.post(
  *     produces:
  *       - application/json
  *     parameters:
- *       - in: query
- *         name: email
+ *       - in: body
+ *         name: body
  *         schema:
- *           type: string
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
  *         required: true
  *         description: Verification code will be sent to this email.
  *     responses:
@@ -474,13 +477,16 @@ authRouter.get(
  *     produces:
  *       - application/json
  *     parameters:
- *       - in: query
- *         name: code
+ *       - in: body
+ *         name: body
  *         schema:
- *           type: string
+ *           type: object
+ *           properties:
+ *             code:
+ *               type: string
  *         required: true
  *         description: The code to verify the email.
-*     responses:
+ *     responses:
  *       200:
  *         description: Successfully verified the email code and returned the user's name.
  *         content:
@@ -495,7 +501,7 @@ authRouter.get(
  *                 data:
  *                   type: object
  *                   description: The username associated with the email.
- *                   exapmle: { userName : string }
+ *                   example: { userName: string }
  *       400:
  *         description: Bad Request. Invalid or missing parameters.
  *         schema:
