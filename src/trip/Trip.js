@@ -1,38 +1,38 @@
 class Trip {
   constructor(
     id,
-    userId,
-    scheduleId,
+    user_id,
+    schedule_id,
     title,
     content,
     likes,
     views,
     location,
     thumbnail,
-    startedDate,
-    endDate,
+    started_at,
+    end_at,
     hashtag,
     hidden,
-    createdDate,
-    updatedDate,
-    deletedDate
+    created_at,
+    updated_at,
+    deleted_at
   ) {
     this.id = id;
-    this.userId = userId;
-    this.scheduleId = scheduleId;
+    this.user_id = user_id;
+    this.schedule_id = schedule_id || null;
     this.title = title;
     this.content = content;
     this.likes = likes;
     this.views = views;
     this.location = location;
     this.thumbnail = thumbnail;
-    this.started_at = startedDate;
-    this.end_at = endDate;
+    this.started_at = started_at;
+    this.end_at = end_at;
     this.hashtag = hashtag;
     this.hidden = hidden;
-    this.created_at = createdDate || new Date();
-    this.updated_at = updatedDate || new Date();
-    this.deleted_at = deletedDate || null;
+    this.created_at = created_at || new Date();
+    this.updated_at = updated_at || new Date();
+    this.deleted_at = deleted_at || null;
   }
 }
 

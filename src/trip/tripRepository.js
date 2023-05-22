@@ -3,33 +3,14 @@ const tripSchema = require("./trip.entity");
 const logger = require("../util/logger/logger");
 const AppError = require("../misc/AppError");
 const commonErrors = require("../misc/commonErrors");
+const repository = typeORMDataSource.getRepository(tripSchema);
 
 const tripRepository = {
   async create(tripData) {
     try {
-      const tripsRepository = await typeORMDataSource.query(
-      `
-      INSERT INTO trips (
-        user_id, schedule_id, title, content, likes, views, location, thumbnail, started_at, end_at, hashtag, hidden
-      ) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
-      `,
-        [
-          tripData.user_id,
-          tripData.schedule_id !== '' ? tripData.schedule_id : null,
-          tripData.title,
-          tripData.content,
-          tripData.likes,
-          tripData.views,
-          tripData.location,
-          tripData.thumbnail,
-          tripData.started_at,
-          tripData.end_at,
-          tripData.hashtag,
-          tripData.hidden,
-        ]
-      );
-      return tripsRepository;
+      const tripRepository = repository.create(tripData);
+      await repository.save(tripRepository);
+      return tripRepository;
     } catch (error) {
       logger.info(error);
       throw new AppError(
@@ -42,8 +23,7 @@ const tripRepository = {
 
   async findTripById(tripId) {
     try {
-      const tripsRepository = typeORMDataSource.getRepository(tripSchema);
-      const result = tripsRepository.findOneBy({
+      const result = repository.findOneBy({
         id: tripId,
       });
       return result;
@@ -59,8 +39,7 @@ const tripRepository = {
 
   async findTripAll() {
     try {
-      const tripsRepository = typeORMDataSource.getRepository(tripSchema);
-      const result = tripsRepository.find();
+      const result = repository.find();
       return result;
     } catch (error) {
       logger.info(error);
@@ -72,17 +51,28 @@ const tripRepository = {
     }
   },
 
-  async updateTrip(tripId, tripData) {
+  async update(tripId, tripData) {
     try {
       console.log(tripId);
-      const tripsRepository = typeORMDataSource.getRepository(tripSchema);
-      const tripFind = await tripsRepository.findOneBy({
+      const tripFind = await repository.findOneBy({
         id: tripId,
       });
-      console.log(tripFind);
 
-      typeORMDataSource.merge(tripFind, tripData);
-      const result = await tripsRepository.save(tripFind);
+      await repository.update(tripId, tripData);
+      return tripFind;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
+  async delete(tripId) {
+    try {
+      const result = repository.delete(tripId);
       return result;
     } catch (error) {
       logger.info(error);
