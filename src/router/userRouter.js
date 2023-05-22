@@ -137,4 +137,11 @@ userRouter.post(
   userController.postUpdateProfile
 );
 
+userRouter.get(
+  "/detail",
+  extract.bearerToken,
+  extract.decodeBearerToken,
+  userController.getProfile
+);
+
 module.exports = userRouter;

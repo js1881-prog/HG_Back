@@ -9,8 +9,9 @@ const {
 
 const storeTokensInRedis = async (accessToken, refreshToken, user) => {
   const value = JSON.stringify({
-    sub: user.id,
     name: user.name,
+    email: user.email,
+    role: user.role,
     iat: Math.floor(Date.now() / 1000),
   });
   try {
