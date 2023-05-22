@@ -4,7 +4,6 @@ const imageRouter = express.Router();
 const extract = require("../middleware/extract");
 const upload = require("../config/s3.js");
 
-//imageRouter.post("/upload", imageController.postImage);
 imageRouter.post("/minio", upload.single("image"), imageController.postMinio);
 imageRouter.get("/detail", imageController.getImage);
 
@@ -114,13 +113,6 @@ imageRouter.get("/detail", imageController.getImage);
  *   get:
  *     summary: Get all images
  *     tags: [image]
- *     parameters:
- *       - name: id
- *         in: query
- *         description: ID of the image to retrieve
- *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Successfully retrieved the image

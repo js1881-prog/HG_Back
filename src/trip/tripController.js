@@ -5,12 +5,12 @@ const tripService = require("./tripService.js");
 const tripController = {
   async postTrip(req, res, next) {
     try {
-      //const { user_id } = req.user.id;
-      const { schedule_id, title, content, location, thumbnail, started_at, end_at, hashtag, hidden } = req.body;
-
+      //const userId = req.user.id;
+      const { scheduleId, title, content, location, thumbnail, started_at, end_at, hashtag, hidden } = req.body;
       const tripData = {
+        // user_id : userId,
         user_id : 3,
-        schedule_id,
+        scheduleId,
         title,
         content,
         likes : 0,
@@ -25,8 +25,6 @@ const tripController = {
       console.log(tripData);
 
       const trip = await tripService.createTrip(tripData);
-
-      console.log(trip);
       res.status(200).json(buildResponse(trip, null));
     } catch (error) {
       logger.error(error);
@@ -37,8 +35,8 @@ const tripController = {
   async getTrip(req, res, next) {
     try {
       const tripId = req.query.id;
-      const trip = await tripService.getTrip(tripId);
-      res.status(200).json(buildResponse(null, trip));
+      const trip = await tripService.getTripById(tripId);
+      res.status(200).json(buildResponse(trip, null));
     } catch (error) {
       logger.error(error);
       next(error);
@@ -48,7 +46,7 @@ const tripController = {
   async getTrips(req, res, next) {
     try {
       const trip = await tripService.getAllTrips();
-      res.status(200).json(buildResponse(null, trip));
+      res.status(200).json(buildResponse(trip, null));
     } catch (error) {
       logger.error(error);
       next(error);
@@ -59,8 +57,9 @@ const tripController = {
     try {
       const tripId = req.query.id;
       const { schedule_id, title, content, location, thumbnail, started_at, end_at, hashtag, hidden } = req.body;
-      //const { user_id } = req.user.id;
+      //const userId = req.user.id;
       const tripData = {
+        //user_id : userId,
         user_id : 3,
         schedule_id,
         title,
@@ -69,11 +68,23 @@ const tripController = {
         thumbnail,
         started_at,
         end_at,
+        updated_at : new Date(),
         hashtag,
         hidden,
       };
       const trip = await tripService.updateTrip(tripId, tripData);
-      res.status(200).json(buildResponse(null, trip));
+      res.status(200).json(buildResponse(trip, null));
+    } catch (error) {
+      logger.error(error);
+      next(error);
+    }
+  },
+
+  async deleteTrip(req, res, next) {
+    try {
+      const tripId = req.query.id;
+      const trip = await tripService.deleteTrip(tripId);
+      res.status(200).json(buildResponse(trip, null));
     } catch (error) {
       logger.error(error);
       next(error);
