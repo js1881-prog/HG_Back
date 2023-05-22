@@ -12,6 +12,7 @@ const userService = (
   User,
   UserBuilder,
   userRepository,
+  followRepository,
   AppError,
   commonErrors,
   logger,
@@ -82,6 +83,23 @@ const userService = (
       intro: intro,
     });
     return updatedUser;
+  },
+
+  searchInfo: async (userName) => {
+    const user = await userRepository.findByName(userName);
+    const followsCount = await followRepository.findFollowsCountById(user.id);
+    const followersCount = await followRepository.findFollowersCountById(
+      user.id
+    );
+    return {
+      userEmail: user.email,
+      follows: followsCount,
+      followers: followersCount,
+      userName: user.name,
+      userIntro: user.intro,
+      // TODO => add user`s profile uri
+      // TODO => add user`s trip list
+    };
   },
 });
 
