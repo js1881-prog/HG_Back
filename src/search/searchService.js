@@ -1,32 +1,22 @@
-// 실제 검색 로직
-const searchRepository = require("./searchRepository");
-const logger = require("../util/logger/logger");
-const AppError = require("../misc/AppError");
-const commonErrors = require("../misc/commonErrors");
+/**
+ * searchService,
+ * @param {Object} searchRepository - The search repository object.
+ * @param {Function} AppError - The AppError class.
+ * @param {Object} commonErrors - The commonErrors object.
+ * @param {Object} logger - The logger object.
+ * @returns {Object} The search service object.
+ */
 
-const searchService = {
-  async search(searchText) {
-    try {
-      const searchResult = await searchRepository.search(searchText);
-
-      if (!searchResult) {
-        throw new AppError(
-          commonErrors.resourceNotFoundError,
-          404,
-          "Resource Not Found Error"
-        );
-      }
-
-      return searchResult;
-    } catch (error) {
-      logger.error(error);
-      throw new AppError(
-        commonErrors.databaseError,
-        500,
-        "Internal Server Error"
-      );
-    }
+const searchService = (searchRepository, AppError, commonErrors, logger) => ({
+  /**
+   * Search trips by keyword.
+   * @param {string} keyword - The keyword to search for.
+   * @returns {Array} The matching trips.
+   */
+  search: async (keyword) => {
+    const trips = await searchRepository.search(keyword);
+    return trips;
   },
-};
+});
 
 module.exports = searchService;
