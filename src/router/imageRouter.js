@@ -4,9 +4,6 @@ const imageRouter = express.Router();
 const extract = require("../middleware/extract");
 const upload = require("../config/s3.js");
 
-imageRouter.post("/minio", upload.single("image"), imageController.postMinio);
-imageRouter.get("/detail", imageController.getImage);
-
 /**
  * @swagger
  * tags:
@@ -27,17 +24,14 @@ imageRouter.get("/detail", imageController.getImage);
  *           schema:
  *             type: object
  *             properties:
- *               user_id:
- *                 type: string
  *               image_url:
  *                 type: string
  *               image_name:
  *                 type: string
  *                 format: date-time
  *             example:
- *               user_id: "12345"
- *               image_url: "Meeting"
- *               image_name: "2023-05-23T10:00:00Z"
+ *               image_url: "image/16847499509811630652987056_0.jpg"
+ *               image_name: "16847499509811630652987056_0.jpg "
  *     responses:
  *       200:
  *         description: Successfully created the image
@@ -49,14 +43,11 @@ imageRouter.get("/detail", imageController.getImage);
  *                 image:
  *                   type: object
  *                   properties:
- *                     user_id:
- *                       type: number
  *                     image_url:
  *                       type: string
  *                     image_name:
  *                       type: string
  *                   example:
- *                     userId: 3
  *                     image_url: "image/16847499509811630652987056_0.jpg"
  *                     image_name: "16847499509811630652987056_0.jpg "
  */
@@ -99,14 +90,11 @@ imageRouter.get("/detail", imageController.getImage);
  *                 image:
  *                   type: object
  *                   properties:
- *                     user_id:
- *                       type: number
  *                     image_url:
  *                       type: string
  *                     image_name:
  *                       type: string
  *                   example:
- *                     user_id: 3
  *                     image_url: "image/16847499509811630652987056_0.jpg"
  *                     image_name: "16847499509811630652987056_0.jpg " 
  *
@@ -121,16 +109,15 @@ imageRouter.get("/detail", imageController.getImage);
  *             schema:
  *               type: object
  *               properties:
- *                 user_id:
- *                   type: number
  *                 image_url:
  *                   type: string
  *                 image_name:
  *                   type: string
  *               example:
- *                 user_id: 3
- *                 image_url: "image/16847499509811630652987056_0.jpg"
- *                 image_name: "16847499509811630652987056_0.jpg " 
+ *                 - image_url: "image/16847499509811630652987056_0.jpg"
+ *                   image_name: "16847499509811630652987056_0.jpg"
+ *                 - image_url: "image/1684676595626fsd.jpeg"
+ *                   image_name: "1684676595626fsd.jpeg"
  *   delete:
  *     summary: Delete a image
  *     tags: [image]
@@ -159,7 +146,7 @@ imageRouter.get("/detail", imageController.getImage);
  * @swagger
  * /api/v1/images/detail:
 *   get:
- *     summary: Get all images
+ *     summary: Get a specific image
  *     tags: [image]
  *     description: 이미지 ID를 사용, 이미지를 가져오기.
  *     parameters:
@@ -168,7 +155,7 @@ imageRouter.get("/detail", imageController.getImage);
  *         description: 이미지 ID
  *         required: true
  *         schema:
- *           type: bigint
+ *           type: string
  *     responses:
  *       '200':
  *         description: 이미지 가져오기 성공
@@ -177,14 +164,11 @@ imageRouter.get("/detail", imageController.getImage);
  *             schema:
  *               type: object
  *               properties:
- *                 user_id:
- *                   type: number
  *                 image_url:
  *                   type: string
  *                 image_name:
  *                   type: string
  *               example:
- *                 user_id: 3
  *                 image_url: "image/16847499509811630652987056_0.jpg"
  *                 image_name: "16847499509811630652987056_0.jpg " 
  *       '400':
@@ -193,6 +177,8 @@ imageRouter.get("/detail", imageController.getImage);
  *         description: 서버 오류
  */
 
+imageRouter.post("/minio", upload.single("image"), imageController.postMinio);
+imageRouter.get("/detail", imageController.getImage);
 imageRouter.get("/", imageController.getImages);
 imageRouter.put("/", imageController.updateImage);
 imageRouter.delete("/", imageController.deleteImage);
