@@ -1,20 +1,20 @@
 const express = require("express");
 const searchController = require("../search/searchController");
 const userRouter = express.Router();
-
 /**
  * @swagger
  * tags:
  *   name: Search
  *   description: API for searching trips and users
  */
+
 /**
  * @swagger
  * /api/v1/search:
  *   get:
- *     tags: [Search]
  *     summary: Search trips and users by keyword
- *     description: Retrieve a list of trips that match the provided keyword.
+ *     tags: [Search]
+ *     description: Retrieve a list of trips and users that match the provided keyword.
  *     parameters:
  *       - in: query
  *         name: keyword
@@ -22,9 +22,27 @@ const userRouter = express.Router();
  *         required: true
  *         schema:
  *           type: string
+ *            properties:
+ *              id:
+ *                type: string
+ *                description: The ID of the trip.
+ *              name:
+ *                type: string
+ *                description: The name of the trip.
+ *              startDate:
+ *                type: string
+ *                format: date-time
+ *                description: The start date of the trip.
+ *              endDate:
+ *                type: string
+ *                format: date-time
+ *                description: The end date of the trip.
+ *              location:
+ *                type: string
+ *                description: The location of the trip.
  *     responses:
  *       200:
- *         description: Successful operation. Returns the matching trips.
+ *         description: OK. Returns the matching trips and users.
  *         content:
  *           application/json:
  *             schema:
@@ -32,14 +50,25 @@ const userRouter = express.Router();
  *               properties:
  *                 trips:
  *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Trip'
  *                 users:
  *                   type: array
- *       500:
- *         description: Internal Server Error. Something went wrong during the search.
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad Request. Invalid or missing keyword.
  *         content:
  *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Internal Server Error. Failed to perform the search.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
-
 userRouter.get("/", searchController.getSearch);
 
 module.exports = userRouter;
