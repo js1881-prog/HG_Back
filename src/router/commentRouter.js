@@ -1,6 +1,7 @@
 const express = require("express");
 const commentController = require("../comment/commentController");
 const userRouter = express.Router();
+
 /**
  * @swagger
  * tags:
@@ -31,6 +32,7 @@ const userRouter = express.Router();
  *         $ref: '#/components/responses/ServerError'
  */
 userRouter.post("/", commentController.createComment);
+
 /**
  * @swagger
  * /comments/{commentId}:
@@ -57,6 +59,7 @@ userRouter.post("/", commentController.createComment);
  *         $ref: '#/components/responses/ServerError'
  */
 userRouter.get("/:commentId", commentController.getCommentById);
+
 /**
  * @swagger
  * /comments/{commentId}:
@@ -89,6 +92,7 @@ userRouter.get("/:commentId", commentController.getCommentById);
  *         $ref: '#/components/responses/ServerError'
  */
 userRouter.patch("/:commentId", commentController.updateComment);
+
 /**
  * @swagger
  * /comments:
@@ -103,18 +107,12 @@ userRouter.patch("/:commentId", commentController.updateComment);
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                   content:
- *                     type: string
- *                   user:
- *                     $ref: '#/components/schemas/User'
+ *                 $ref: '#/components/schemas/Comment'
  *       '500':
  *         $ref: '#/components/responses/ServerError'
  */
 userRouter.get("/", commentController.getAllComments);
+
 /**
  * @swagger
  * /comments/{commentId}:
@@ -139,3 +137,34 @@ userRouter.get("/", commentController.getAllComments);
 userRouter.delete("/:commentId", commentController.deleteComment);
 
 module.exports = userRouter;
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Comment:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         content:
+ *           type: string
+ *         user:
+ *           $ref: '#/components/schemas/User'
+ */
+
+/**
+ * @swagger
+ * components:
+ *   responses:
+ *     ServerError:
+ *       description: Internal Server Error
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               error:
+ *                 type: string
+ *                 description: Error message describing the server error.
+ */

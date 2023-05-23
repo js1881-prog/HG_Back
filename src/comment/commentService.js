@@ -6,9 +6,9 @@ const commonErrors = require("../misc/commonErrors");
 const commentService = {
   /**
    * Create a new comment
-   * @param {Object} comment - 새로운 댓글 정보
-   * @returns {Promise<Object>} - 생성된 댓글 정보
-   * @throws {AppError} - 데이터베이스 에러가 발생한 경우
+   * @param {Object} comment - The new comment information.
+   * @returns {Promise<Object>} - The created comment information.
+   * @throws {AppError} - If a database error occurs.
    */
   async createComment(comment) {
     try {
@@ -25,9 +25,9 @@ const commentService = {
   },
   /**
    * Get a comment by its ID
-   * @param {string} commentId - 댓글 ID
-   * @returns {Promise<Object>} - 댓글 정보
-   * @throws {AppError} - 댓글이 존재하지 않거나 데이터베이스 에러가 발생한 경우
+   * @param {string} commentId - The comment ID.
+   * @returns {Promise<Object>} - The comment information.
+   * @throws {AppError} - If the comment does not exist or a database error occurs.
    */
   async getCommentById(commentId) {
     try {
@@ -51,9 +51,9 @@ const commentService = {
   },
   /**
    * Get comments by trip ID
-   * @param {string} tripId - 여행 ID
-   * @returns {Promise<Array>} - 여행에 해당하는 댓글 목록
-   * @throws {AppError} - 데이터베이스 에러가 발생한 경우
+   * @param {string} tripId - The trip ID.
+   * @returns {Promise<Array>} - The list of comments for the trip.
+   * @throws {AppError} - If a database error occurs.
    */
   async getCommentsByTripId(tripId) {
     try {
@@ -70,10 +70,10 @@ const commentService = {
   },
   /**
    * Update a comment
-   * @param {string} commentId - 댓글 ID
-   * @param {Object} updatedComment - 업데이트된 댓글 정보
-   * @returns {Promise<Object>} - 업데이트된 댓글 정보
-   * @throws {AppError} - 댓글이 존재하지 않거나 데이터베이스 에러가 발생한 경우
+   * @param {string} commentId - The comment ID.
+   * @param {Object} updatedComment - The updated comment information.
+   * @returns {Promise<Object>} - The updated comment information.
+   * @throws {AppError} - If the comment does not exist or a database error occurs.
    */
   async updateComment(commentId, updatedComment) {
     try {
@@ -97,13 +97,19 @@ const commentService = {
   },
   /**
    * Get all comments
-   * @returns {Promise<Array>} - 모든 댓글 목록
-   * @throws {AppError} - 데이터베이스 에러가 발생한 경우
+   * @returns {Promise<Array>} - The list of all comments.
+   * @throws {AppError} - If a database error occurs.
    */
   async getAllComments() {
     try {
       const allComment = await commentRepository.getAllComment();
-      return allComment;
+      return allComment.map((comment) => {
+        const { userId, nickName } = comment.user;
+        return {
+          ...comment,
+          user: { id: userId, nickName },
+        };
+      });
     } catch (error) {
       logger.error(error);
       throw new AppError(
@@ -115,8 +121,8 @@ const commentService = {
   },
   /**
    * Delete a comment
-   * @param {string} commentId - 댓글 ID
-   * @throws {AppError} - 댓글이 존재하지 않거나 데이터베이스 에러가 발생한 경우
+   * @param {string} commentId - The comment ID.
+   * @throws {AppError} - If the comment does not exist or a database error occurs.
    */
   async deleteComment(commentId) {
     try {

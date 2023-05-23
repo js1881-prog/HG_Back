@@ -1,5 +1,4 @@
 const typeORMDataSource = require("../util/connect/typeorm");
-const User = require("../user/user.entity");
 const Trip = require("../trip/trip.entity");
 
 const AppError = require("../misc/AppError");
@@ -18,7 +17,7 @@ const searchRepository = {
     try {
       const trips = await tripRepository
         .createQueryBuilder("trips")
-        .innerJoin("trips.user", "user", "1 = 1")
+        .leftHoinAndSelect("trips.user", "user")
         .where("trips.title LIKE :keyword", {
           keyword: `%${keyword}%`,
         })
@@ -31,6 +30,8 @@ const searchRepository = {
         .orWhere("user.user_name LIKE :keyword", {
           keyword: `%${keyword}%`,
         })
+        .orderBy("trips.likes", "DESC")
+        .addOrderBy("trips.views", "DESC")
         .getMany();
 
       return trips;
