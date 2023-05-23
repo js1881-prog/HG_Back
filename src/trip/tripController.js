@@ -6,17 +6,18 @@ const tripController = {
   async postTrip(req, res, next) {
     try {
       //const userId = req.user.id;
-      const { scheduleId, title, content, location, thumbnail, started_at, end_at, hashtag, hidden } = req.body;
+      const { schedule_id, title, content, location, thumbnail, gps, started_at, end_at, hashtag, hidden } = req.body;
       const tripData = {
         // user_id : userId,
         user_id : 3,
-        scheduleId,
+        schedule_id,
         title,
         content,
         likes : 0,
         views : 0,
         location,
         thumbnail,
+        gps,
         started_at,
         end_at,
         hashtag,
@@ -56,7 +57,7 @@ const tripController = {
   async updateTrip(req, res, next) {
     try {
       const tripId = req.query.id;
-      const { schedule_id, title, content, location, thumbnail, started_at, end_at, hashtag, hidden } = req.body;
+      const { schedule_id, title, content, location, thumbnail, gps, started_at, end_at, hashtag, hidden } = req.body;
       //const userId = req.user.id;
       const tripData = {
         //user_id : userId,
@@ -66,6 +67,7 @@ const tripController = {
         content,
         location,
         thumbnail,
+        gps,
         started_at,
         end_at,
         updated_at : new Date(),

@@ -9,6 +9,7 @@ class Trip {
     views,
     location,
     thumbnail,
+    gps,
     started_at,
     end_at,
     hashtag,
@@ -26,6 +27,7 @@ class Trip {
     this.views = views;
     this.location = location;
     this.thumbnail = thumbnail;
+    this.gps = gps;
     this.started_at = started_at;
     this.end_at = end_at;
     this.hashtag = hashtag;
