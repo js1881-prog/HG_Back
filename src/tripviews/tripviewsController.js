@@ -10,7 +10,7 @@ const tripviewsController = {
       const tripViewsData = {
         user_id: 3,
         trip_id: tripId,
-        like_flag: true,
+        like_flag: false,
       };
       const tripviews = await tripviewsService.createView(tripViewsData);
       res.status(200).json(buildResponse(tripviews));
