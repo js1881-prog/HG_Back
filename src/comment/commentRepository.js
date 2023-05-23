@@ -1,5 +1,6 @@
 const typeORMDataSource = require("../util/connect/typeorm");
 const Comment = require("../comment/comment.entity");
+const User = require("../user/user.entity");
 
 const logger = require("../util/logger/logger");
 const AppError = require("../misc/AppError");
@@ -15,7 +16,15 @@ const commentRepository = {
    */
   async create(comment) {
     try {
-      const newComment = repository.create(comment);
+      const user = await typeORMDataSource
+        .getRepository(User)
+        .findOne({ id: comment.user_id });
+
+      const newComment = repository.create({
+        ...comment,
+        nickName: user.nickName,
+      });
+
       await repository.save(newComment);
       return newComment;
     } catch (error) {
@@ -94,10 +103,10 @@ const commentRepository = {
    * Retrieves all comments.
    * @returns {Array} An array of comments.
    */
-  async getAllComment() {
+  async getAllComments() {
     try {
-      const allComment = await repository.find();
-      return allComment;
+      const allComments = await repository.find();
+      return allComments;
     } catch (error) {
       logger.info(error);
       throw new AppError(
@@ -121,7 +130,7 @@ const commentRepository = {
           "Comment Not Found"
         );
       }
-      await commentRepository.remove(commentToDelete);
+      await repository.remove(commentToDelete);
     } catch (error) {
       logger.info(error);
       throw new AppError(
