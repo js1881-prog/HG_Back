@@ -65,6 +65,10 @@ const tripSchema = new EntitySchema({
       type: "varchar",
       nullable: false,
     },
+    gps: {
+      type: "varchar",
+      nullable: false,
+    },
     started_at: {
       type: "timestamp",
       nullable: true,
