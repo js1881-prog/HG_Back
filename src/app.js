@@ -25,7 +25,7 @@ const createApp = async () => {
   // express settings
   expressApp.use(
     cors({
-      origin:'*',
+      origin: true,
       credentials: true,
     })
   );
