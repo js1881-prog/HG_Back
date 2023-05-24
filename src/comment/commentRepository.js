@@ -23,6 +23,8 @@ const commentRepository = {
       const newComment = repository.create({
         ...comment,
         nickName: user.nickName,
+        likes: 0,
+        liked_by: [],
       });
 
       await repository.save(newComment);
@@ -43,7 +45,10 @@ const commentRepository = {
    */
   async findById(commentId) {
     try {
-      const comment = await repository.findOne({ id: commentId });
+      const comment = await repository.findOne(
+        { id: commentId },
+        { relations: ["user", "trip", "parentComment", "childComments"] }
+      );
       return comment;
     } catch (error) {
       logger.info(error);
@@ -61,7 +66,10 @@ const commentRepository = {
    */
   async findByTripId(tripId) {
     try {
-      const comments = await repository.find({ where: { trip_id: tripId } });
+      const comments = await repository.find({
+        where: { trip_id: tripId },
+        relations: ["user", "trip", "parentComment", "childComments"],
+      });
       return comments;
     } catch (error) {
       logger.info(error);
@@ -88,8 +96,8 @@ const commentRepository = {
           "Comment Not Found"
         );
       }
-      await repository.update(commentId, updatedComment);
-      return commentToUpdate;
+      const updated = await repository.update(commentId, updatedComment);
+      return updated.raw[0];
     } catch (error) {
       logger.info(error);
       throw new AppError(
@@ -105,7 +113,9 @@ const commentRepository = {
    */
   async getAllComments() {
     try {
-      const allComments = await repository.find();
+      const allComments = await repository.find({
+        relations: ["user", "trip", "parentComment", "childComments"],
+      });
       return allComments;
     } catch (error) {
       logger.info(error);
