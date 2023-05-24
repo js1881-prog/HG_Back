@@ -8,6 +8,14 @@ const tripviewsService = {
     return createView;
   },
 
+  async updateView(tripViewId, tripViewsData){
+    const updateView = await tripviewsRepository.update(tripViewId, tripViewsData);
+    if (!updateView) {
+      throw new AppError(commonErrors.resourceNotFoundError, 401, "Unauthorized");
+    }
+    return updateView;
+  },
+
 }
 
 module.exports = tripviewsService;
