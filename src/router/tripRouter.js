@@ -46,10 +46,10 @@ const tripRouter = express.Router();
  *               likes: 0
  *               views: 0
  *               location: "지역"
- *               gps: "34345.3453.3453"
+ *               gps: "35.89421911,139.94637467"
  *               started_at: "2023-05-20T18:32:50.000Z"
  *               end_at: "2023-05-20T18:32:50.000Z"
- *               hashtag: "태그"
+ *               hashtag: ["a", "b", "c"]
  *               hidden: true
  *               thumbnail: "https://abc.com/image/23424234" 
  *               created_at: "2023-05-23 22:05:55.463"
@@ -80,7 +80,7 @@ const tripRouter = express.Router();
  *                       type: string
  *                     hidden:
  *                       type: string
- *                     example:
+ *                   example:
  *                       id: 46 
  *                       user_id: 3
  *                       schedule_id: null
@@ -89,10 +89,10 @@ const tripRouter = express.Router();
  *                       likes: 0
  *                       views: 0
  *                       location: "지역"
- *                       gps: "34345.3453.3453"
+ *                       gps: "35.89421911,139.94637467"
  *                       started_at: "2023-05-20T18:32:50.000Z"
  *                       end_at: "2023-05-20T18:32:50.000Z"
- *                       hashtag: "태그"
+ *                       hashtag: ["a", "b", "c"]
  *                       hidden: true
  *                       thumbnail: "https://abc.com/image/23424234" 
  *                       created_at: "2023-05-23 22:05:55.463"
@@ -143,10 +143,10 @@ const tripRouter = express.Router();
  *               likes: 0
  *               views: 0
  *               location: "지역"
- *               gps: "34345.3453.3453"
+ *               gps: "35.89421911,139.94637467"
  *               started_at: "2023-05-20T18:32:50.000Z"
  *               end_at: "2023-05-20T18:32:50.000Z"
- *               hashtag: "태그"
+ *               hashtag: ["a", "b", "c"]
  *               hidden: true
  *               thumbnail: "https://abc.com/image/23424234" 
  *               created_at: "2023-05-23 22:05:55.463"
@@ -186,10 +186,10 @@ const tripRouter = express.Router();
  *                     likes: 0
  *                     views: 0
  *                     location: "지역"
- *                     gps: "34345.3453.3453"
+ *                     gps: "35.89421911,139.94637467"
  *                     started_at: "2023-05-20T18:32:50.000Z"
  *                     end_at: "2023-05-20T18:32:50.000Z"
- *                     hashtag: "태그"
+ *                     hashtag: ["a", "b", "c"]
  *                     hidden: true
  *                     thumbnail: "https://abc.com/image/23424234" 
  *                     created_at: "2023-05-23 22:05:55.463"
@@ -216,10 +216,10 @@ const tripRouter = express.Router();
  *                     likes: 0
  *                     views: 0
  *                     location: "지역"
- *                     gps: "34345.3453.3453"
+ *                     gps: "35.89421911,139.94637467"
  *                     started_at: "2023-05-20T18:32:50.000Z"
  *                     end_at: "2023-05-20T18:32:50.000Z"
- *                     hashtag: "태그"
+ *                     hashtag: ["a", "b", "c"]
  *                     hidden: true
  *                     thumbnail: "https://abc.com/image/23424234" 
  *                     created_at: "2023-05-23 22:05:55.463"
@@ -233,10 +233,10 @@ const tripRouter = express.Router();
  *                     likes: 0
  *                     views: 0
  *                     location: "지역2"
- *                     gps: "34345.3453.3453"
+ *                     gps: "35.89421911,139.94637467"
  *                     started_at: "2023-05-20T18:32:50.000Z"
  *                     end_at: "2023-05-20T18:32:50.000Z"
- *                     hashtag: "태그2"
+ *                     hashtag: "태그입니다"
  *                     hidden: true
  *                     thumbnail: "https://abc.com/image/23424234" 
  *                     created_at: "2023-05-23 22:05:55.463"
@@ -299,10 +299,10 @@ const tripRouter = express.Router();
  *                 likes: 0
  *                 views: 0
  *                 location: "지역"
- *                 gps: "34345.3453.3453"
+ *                 gps: "35.89421911,139.94637467"
  *                 started_at: "2023-05-20T18:32:50.000Z"
  *                 end_at: "2023-05-20T18:32:50.000Z"
- *                 hashtag: "태그"
+ *                 hashtag: ["a", "b", "c"]
  *                 hidden: true
  *                 thumbnail: "https://abc.com/image/23424234" 
  *                 created_at: "2023-05-23 22:05:55.463"

@@ -1,14 +1,19 @@
 const logger = require("../util/logger/logger");
 const buildResponse = require("../util/response/buildResponse");
 const tripService = require("./tripService.js");
+const scheduleRepository = require("../schedule/scheduleRepository");
 
 const tripController = {
   async postTrip(req, res, next) {
     try {
       //const userId = req.user.id;
       const { schedule_id, title, content, location, thumbnail, gps, started_at, end_at, hashtag, hidden } = req.body;
+      const scheduleData = await scheduleRepository.findById(schedule_id);
+      const start = (schedule_id === null)? started_at : scheduleData.start_date;
+      const end = (schedule_id === null)? end_at : scheduleData.end_date;
+
       const tripData = {
-        // user_id : userId,
+        //user_id : userId,
         user_id : 3,
         schedule_id,
         title,
@@ -18,11 +23,12 @@ const tripController = {
         location,
         thumbnail,
         gps,
-        started_at,
-        end_at,
+        started_at : start,
+        end_at : end,
         hashtag,
         hidden,
       };
+
       console.log(tripData);
 
       const trip = await tripService.createTrip(tripData);

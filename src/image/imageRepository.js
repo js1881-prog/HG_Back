@@ -83,18 +83,22 @@ const imageRepository = {
   async deleteImage(imageId) {
     try {
       const imageRepository = typeORMDataSource.getRepository(imageSchema);
-      const result = imageRepository.delete(imageId);
       const findKey = await imageRepository.findOne({ where: { id: imageId } });
       const bucketName = 'image';
       const imageName = findKey.image_name;
 
-      minioClient.removeObject(bucketName, imageName, function(err, etag) {
-        if (err) {
-          return next(err); 
-        }
-        console.log('파일 삭제 완료.', etag);
+      await new Promise((resolve, reject) => {
+        minioClient.removeObject(bucketName, imageName, function(err, etag) {
+          if (err) {
+            reject(err);
+          } else {
+            console.log('파일 삭제 완료.', etag);
+            resolve();
+          }
+        });
       });
-
+      
+      const result = imageRepository.delete(imageId);
       return result;
     } catch (error) {
       logger.info(error);

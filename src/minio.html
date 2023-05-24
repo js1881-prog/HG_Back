@@ -29,7 +29,7 @@
       axios({
         url: "https://tripsketch.onrender.com/api/v1/images/minio",    // 이미지 저장을 위해 back서버와 통신
         method: "POST",
-        headers: {'Content-Type': 'multipart/form-dWata'},   
+        headers: {'Content-Type': 'multipart/form-data'},   
         data: formData,
       }).then(res => {
         console.log(res.data.message);
