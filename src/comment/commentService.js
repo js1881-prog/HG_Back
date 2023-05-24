@@ -77,15 +77,16 @@ const commentService = {
    */
   async updateComment(commentId, updatedComment) {
     try {
-      const comment = await commentRepository.update(commentId, updatedComment);
-      if (!comment) {
+      const commentToUpdate = await commentRepository.findById(commentId);
+      if (!commentToUpdate) {
         throw new AppError(
           commonErrors.resourceNotFoundError,
           404,
           "Comment not found"
         );
       }
-      return comment;
+      await commentRepository.update(commentId, updatedComment);
+      return updatedComment;
     } catch (error) {
       logger.error(error);
       throw new AppError(
@@ -103,13 +104,7 @@ const commentService = {
   async getAllComments() {
     try {
       const allComment = await commentRepository.getAllComment();
-      return allComment.map((comment) => {
-        const { userId, nickName } = comment.user;
-        return {
-          ...comment,
-          user: { id: userId, nickName },
-        };
-      });
+      return allComment;
     } catch (error) {
       logger.error(error);
       throw new AppError(
@@ -126,7 +121,7 @@ const commentService = {
    */
   async deleteComment(commentId) {
     try {
-      const deletedComment = await commentRepository.delete(commentId);
+      const deletedComment = await commentRepository.findById(commentId);
       if (!deletedComment) {
         throw new AppError(
           commonErrors.resourceNotFoundError,
@@ -134,6 +129,7 @@ const commentService = {
           "Comment not found"
         );
       }
+      await commentRepository.delete(commentId);
     } catch (error) {
       logger.error(error);
       throw new AppError(

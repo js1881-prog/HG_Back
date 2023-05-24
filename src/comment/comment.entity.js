@@ -52,7 +52,7 @@ const commentSchema = new EntitySchema({
     },
     liked_by: {
       type: "json",
-      nullable: false,
+      nullable: true,
     },
   },
   relations: {
@@ -60,11 +60,13 @@ const commentSchema = new EntitySchema({
       type: "many-to-one",
       target: () => User,
       joinColumn: { name: "user_id" },
+      onDelete: "CASCADE",
     },
     trip: {
       type: "many-to-one",
       target: () => Trip,
       joinColumn: { name: "trip_id" },
+      onDelete: "CASCADE",
     },
     parentComment: {
       type: "many-to-one",

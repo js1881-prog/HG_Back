@@ -1,13 +1,6 @@
 const express = require("express");
 const commentController = require("../comment/commentController");
-const userRouter = express.Router();
-
-/**
- * @swagger
- * tags:
- *   name: Comment
- *   description: API for managing comments
- */
+const commentRouter = express.Router();
 
 /**
  * @swagger
@@ -20,10 +13,17 @@ const userRouter = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Comment'
+ *             type: object
+ *             properties:
+ *               tripId:
+ *                 type: string
+ *                 description: ID of the trip associated with the comment
+ *               content:
+ *                 type: string
+ *                 description: The content of the comment
  *     responses:
  *       '201':
- *         description: Created
+ *         description: Comment created successfully
  *         content:
  *           application/json:
  *             schema:
@@ -31,7 +31,7 @@ const userRouter = express.Router();
  *       '500':
  *         $ref: '#/components/responses/ServerError'
  */
-userRouter.post("/", commentController.createComment);
+commentRouter.post("/", commentController.createComment);
 
 /**
  * @swagger
@@ -54,11 +54,11 @@ userRouter.post("/", commentController.createComment);
  *             schema:
  *               $ref: '#/components/schemas/Comment'
  *       '404':
- *         $ref: '#/components/responses/NotFoundError'
+ *         description: Comment not found
  *       '500':
  *         $ref: '#/components/responses/ServerError'
  */
-userRouter.get("/:commentId", commentController.getCommentById);
+commentRouter.get("/:commentId", commentController.getCommentById);
 
 /**
  * @swagger
@@ -78,20 +78,24 @@ userRouter.get("/:commentId", commentController.getCommentById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Comment'
+ *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
+ *                 description: The updated content of the comment
  *     responses:
  *       '200':
- *         description: OK
+ *         description: Comment updated successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Comment'
  *       '404':
- *         $ref: '#/components/responses/NotFoundError'
+ *         description: Comment not found
  *       '500':
  *         $ref: '#/components/responses/ServerError'
  */
-userRouter.patch("/:commentId", commentController.updateComment);
+commentRouter.patch("/:commentId", commentController.updateComment);
 
 /**
  * @swagger
@@ -111,7 +115,7 @@ userRouter.patch("/:commentId", commentController.updateComment);
  *       '500':
  *         $ref: '#/components/responses/ServerError'
  */
-userRouter.get("/", commentController.getAllComments);
+commentRouter.get("/", commentController.getAllComments);
 
 /**
  * @swagger
@@ -128,15 +132,15 @@ userRouter.get("/", commentController.getAllComments);
  *         description: ID of the comment to delete
  *     responses:
  *       '204':
- *         description: No Content
+ *         description: Comment deleted successfully
  *       '404':
- *         $ref: '#/components/responses/NotFoundError'
+ *         description: Comment not found
  *       '500':
  *         $ref: '#/components/responses/ServerError'
  */
-userRouter.delete("/:commentId", commentController.deleteComment);
+commentRouter.delete("/:commentId", commentController.deleteComment);
 
-module.exports = userRouter;
+module.exports = commentRouter;
 
 /**
  * @swagger
@@ -147,15 +151,25 @@ module.exports = userRouter;
  *       properties:
  *         id:
  *           type: string
+ *           description: The unique ID of the comment
+ *         tripId:
+ *           type: string
+ *           description: ID of the trip associated with the comment
  *         content:
  *           type: string
- *         user:
- *           $ref: '#/components/schemas/User'
- */
-
-/**
- * @swagger
- * components:
+ *           description: The content of the comment
+ *         userId:
+ *           type: string
+ *           description: The ID of the user who created the comment
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time the comment was created
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time the comment was last updated
+ *
  *   responses:
  *     ServerError:
  *       description: Internal Server Error
