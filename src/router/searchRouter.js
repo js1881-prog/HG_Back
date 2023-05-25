@@ -1,13 +1,6 @@
 const express = require("express");
 const searchController = require("../search/searchController");
-const userRouter = express.Router();
-
-/**
- * @swagger
- * tags:
- *   name: Search
- *   description: API for searching trips and users
- */
+const searchRouter = express.Router();
 
 /**
  * @swagger
@@ -23,9 +16,21 @@ const userRouter = express.Router();
  *         required: true
  *         schema:
  *           type: string
+ *       - in: query
+ *         name: page
+ *         description: The page number to retrieve.
+ *         required: false
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         description: The number of results per page.
+ *         required: false
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
- *         description: OK. Returns the matching trips and users.
+ *         description: OK. Returns the matching trips.
  *         content:
  *           application/json:
  *             schema:
@@ -56,11 +61,6 @@ const userRouter = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Trip'
  *           description: An array of trips matching the search keyword.
- *         users:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/User'
- *           description: An array of users matching the search keyword.
  */
 
 /**
@@ -73,30 +73,24 @@ const userRouter = express.Router();
  *         id:
  *           type: string
  *           description: The ID of the trip.
- *         name:
+ *         title:
  *           type: string
- *           description: The name of the trip.
- *         startDate:
+ *           description: The title of the trip.
+ *         content:
  *           type: string
- *           format: date-time
- *           description: The start date of the trip.
- *         endDate:
- *           type: string
- *           format: date-time
- *           description: The end date of the trip.
- *         location:
- *           type: string
- *           description: The location of the trip.
- *
+ *           description: The content of the trip.
+ *         user:
+ *           $ref: '#/components/schemas/User'
+ *           description: The user who posted the trip.
  *     User:
  *       type: object
  *       properties:
  *         id:
  *           type: string
  *           description: The ID of the user.
- *         nickName:
+ *         nickname:
  *           type: string
- *           description: The name of the user.
+ *           description: The nickname of the user.
  */
 
 /**
@@ -126,6 +120,6 @@ const userRouter = express.Router();
  *           type: string
  *           description: The error message describing the issue.
  */
-userRouter.get("/", searchController.getSearch);
+searchRouter.get("/", searchController.getSearch);
 
-module.exports = userRouter;
+module.exports = searchRouter;

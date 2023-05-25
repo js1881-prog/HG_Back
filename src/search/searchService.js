@@ -1,20 +1,19 @@
 /**
  * searchService,
  * @param {Object} searchRepository - The search repository object.
- * @param {Function} AppError - The AppError class.
- * @param {Object} commonErrors - The commonErrors object.
- * @param {Object} logger - The logger object.
  * @returns {Object} The search service object.
  */
 
-const searchService = (searchRepository, AppError, commonErrors, logger) => ({
+const searchService = (searchRepository) => ({
   /**
    * Search trips by keyword.
    * @param {string} keyword - The keyword to search for.
+   * @param {number} page - The page number.
+   * @param {number} limit - The number of results per page.
    * @returns {Array} The matching trips.
    */
-  search: async (keyword) => {
-    const trips = await searchRepository.search(keyword);
+  search: async (keyword, page, limit) => {
+    const trips = await searchRepository.search(keyword, page, limit);
     return trips;
   },
 });
