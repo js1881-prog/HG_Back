@@ -1,4 +1,5 @@
 const commentRepository = require("./commentRepository");
+
 const logger = require("../util/logger/logger");
 const AppError = require("../misc/AppError");
 const commonErrors = require("../misc/commonErrors");
@@ -39,6 +40,7 @@ const commentService = {
           "Comment not found"
         );
       }
+      comment.nickname = comment.user.nickname;
       return comment;
     } catch (error) {
       logger.error(error);
@@ -58,6 +60,9 @@ const commentService = {
   async getCommentsByTripId(tripId) {
     try {
       const comments = await commentRepository.findByTripId(tripId);
+      for (let comment of comments) {
+        comment.nickname = comment.user.nickname;
+      }
       return comments;
     } catch (error) {
       logger.error(error);
@@ -77,16 +82,9 @@ const commentService = {
    */
   async updateComment(commentId, updatedComment) {
     try {
-      const commentToUpdate = await commentRepository.findById(commentId);
-      if (!commentToUpdate) {
-        throw new AppError(
-          commonErrors.resourceNotFoundError,
-          404,
-          "Comment not found"
-        );
-      }
       await commentRepository.update(commentId, updatedComment);
-      return updatedComment;
+      const updated = await commentRepository.findById(commentId);
+      return updated;
     } catch (error) {
       logger.error(error);
       throw new AppError(
@@ -103,8 +101,11 @@ const commentService = {
    */
   async getAllComments() {
     try {
-      const allComment = await commentRepository.getAllComment();
-      return allComment;
+      const allComments = await commentRepository.getAllComments();
+      for (let comment of allComments) {
+        comment.nickname = comment.user.nickname;
+      }
+      return allComments;
     } catch (error) {
       logger.error(error);
       throw new AppError(
@@ -121,14 +122,6 @@ const commentService = {
    */
   async deleteComment(commentId) {
     try {
-      const deletedComment = await commentRepository.findById(commentId);
-      if (!deletedComment) {
-        throw new AppError(
-          commonErrors.resourceNotFoundError,
-          404,
-          "Comment not found"
-        );
-      }
       await commentRepository.delete(commentId);
     } catch (error) {
       logger.error(error);

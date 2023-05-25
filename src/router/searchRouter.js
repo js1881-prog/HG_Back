@@ -1,13 +1,6 @@
 const express = require("express");
 const searchController = require("../search/searchController");
-const userRouter = express.Router();
-
-/**
- * @swagger
- * tags:
- *   name: Search
- *   description: API for searching trips and users
- */
+const searchRouter = express.Router();
 
 /**
  * @swagger
@@ -19,17 +12,60 @@ const userRouter = express.Router();
  *     parameters:
  *       - in: query
  *         name: keyword
- *         description: The keyword to search for.
+ *         description: The keyword to search for. For example, "madrid".
  *         required: true
  *         schema:
  *           type: string
+ *         example: "madrid"
+ *       - in: query
+ *         name: page
+ *         description: The page number to retrieve. for example, "api/v1/search?keyword=madrid&page=1"
+ *         required: false
+ *         schema:
+ *           type: integer
+ *         default: "1"
+ *         example: "1"
+ *       - in: query
+ *         name: limit
+ *         description: The number of results per page. for example, "api/v1/search?keyword=madrid&limit=20"
+ *         required: false
+ *         schema:
+ *           type: integer
+ *         default: "10"
+ *         example: "20"
  *     responses:
  *       200:
- *         description: OK. Returns the matching trips and users.
+ *         description: OK. Returns the matching trips.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/SearchResponse'
+ *             example:
+ *               trips:
+ *                [
+ *                  {
+ *                    "id": "trip1",
+ *                    "title": "Trip to Madrid",
+ *                    "content": "I had a wonderful time in Madrid.",
+ *                    "likes": 120,
+ *                    "views": 300,
+ *                    "user": {
+ *                      "id": "user1",
+ *                      "nickname": "traveler"
+ *                    }
+ *                  },
+ *                  {
+ *                    "id": "trip2",
+ *                    "title": "Another trip",
+ *                    "content": "This is another trip.",
+ *                    "likes": 100,
+ *                    "views": 250,
+ *                    "user": {
+ *                      "id": "user2",
+ *                      "nickname": "anotherTraveler"
+ *                    }
+ *                  }
+ *                ]
  *       400:
  *         description: Bad Request. Invalid or missing keyword.
  *         content:
@@ -56,11 +92,6 @@ const userRouter = express.Router();
  *           items:
  *             $ref: '#/components/schemas/Trip'
  *           description: An array of trips matching the search keyword.
- *         users:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/User'
- *           description: An array of users matching the search keyword.
  */
 
 /**
@@ -73,30 +104,36 @@ const userRouter = express.Router();
  *         id:
  *           type: string
  *           description: The ID of the trip.
- *         name:
+ *           example: "trip1"
+ *         title:
  *           type: string
- *           description: The name of the trip.
- *         startDate:
+ *           description: The title of the trip.
+ *           example: "Trip to Madrid"
+ *         content:
  *           type: string
- *           format: date-time
- *           description: The start date of the trip.
- *         endDate:
- *           type: string
- *           format: date-time
- *           description: The end date of the trip.
- *         location:
- *           type: string
- *           description: The location of the trip.
- *
+ *           description: The content of the trip.
+ *           example: "I had a wonderful time in Madrid."
+ *         likes:
+ *           type: integer
+ *           description: The number of likes of the trip.
+ *           example: 120
+ *         views:
+ *           type: integer
+ *           description: The number of views of the trip.
+ *           example: 300
+ *         user:
+ *           $ref: '#/components/schemas/User'
+ *           description: The user who posted the trip.
  *     User:
  *       type: object
  *       properties:
  *         id:
  *           type: string
  *           description: The ID of the user.
- *         nickName:
+ *         nickname:
  *           type: string
- *           description: The name of the user.
+ *           description: The nickname of the user.
+ *           example: "traveler"
  */
 
 /**
@@ -126,6 +163,6 @@ const userRouter = express.Router();
  *           type: string
  *           description: The error message describing the issue.
  */
-userRouter.get("/", searchController.getSearch);
+searchRouter.get("/", searchController.getSearch);
 
-module.exports = userRouter;
+module.exports = searchRouter;
