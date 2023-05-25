@@ -70,6 +70,17 @@ const tripRepository = {
     }
   },
 
+  async updateViewsTrip(getTrip) {
+    try {
+      console.log(getTrip);
+      const result = await repository.update({ id: getTrip.id }, { views: getTrip.views });
+      return result;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(commonErrors.databaseError, 500, "Internal Server Error");
+    }
+  },
+
   async delete(tripId) {
     try {
       const result = repository.delete(tripId);

@@ -19,6 +19,7 @@ const tripController = {
         title,
         content,
         likes : 0,
+        liked_by: [],
         views : 0,
         location,
         thumbnail,

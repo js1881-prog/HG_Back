@@ -50,10 +50,16 @@ const tripSchema = new EntitySchema({
     likes: {
       type: "int",
       nullable: true,
+      default: 0,
+    },
+    liked_by: {
+      type: "json",
+      nullable: true,
     },
     views: {
       type: "int",
       nullable: true,
+      default: 0,
     },
     location: {
       type: "varchar",

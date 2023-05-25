@@ -13,6 +13,9 @@ const TripService = {
     if (!getTrip) {
       throw new AppError(commonErrors.resourceNotFoundError, 401, "Unauthorized");
     }
+
+    getTrip.views++;
+    await tripRepository.updateViewsTrip(getTrip);
     return getTrip;
   },
 

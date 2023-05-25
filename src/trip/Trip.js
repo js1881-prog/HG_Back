@@ -24,6 +24,7 @@ class Trip {
     this.title = title;
     this.content = content;
     this.likes = likes;
+    this.liked_by = new Set();
     this.views = views;
     this.location = location;
     this.thumbnail = thumbnail;
@@ -36,6 +37,33 @@ class Trip {
     this.updated_at = updated_at || new Date();
     this.deleted_at = deleted_at || null;
   }
+
+  // incrementLikes(userId) {
+  //   if (!this.liked_by.has(userId)) {
+  //     this.likes++;
+  //     this.liked_by.add(userId);
+  //   }
+  // }
+
+  // decrementLikes(userId) {
+  //   if (this.liked_by.has(userId)) {
+  //     this.likes--;
+  //     this.liked_by.delete(userId);
+  //   }
+  // }
+
+  // toJSON() {
+  //   return {
+  //     liked_by: Array.from(this.liked_by),
+  //   };
+  // }
+
+  // static fromLikedByArray(likedByArray) {
+  //   const comment = new Comment();
+  //   comment.liked_by = new Set(likedByArray);
+  //   return comment;
+  // }
+  
 }
 
 module.exports = Trip;
