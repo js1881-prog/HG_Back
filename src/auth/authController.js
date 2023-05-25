@@ -1,3 +1,4 @@
+const jwtUtils = require("../middleware/jwt/jwtUtils");
 const logger = require("../util/logger/logger");
 const buildResponse = require("../util/response/buildResponse");
 const authServiceInstance = require("./authServiceInstance");
@@ -17,6 +18,17 @@ const authController = {
 
   async getCheckToken(req, res, next) {
     try {
+      res.status(200).json(buildResponse(null));
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getCheckTokenAndReissue(req, res, next) {
+    try {
+      const accessToken = jwtUtils.generateAccessToken(req.user);
+      const authorizationHeader = `Bearer ${accessToken}`;
+      res.setHeader("Authorization", authorizationHeader);
       res.status(200).json(buildResponse(null));
     } catch (error) {
       next(error);
