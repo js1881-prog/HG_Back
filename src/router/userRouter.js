@@ -28,9 +28,7 @@ const userRouter = express.Router();
  *             - userName
  *             - password
  *             - role
- *             - phoneNumber
  *             - email
- *             - intro
  *           properties:
  *             nickName:
  *               type: string
@@ -41,11 +39,7 @@ const userRouter = express.Router();
  *             role:
  *               type: string
  *               example: user
- *             phoneNumber:
- *               type: string
  *             email:
- *               type: string
- *             intro:
  *               type: string
  *     responses:
  *       200:
