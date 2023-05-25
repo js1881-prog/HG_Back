@@ -16,13 +16,8 @@ const commentRepository = {
    */
   async create(comment) {
     try {
-      const user = await typeORMDataSource
-        .getRepository(User)
-        .findOne({ id: comment.user_id });
-
       const newComment = repository.create({
         ...comment,
-        nickName: user.nickName,
         likes: 0,
         liked_by: [],
       });
@@ -96,8 +91,9 @@ const commentRepository = {
           "Comment Not Found"
         );
       }
-      const updated = await repository.update(commentId, updatedComment);
-      return updated.raw[0];
+      await repository.update(commentId, updatedComment);
+      const updated = await repository.average(commentId);
+      return updated;
     } catch (error) {
       logger.info(error);
       throw new AppError(
