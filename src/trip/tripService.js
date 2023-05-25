@@ -1,4 +1,6 @@
 const tripRepository = require("./tripRepository");
+const AppError = require("../misc/AppError");
+const commonErrors = require("../misc/commonErrors");
 
 const TripService = {
   async createTrip(tripData){
@@ -6,8 +8,11 @@ const TripService = {
     return createTrips;
   },
 
-  async getTrip(tripId){
+  async getTripById(tripId){
     const getTrip = await tripRepository.findTripById(tripId);
+    if (!getTrip) {
+      throw new AppError(commonErrors.resourceNotFoundError, 401, "Unauthorized");
+    }
     return getTrip;
   },
 
@@ -17,8 +22,19 @@ const TripService = {
   },
 
   async updateTrip(tripId, tripData){
-    const updateTrip = await tripRepository.updateTrip(tripId, tripData);
+    const updateTrip = await tripRepository.update(tripId, tripData);
+    if (!updateTrip) {
+      throw new AppError(commonErrors.resourceNotFoundError, 401, "Unauthorized");
+    }
     return updateTrip;
+  },
+
+  async deleteTrip(tripId){
+    const deleteTrip = await tripRepository.delete(tripId);
+    if (!deleteTrip) {
+      throw new AppError(commonErrors.resourceNotFoundError, 401, "Unauthorized");
+    }
+    return deleteTrip;
   },
 
 }

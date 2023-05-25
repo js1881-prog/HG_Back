@@ -45,7 +45,6 @@ const tripSchema = new EntitySchema({
       nullable: false,
     },
     content: {
-      //type: "json",
       type: "varchar",
     },
     likes: {
@@ -65,6 +64,10 @@ const tripSchema = new EntitySchema({
       type: "varchar",
       nullable: false,
     },
+    gps: {
+      type: "varchar",
+      nullable: false,
+    },
     started_at: {
       type: "timestamp",
       nullable: true,
@@ -74,8 +77,9 @@ const tripSchema = new EntitySchema({
       nullable: true,
     },
     hashtag: {
-      type: "varchar",
-      length: 1000,
+      type: "json",
+      //type: "varchar",
+      //length: 1000,
       nullable: true,
     },
     hidden: {

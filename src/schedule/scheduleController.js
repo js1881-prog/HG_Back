@@ -4,12 +4,12 @@ const logger = require("../util/logger/logger");
 const ScheduleController = {
   async createSchedule(req, res, next) {
     try {
-      const { userId, title, startDate, endDate } = req.body;
+      const { user_id, title, start_date, end_date } = req.body;
       const scheduleData = {
-        userId,
+        user_id,
         title,
-        startDate,
-        endDate,
+        start_date,
+        end_date,
       };
       const schedule = await scheduleService.createSchedule(scheduleData);
       res.status(200).json({ schedule });
@@ -50,7 +50,7 @@ const ScheduleController = {
     }
   },
 
-  async getSchedule(req, res) {
+  async getSchedule(req, res, next) {
     try {
       const { scheduleId } = req.params;
       const schedule = await scheduleService.getSchedule(scheduleId);

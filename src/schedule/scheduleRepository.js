@@ -72,7 +72,8 @@ const scheduleRepository = {
       const scheduleRepository = await typeORMDataSource.getRepository(
         scheduleSchema
       );
-      const schedule = await scheduleRepository.findOne(scheduleId, {
+      const schedule = await scheduleRepository.findOne({
+        where: { id: scheduleId },
         relations: ["user"],
       });
       return schedule;

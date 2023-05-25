@@ -1,16 +1,16 @@
 class TripViews {
   constructor(
-    tripCountId,
-    userId,
-    tripId,
-    likeFlag = false,
+    id,
+    user_id,
+    trip_id,
+    like_flag = false,
     createdDate,
     updatedDate
   ) {
-    this.trip_count_id = tripCountId;
-    this.user_id = userId;
-    this.trip_id = tripId;
-    this.like_flag = likeFlag;
+    this.id = id;
+    this.user_id = user_id;
+    this.trip_id = trip_id;
+    this.like_flag = like_flag;
     this.created_at = createdDate || new Date();
     this.updated_at = updatedDate || new Date();
   }
