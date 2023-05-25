@@ -41,7 +41,7 @@ const jwtUtils = {
 
   generateAccessToken(user) {
     const payload = {
-      name: user.userName,
+      userName: user.userName,
       email: user.email,
       role: user.role,
     };
@@ -52,7 +52,7 @@ const jwtUtils = {
 
   generateRefreshToken(user) {
     const payload = {
-      name: user.userName,
+      userName: user.userName,
       email: user.email,
       role: user.role,
     };

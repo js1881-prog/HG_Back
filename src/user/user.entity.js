@@ -60,6 +60,7 @@ const userSchema = new EntitySchema({
     intro: {
       type: "varchar",
       length: 1000,
+      nullable: true,
     },
     createdAt: {
       name: "created_at",
