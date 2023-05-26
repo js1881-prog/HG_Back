@@ -19,6 +19,7 @@ const commentRouter = express.Router();
  *             user:
  *               id: 123456789
  *               nickname: "sunny"
+ *               userProfileImage: "image/16847499509811630652987056_0.jpg"
  *             trip_id: 123456789
  *             content: "Madrid is amazing city!"
  *             created_at: "2023-05-24T00:00:00Z"
@@ -37,6 +38,7 @@ const commentRouter = express.Router();
  *               user:
  *                 id: 123456789
  *                 nickname: "sunny"
+ *                 userProfileImage: "image/16847499509811630652987056_0.jpg"
  *               trip_id: 123456789
  *               content: "Madrid is amazing city!"
  *               created_at: "2023-05-24T00:00:00Z"
@@ -74,6 +76,7 @@ commentRouter.post("/", commentController.createComment);
  *               user:
  *                 id: 123456789
  *                 nickname: "sunny"
+ *                 userProfileImage: "image/16847499509811630652987056_0.jpg"
  *               trip_id: 123456789
  *               content: "Madrid is amazing city!"
  *               created_at: "2023-05-24T00:00:00Z"
@@ -115,6 +118,7 @@ commentRouter.get("/:commentId", commentController.getCommentById);
  *                 user:
  *                   id: 123456789
  *                   nickname: "sunny"
+ *                   userProfileImage: "image/16847499509811630652987056_0.jpg"
  *                 trip_id: 123456789
  *                 content: "Madrid is amazing city!"
  *                 created_at: "2023-05-24T00:00:00Z"
@@ -165,6 +169,7 @@ commentRouter.get("/trip/:tripId", commentController.getCommentsByTripId);
  *               user:
  *                 id: 123456789
  *                 nickname: "sunny"
+ *                 userProfileImage: "image/16847499509811630652987056_0.jpg"
  *               trip_id: 123456789
  *               content: "I want to go there again!"
  *               created_at: "2023-05-24T00:00:00Z"
@@ -199,6 +204,7 @@ commentRouter.patch("/:commentId", commentController.updateComment);
  *                   user:
  *                     id: 123456788
  *                     nickname: "sunny"
+ *                     userProfileImage: "image/16847499509811630652987056_0.jpg"
  *                   trip_id: 123456789
  *                   content: "Madrid is amazing city!"
  *                   created_at: "2023-05-23T00:00:00Z"
@@ -209,6 +215,7 @@ commentRouter.patch("/:commentId", commentController.updateComment);
  *                   user:
  *                     id: 123456789
  *                     nickname: "moonlight"
+ *                     userProfileImage: "image/16847499509811630652987056_0.jpg"
  *                   trip_id: 123456789
  *                   content: "Madrid is amazing city too!"
  *                   created_at: "2023-05-24T00:00:00Z"
@@ -265,6 +272,9 @@ module.exports = commentRouter;
  *             nickname:
  *               type: string
  *               description: The nickname of the user who created the comment.
+ *             userProfileImage:
+ *               type: string
+ *               description: The URL of the user's profile image.
  *         trip_id:
  *           type: string
  *           description: ID of the trip associated with the comment

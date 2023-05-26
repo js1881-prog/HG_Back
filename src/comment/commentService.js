@@ -1,4 +1,5 @@
 const commentRepository = require("./commentRepository");
+const imageService = require("../image/imageService");
 
 const logger = require("../util/logger/logger");
 const AppError = require("../misc/AppError");
@@ -14,6 +15,11 @@ const commentService = {
   async createComment(comment) {
     try {
       const newComment = await commentRepository.create(comment);
+      const userProfileImage = await imageService.getImage(
+        comment.user.userProfileImage
+      );
+      newComment.user.userProfileImage = userProfileImage;
+
       return newComment;
     } catch (error) {
       logger.error(error);
@@ -40,7 +46,13 @@ const commentService = {
           "Comment not found"
         );
       }
+      const userProfileImage = await imageService.getImage(
+        comment.user.userProfileImage
+      );
+      comment.user.userProfileImage = userProfileImage;
+
       comment.nickname = comment.user.nickname;
+
       return comment;
     } catch (error) {
       logger.error(error);
@@ -61,8 +73,14 @@ const commentService = {
     try {
       const comments = await commentRepository.findByTripId(tripId);
       for (let comment of comments) {
+        const userProfileImage = await imageService.getImage(
+          comment.user.userProfileImage
+        );
+        comment.user.userProfileImage = userProfileImage;
+
         comment.nickname = comment.user.nickname;
       }
+
       return comments;
     } catch (error) {
       logger.error(error);
@@ -103,8 +121,14 @@ const commentService = {
     try {
       const allComments = await commentRepository.getAllComments();
       for (let comment of allComments) {
+        const userProfileImage = await imageService.getImage(
+          comment.user.userProfileImage
+        );
+        comment.user.userProfileImage = userProfileImage;
+
         comment.nickname = comment.user.nickname;
       }
+
       return allComments;
     } catch (error) {
       logger.error(error);
