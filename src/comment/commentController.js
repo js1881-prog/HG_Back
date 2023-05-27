@@ -19,6 +19,36 @@ const commentController = {
     }
   },
 
+  async addLikeToComment(req, res, next) {
+    try {
+      const commentId = req.params.commentId;
+      const { id: userId } = req.user;
+      const updatedComment = await commentService.addLikeToComment(
+        commentId,
+        userId
+      );
+
+      res.status(200).json(buildResponse(updatedComment));
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async removeLikeFromComment(req, res, next) {
+    try {
+      const commentId = req.params.commentId;
+      const { id: userId } = req.user;
+      const updatedComment = await commentService.removeLikeFromComment(
+        commentId,
+        userId
+      );
+
+      res.status(200).json(buildResponse(updatedComment));
+    } catch (error) {
+      next(error);
+    }
+  },
+
   async getCommentById(req, res, next) {
     try {
       const commentId = req.params.commentId;
