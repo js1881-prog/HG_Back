@@ -30,12 +30,40 @@ const tripController = {
         hidden,
       };
 
-      console.log(tripData);
-
       const trip = await tripService.createTrip(tripData);
       res.status(200).json(buildResponse(trip, null));
     } catch (error) {
       logger.error(error);
+      next(error);
+    }
+  },
+
+  async addLikeToTrip(req, res, next) {
+    try {
+      const tripId = req.parms.tripId;
+      const userId = req.user.id;
+      const updatedTrip = await tripService.addLikeToTrip(
+        tripId,
+        userId
+      );
+
+      res.status(200).json(buildResponse(updatedTrip));
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async removeLikeFromTrip(req, res, next) {
+    try {
+      const tripId = req.parms.tripId;
+      const userId = req.user.id;
+      const updatedTrip = await tripService.removeLikeFromTrip(
+        tripId,
+        userId
+      );
+
+      res.status(200).json(buildResponse(updatedTrip));
+    } catch (error) {
       next(error);
     }
   },

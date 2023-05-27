@@ -48,7 +48,8 @@ const tripSchema = new EntitySchema({
       type: "varchar",
     },
     likes: {
-      type: "int",
+      //type: "int",
+      type:"integer",
       nullable: true,
       default: 0,
     },
@@ -84,8 +85,6 @@ const tripSchema = new EntitySchema({
     },
     hashtag: {
       type: "json",
-      //type: "varchar",
-      //length: 1000,
       nullable: true,
     },
     hidden: {

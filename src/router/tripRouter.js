@@ -320,4 +320,68 @@ tripRouter.get("/", tripController.getTrips);
 tripRouter.put("/", tripController.updateTrip);
 tripRouter.delete("/", tripController.deleteTrip);
 
+
+/**
+ * @swagger
+ * /like/{tripId}:
+ *   post:
+ *     summary: Add likes of trip
+ *     tags: [Trip]
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the trip to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
+ *                 description: The updated content of the trip
+ *     responses:
+ *       '200':
+ *         description: likes of trip add successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Comment'
+ *       '404':
+ *         description: Trip not found
+ *       '500':
+ *         description: Internal Server Error. 
+ */
+
+/**
+ * @swagger
+ * /like/{tripId}:
+ *   delete:
+ *     summary: Delete likes of trip
+ *     tags: [Trip]
+ *     parameters:
+ *       - in: path
+ *         name: tripId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the trip to delete
+ *         example: 123
+ *     responses:
+ *       '204':
+ *         description: lieks of Trip deleted successfully
+ *       '404':
+ *         description: Comment not found
+ *       '500':
+ *         description: Internal Server Error. 
+ */
+
+//좋아요 기능 - 추가/ 삭제
+tripRouter.post("/like/:tripId", tripController.addLikeToTrip);
+tripRouter.delete("/like/:tripId", tripController.removeLikeFromTrip);
+
 module.exports = tripRouter;

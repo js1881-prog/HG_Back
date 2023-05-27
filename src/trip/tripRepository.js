@@ -57,7 +57,6 @@ const tripRepository = {
       const tripFind = await repository.findOneBy({
         id: tripId,
       });
-
       await repository.update(tripId, tripData);
       return tripFind;
     } catch (error) {
@@ -77,7 +76,11 @@ const tripRepository = {
       return result;
     } catch (error) {
       logger.info(error);
-      throw new AppError(commonErrors.databaseError, 500, "Internal Server Error");
+      throw new AppError(
+        commonErrors.databaseError, 
+        500, 
+        "Internal Server Error"
+      );
     }
   },
 

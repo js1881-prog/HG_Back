@@ -8,10 +8,36 @@ const TripService = {
     return createTrips;
   },
 
+  async addLikeToTrip(tripId, userId) {
+      const trip = await tripRepository.findTripById(tripId);
+      if (!trip) {
+        throw new AppError(commonErrors.resourceNotFoundError, 404, "trip not found");
+      }
+      if (!trip.liked_by.includes(userId)) {
+        trip.likes += 1;
+        trip.liked_by.push(userId);
+      }
+      await tripRepository.update(tripId, trip);
+      return trip;
+  },
+
+  async removeLikeFromTrip(tripId, userId) {
+      const trip = await tripRepository.findTripById(tripId);
+      if (!trip) {
+        throw new AppError(commonErrors.resourceNotFoundError, 404, "trip not found");
+      }
+      if (trip.liked_by.includes(userId)) {
+        trip.likes -= 1;
+        trip.liked_by = trip.liked_by.filter((id) => id !== userId);
+      }
+      await tripRepository.update(tripId, trip);
+      return trip;
+  },
+
   async getTripById(tripId){
     const getTrip = await tripRepository.findTripById(tripId);
     if (!getTrip) {
-      throw new AppError(commonErrors.resourceNotFoundError, 401, "Unauthorized");
+      throw new AppError(commonErrors.resourceNotFoundError, 404, "trip not found");
     }
 
     getTrip.views++;
@@ -27,7 +53,7 @@ const TripService = {
   async updateTrip(tripId, tripData){
     const updateTrip = await tripRepository.update(tripId, tripData);
     if (!updateTrip) {
-      throw new AppError(commonErrors.resourceNotFoundError, 401, "Unauthorized");
+      throw new AppError(commonErrors.resourceNotFoundError, 404, "trip not found");
     }
     return updateTrip;
   },
@@ -35,7 +61,7 @@ const TripService = {
   async deleteTrip(tripId){
     const deleteTrip = await tripRepository.delete(tripId);
     if (!deleteTrip) {
-      throw new AppError(commonErrors.resourceNotFoundError, 401, "Unauthorized");
+      throw new AppError(commonErrors.resourceNotFoundError, 404, "trip not found");
     }
     return deleteTrip;
   },
