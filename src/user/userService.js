@@ -48,9 +48,9 @@ const userService = (
       .setUserName(user.userName)
       .setPassword(hashedPassword)
       .setRole(user.role)
-      .setPhoneNumber(user.phoneNumber)
+      .setPhoneNumber(null)
       .setEmail(user.email)
-      .setIntro(user.intro)
+      .setIntro(null)
       .build();
     const createdUser = await userRepository.create(newUser);
     return createdUser;

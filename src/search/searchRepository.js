@@ -13,11 +13,11 @@ const searchRepository = {
    * @param {string} keyword - The keyword to search for.
    * @returns {Array<Trip>} The matching trips.
    */
-  async search(keyword) {
+  async search(keyword, page = 1, limit = 10) {
     try {
       const trips = await tripRepository
         .createQueryBuilder("trips")
-        .leftHoinAndSelect("trips.user", "user")
+        .leftJoinAndSelect("trips.user", "user")
         .where("trips.title LIKE :keyword", {
           keyword: `%${keyword}%`,
         })
@@ -27,21 +27,24 @@ const searchRepository = {
         .orWhere("user.nickname LIKE :keyword", {
           keyword: `%${keyword}%`,
         })
-        .orWhere("user.user_name LIKE :keyword", {
-          keyword: `%${keyword}%`,
-        })
         .orderBy("trips.likes", "DESC")
         .addOrderBy("trips.views", "DESC")
+        .skip((page - 1) * limit)
+        .take(limit)
         .getMany();
 
       return trips;
     } catch (error) {
       logger.info(error);
-      throw new AppError(
-        commonErrors.databaseError,
-        500,
-        "Internal Server Error"
-      );
+      if (error instanceof AppError) {
+        throw error;
+      } else {
+        throw new AppError(
+          commonErrors.databaseError,
+          500,
+          "Internal Server Error"
+        );
+      }
     }
   },
 };

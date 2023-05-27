@@ -308,7 +308,7 @@ authRouter.get(
   //TODO => refreshToken Request Validate
   extract.cookieToken,
   jwtUtils.verifyToken,
-  authController.getCheckToken
+  authController.getCheckTokenAndReissue
 );
 
 /**

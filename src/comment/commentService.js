@@ -1,4 +1,6 @@
 const commentRepository = require("./commentRepository");
+const imageService = require("../image/imageService");
+
 const logger = require("../util/logger/logger");
 const AppError = require("../misc/AppError");
 const commonErrors = require("../misc/commonErrors");
@@ -13,6 +15,14 @@ const commentService = {
   async createComment(comment) {
     try {
       const newComment = await commentRepository.create(comment);
+      const userProfileImage = await imageService.getImage(
+        comment.user.userProfileImage
+      );
+      newComment.user.userProfileImage = userProfileImage;
+
+      newComment.likes = 0;
+      newComment.liked_by = [];
+
       return newComment;
     } catch (error) {
       logger.error(error);
@@ -39,6 +49,13 @@ const commentService = {
           "Comment not found"
         );
       }
+      const userProfileImage = await imageService.getImage(
+        comment.user.userProfileImage
+      );
+      comment.user.userProfileImage = userProfileImage;
+
+      comment.nickname = comment.user.nickname;
+
       return comment;
     } catch (error) {
       logger.error(error);
@@ -58,6 +75,15 @@ const commentService = {
   async getCommentsByTripId(tripId) {
     try {
       const comments = await commentRepository.findByTripId(tripId);
+      for (let comment of comments) {
+        const userProfileImage = await imageService.getImage(
+          comment.user.userProfileImage
+        );
+        comment.user.userProfileImage = userProfileImage;
+
+        comment.nickname = comment.user.nickname;
+      }
+
       return comments;
     } catch (error) {
       logger.error(error);
@@ -77,16 +103,9 @@ const commentService = {
    */
   async updateComment(commentId, updatedComment) {
     try {
-      const commentToUpdate = await commentRepository.findById(commentId);
-      if (!commentToUpdate) {
-        throw new AppError(
-          commonErrors.resourceNotFoundError,
-          404,
-          "Comment not found"
-        );
-      }
       await commentRepository.update(commentId, updatedComment);
-      return updatedComment;
+      const updated = await commentRepository.findById(commentId);
+      return updated;
     } catch (error) {
       logger.error(error);
       throw new AppError(
@@ -103,8 +122,17 @@ const commentService = {
    */
   async getAllComments() {
     try {
-      const allComment = await commentRepository.getAllComment();
-      return allComment;
+      const allComments = await commentRepository.getAllComments();
+      for (let comment of allComments) {
+        const userProfileImage = await imageService.getImage(
+          comment.user.userProfileImage
+        );
+        comment.user.userProfileImage = userProfileImage;
+
+        comment.nickname = comment.user.nickname;
+      }
+
+      return allComments;
     } catch (error) {
       logger.error(error);
       throw new AppError(
@@ -121,15 +149,79 @@ const commentService = {
    */
   async deleteComment(commentId) {
     try {
-      const deletedComment = await commentRepository.findById(commentId);
-      if (!deletedComment) {
+      await commentRepository.delete(commentId);
+    } catch (error) {
+      logger.error(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
+  /**
+   * Add a like to a comment
+   * @param {string} commentId - The ID of the comment.
+   * @param {string} userId - The ID of the user who liked the comment.
+   * @returns {Promise<Object>} - The updated comment information.
+   * @throws {AppError} - If the comment does not exist or a database error occurs.
+   */
+  async addLikeToComment(commentId, userId) {
+    try {
+      const comment = await commentRepository.findById(commentId);
+      if (!comment) {
         throw new AppError(
           commonErrors.resourceNotFoundError,
           404,
           "Comment not found"
         );
       }
-      await commentRepository.delete(commentId);
+
+      if (!comment.liked_by.includes(userId)) {
+        comment.likes += 1;
+        comment.liked_by.push(userId);
+      }
+
+      await commentRepository.update(commentId, comment);
+
+      return comment;
+    } catch (error) {
+      logger.error(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
+  /**
+   * Remove a like from a comment
+   * @param {string} commentId - The ID of the comment.
+   * @param {string} userId - The ID of the user who wants to remove the like.
+   * @returns {Promise<Object>} - The updated comment information.
+   * @throws {AppError} - If the comment does not exist or a database error occurs.
+   */
+  async removeLikeFromComment(commentId, userId) {
+    try {
+      const comment = await commentRepository.findById(commentId);
+      if (!comment) {
+        throw new AppError(
+          commonErrors.resourceNotFoundError,
+          404,
+          "Comment not found"
+        );
+      }
+
+      if (comment.liked_by.includes(userId)) {
+        comment.likes -= 1;
+        comment.liked_by = comment.liked_by.filter((id) => id !== userId);
+      }
+
+      await commentRepository.update(commentId, comment);
+
+      return comment;
     } catch (error) {
       logger.error(error);
       throw new AppError(

@@ -16,13 +16,8 @@ const commentRepository = {
    */
   async create(comment) {
     try {
-      const user = await typeORMDataSource
-        .getRepository(User)
-        .findOne({ id: comment.user_id });
-
       const newComment = repository.create({
         ...comment,
-        nickName: user.nickName,
         likes: 0,
         liked_by: [],
       });
@@ -38,6 +33,79 @@ const commentRepository = {
       );
     }
   },
+
+  /**
+   * Adds a like to a comment.
+   * @param {string} commentId - The ID of the comment to add a like to.
+   * @param {string} userId - The ID of the user who liked the comment.
+   * @returns {Object} The updated comment.
+   */
+  async addLike(commentId, userId) {
+    try {
+      const comment = await repository.findOne(commentId);
+      if (!comment) {
+        throw new AppError(
+          commonErrors.resourceNotFoundError,
+          404,
+          "Comment Not Found"
+        );
+      }
+
+      if (comment.liked_by.includes(userId)) {
+        throw new AppError(commonErrors.badRequestError, 400, "Already Liked");
+      }
+
+      comment.likes += 1;
+      comment.liked_by.push(userId);
+
+      const updatedComment = await repository.save(comment);
+      return updatedComment;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
+  /**
+   * Removes a like from a comment.
+   * @param {string} commentId - The ID of the comment to remove the like from.
+   * @param {string} userId - The ID of the user who unliked the comment.
+   * @returns {Object} The updated comment.
+   */
+  async removeLike(commentId, userId) {
+    try {
+      const comment = await repository.findOne(commentId);
+      if (!comment) {
+        throw new AppError(
+          commonErrors.resourceNotFoundError,
+          404,
+          "Comment Not Found"
+        );
+      }
+
+      if (!comment.liked_by.includes(userId)) {
+        throw new AppError(commonErrors.badRequestError, 400, "Not Liked");
+      }
+
+      comment.likes -= 1;
+      comment.liked_by = comment.liked_by.filter((id) => id !== userId);
+
+      const updatedComment = await repository.save(comment);
+      return updatedComment;
+    } catch (error) {
+      logger.info(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        "Internal Server Error"
+      );
+    }
+  },
+
   /**
    * Finds a comment by comment ID.
    * @param {string} commentId - The ID of the comment to find.
@@ -96,8 +164,9 @@ const commentRepository = {
           "Comment Not Found"
         );
       }
-      const updated = await repository.update(commentId, updatedComment);
-      return updated.raw[0];
+      await repository.update(commentId, updatedComment);
+      const updated = await repository.average(commentId);
+      return updated;
     } catch (error) {
       logger.info(error);
       throw new AppError(
