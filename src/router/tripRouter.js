@@ -44,6 +44,7 @@ const tripRouter = express.Router();
  *               title: "타이틀입니다."
  *               content: "16847499509811630652987056_0.jpg "
  *               likes: 0
+ *               liked_by: []
  *               views: 0
  *               location: "지역"
  *               gps: "35.89421911,139.94637467"
@@ -56,7 +57,7 @@ const tripRouter = express.Router();
  *               updated_at: "2023-05-23 22:05:55.463"
  *               deleted_at: null           
  *     responses:
- *       200:
+ *       '200':
  *         description: Successfully created the trip
  *         content:
  *           application/json:
@@ -87,6 +88,7 @@ const tripRouter = express.Router();
  *                       title: "타이틀입니다."
  *                       content: "16847499509811630652987056_0.jpg "
  *                       likes: 0
+ *                       liked_by: []
  *                       views: 0
  *                       location: "지역"
  *                       gps: "35.89421911,139.94637467"
@@ -98,6 +100,10 @@ const tripRouter = express.Router();
  *                       created_at: "2023-05-23 22:05:55.463"
  *                       updated_at: "2023-05-23 22:05:55.463"
  *                       deleted_at: null
+ *       '400':
+ *         description: trip not found
+ *       '500':
+ *         description: Internal Server Error. 
  */
 
 /**
@@ -153,7 +159,7 @@ const tripRouter = express.Router();
  *               updated_at: "2023-05-23 22:05:55.463"
  *               deleted_at: null
  *     responses:
- *       200:
+ *       '200':
  *         description: Successfully updated the image
  *         content:
  *           application/json:
@@ -183,7 +189,7 @@ const tripRouter = express.Router();
  *                     schedule_id: null
  *                     title: "타이틀입니다."
  *                     content: "16847499509811630652987056_0.jpg "
- *                     likes: 0
+ *                     likes: 0                      
  *                     views: 0
  *                     location: "지역"
  *                     gps: "35.89421911,139.94637467"
@@ -195,12 +201,16 @@ const tripRouter = express.Router();
  *                     created_at: "2023-05-23 22:05:55.463"
  *                     updated_at: "2023-05-23 22:05:55.463"
  *                     deleted_at: null
+ *       '400':
+ *         description: trip not found
+ *       '500':
+ *         description: Internal Server Error. 
  *
  *   get:
  *     summary: Get all trips
  *     tags: [Trip]
  *     responses:
- *       200:
+ *       '200':
  *         description: Successfully retrieved the trip
  *         content:
  *           application/json:
@@ -242,6 +252,11 @@ const tripRouter = express.Router();
  *                     created_at: "2023-05-23 22:05:55.463"
  *                     updated_at: "2023-05-23 22:05:55.463"
  *                     deleted_at: null
+ *       '400':
+ *         description: trip not found
+ *       '500':
+ *         description: Internal Server Error. 
+ * 
  *   delete:
  *     summary: Delete a trip
  *     tags: [Trip]
@@ -253,7 +268,7 @@ const tripRouter = express.Router();
  *         schema:
  *           type: string
  *     responses:
- *       200:
+ *       '200':
  *         description: Successfully deleted the image
  *         content:
  *           application/json:
@@ -264,6 +279,10 @@ const tripRouter = express.Router();
  *                   type: string
  *               example:
  *                 message: "trip deleted successfully"
+ *       '400':
+ *         description: trip not found
+ *       '500':
+ *         description: Internal Server Error. 
  */
 
 /**
@@ -309,9 +328,9 @@ const tripRouter = express.Router();
  *                 updated_at: "2023-05-23 22:05:55.463"
  *                 deleted_at: null
  *       '400':
- *         description: 잘못된 요청
+ *         description: trip not found
  *       '500':
- *         description: 서버 오류
+ *         description: Internal Server Error. 
  */
 
 tripRouter.post("/", tripController.postTrip);
@@ -350,7 +369,13 @@ tripRouter.delete("/", tripController.deleteTrip);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Comment'
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *               example:
+ *                 likes: 3
+ *                 liked_by: [3,4,5]
  *       '404':
  *         description: Trip not found
  *       '500':
@@ -370,12 +395,11 @@ tripRouter.delete("/", tripController.deleteTrip);
  *         schema:
  *           type: string
  *         description: ID of the trip to delete
- *         example: 123
  *     responses:
- *       '204':
+ *       '200':
  *         description: lieks of Trip deleted successfully
  *       '404':
- *         description: Comment not found
+ *         description: trip not found
  *       '500':
  *         description: Internal Server Error. 
  */
